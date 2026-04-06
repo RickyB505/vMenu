@@ -2540,24 +2540,6 @@ namespace vMenuClient.menus
         #endregion
 
         #region GetColorFromIndex function (underglow)
-
-        private static readonly List<int[]> _VehicleNeonLightColors = new()
-        {
-            { new int[3] { 255, 255, 255 } },   // White
-            { new int[3] { 2, 21, 255 } },      // Blue
-            { new int[3] { 3, 83, 255 } },      // Electric blue
-            { new int[3] { 0, 255, 140 } },     // Mint Green
-            { new int[3] { 94, 255, 1 } },      // Lime Green
-            { new int[3] { 255, 255, 0 } },     // Yellow
-            { new int[3] { 255, 150, 5 } },     // Golden Shower
-            { new int[3] { 255, 62, 0 } },      // Orange
-            { new int[3] { 255, 0, 0 } },       // Red
-            { new int[3] { 255, 50, 100 } },    // Pony Pink
-            { new int[3] { 255, 5, 190 } },     // Hot Pink
-            { new int[3] { 35, 1, 255 } },      // Purple
-            { new int[3] { 15, 3, 255 } },      // Blacklight
-        };
-
         /// <summary>
         /// Converts a list index to a <see cref="System.Drawing.Color"/> struct.
         /// </summary>
@@ -2567,7 +2549,7 @@ namespace vMenuClient.menus
         {
             if (index is >= 0 and < 13)
             {
-                return System.Drawing.Color.FromArgb(_VehicleNeonLightColors[index][0], _VehicleNeonLightColors[index][1], _VehicleNeonLightColors[index][2]);
+                return System.Drawing.Color.FromArgb(VehicleData.NeonLightColors[index][0], VehicleData.NeonLightColors[index][1], VehicleData.NeonLightColors[index][2]);
             }
             return System.Drawing.Color.FromArgb(255, 255, 255);
         }
@@ -2658,9 +2640,9 @@ namespace vMenuClient.menus
                     {
                         if (IsToggleModOn(vehicle.Handle, 22))
                         {
-                            r = _VehicleNeonLightColors[GetHeadlightsColorForVehicle(vehicle)][0];
-                            g = _VehicleNeonLightColors[GetHeadlightsColorForVehicle(vehicle)][1];
-                            b = _VehicleNeonLightColors[GetHeadlightsColorForVehicle(vehicle)][2]; 
+                            r = VehicleData.NeonLightColors[GetHeadlightsColorForVehicle(vehicle)][0];
+                            g = VehicleData.NeonLightColors[GetHeadlightsColorForVehicle(vehicle)][1];
+                            b = VehicleData.NeonLightColors[GetHeadlightsColorForVehicle(vehicle)][2]; 
                         }
                     }
 
@@ -2746,9 +2728,9 @@ namespace vMenuClient.menus
                     {
                         if (IsToggleModOn(vehicle.Handle, 22))
                         {
-                            r = _VehicleNeonLightColors[GetHeadlightsColorForVehicle(vehicle)][0];
-                            g = _VehicleNeonLightColors[GetHeadlightsColorForVehicle(vehicle)][1];
-                            b = _VehicleNeonLightColors[GetHeadlightsColorForVehicle(vehicle)][2]; 
+                            r = VehicleData.NeonLightColors[GetHeadlightsColorForVehicle(vehicle)][0];
+                            g = VehicleData.NeonLightColors[GetHeadlightsColorForVehicle(vehicle)][1];
+                            b = VehicleData.NeonLightColors[GetHeadlightsColorForVehicle(vehicle)][2]; 
                         }
                     }
 
@@ -2851,9 +2833,9 @@ namespace vMenuClient.menus
                 else if (type == RGBType.headlight)
                 {
                     
-                    int red = _VehicleNeonLightColors[GetHeadlightsColorForVehicle(vehicle)][0];
-                    int green = _VehicleNeonLightColors[GetHeadlightsColorForVehicle(vehicle)][1];
-                    int blue = _VehicleNeonLightColors[GetHeadlightsColorForVehicle(vehicle)][2];
+                    int red = VehicleData.NeonLightColors[GetHeadlightsColorForVehicle(vehicle)][0];
+                    int green = VehicleData.NeonLightColors[GetHeadlightsColorForVehicle(vehicle)][1];
+                    int blue = VehicleData.NeonLightColors[GetHeadlightsColorForVehicle(vehicle)][2];
                     
 
                     redColour.BarColor = System.Drawing.Color.FromArgb(255, red, green, blue);
@@ -2915,9 +2897,9 @@ namespace vMenuClient.menus
                 return 0;
             }
 
-            if (_VehicleNeonLightColors.Any(a => { return a[0] == r && a[1] == g && a[2] == b; }))
+            if (VehicleData.NeonLightColors.Any(a => { return a[0] == r && a[1] == g && a[2] == b; }))
             {
-                return _VehicleNeonLightColors.FindIndex(a => { return a[0] == r && a[1] == g && a[2] == b; });
+                return VehicleData.NeonLightColors.FindIndex(a => { return a[0] == r && a[1] == g && a[2] == b; });
             }
 
             return 0;
