@@ -1354,7 +1354,7 @@ namespace vMenuClient
 
                 // Set the ped into the vehicle.
                 Game.PlayerPed.SetIntoVehicle(vehicle, VehicleSeat.Driver);
-                
+
 
                 // If the vehicle is a helicopter and the player is in the air, set the blades to be full speed.
                 if (vehicle.ClassType == VehicleClass.Helicopters && GetEntityHeightAboveGround(Game.PlayerPed.Handle) > 10.0f)
@@ -1384,10 +1384,20 @@ namespace vMenuClient
             }
             vehicle.CurrentRPM = rpm;
 
-            await Delay(1); // Mandatory delay - without it radio station will not set properly
+            int vehicleDefaultRadio = UserDefaults.VehicleDefaultRadio;
 
-            // Set the radio station to default set by player in Vehicle Menu
-            vehicle.RadioStation = (RadioStation)UserDefaults.VehicleDefaultRadio;
+            await Delay(1); // Mandatory delay - without it veh radio check will always return `false`
+
+            if (vehicleDefaultRadio >= 0 && DoesPlayerVehHaveRadio())
+            {
+                while (IsRadioRetuning())
+                {
+                    await Delay(10);
+                }
+
+                // Set the radio station to default set by player in Vehicle Menu
+                vehicle.RadioStation = (RadioStation)vehicleDefaultRadio;
+            }
 
             // Discard the model.
             SetModelAsNoLongerNeeded(vehicleHash);
@@ -1435,6 +1445,14 @@ namespace vMenuClient
                 {
                     vehicle.Mods.PrimaryColor = (VehicleColor)vehicleInfo.colors["primary"];
                 }
+                if (vehicleInfo.colors.ContainsKey("PrimaryPaintFinish"))
+                {
+                    var pearlColorReset = 0;
+                    var wheelColorReset = 0;
+                    GetVehicleExtraColours(vehicle.Handle, ref pearlColorReset, ref wheelColorReset);
+                    SetVehicleModColor_1(vehicle.Handle, vehicleInfo.colors["PrimaryPaintFinish"], 0, 0);
+                    SetVehicleExtraColours(vehicle.Handle, pearlColorReset, wheelColorReset);
+                }
 
                 bool useCustomRgbSecondary = vehicleInfo.colors.ContainsKey("customSecondaryR") && vehicleInfo.colors.ContainsKey("customSecondaryG") && vehicleInfo.colors.ContainsKey("customSecondaryB");
                 if (useCustomRgbSecondary && vehicleInfo.colors["customSecondaryR"] > 0 && vehicleInfo.colors["customSecondaryG"] > 0 && vehicleInfo.colors["customSecondaryB"] > 0)
@@ -1445,7 +1463,14 @@ namespace vMenuClient
                 {
                     vehicle.Mods.SecondaryColor = (VehicleColor)vehicleInfo.colors["secondary"];
                 }
-
+                if (vehicleInfo.colors.ContainsKey("SecondaryPaintFinish"))
+                {
+                    var pearlColorReset = 0;
+                    var wheelColorReset = 0;
+                    GetVehicleExtraColours(vehicle.Handle, ref pearlColorReset, ref wheelColorReset);
+                    SetVehicleModColor_2(vehicle.Handle, vehicleInfo.colors["SecondaryPaintFinish"], 0);
+                    SetVehicleExtraColours(vehicle.Handle, pearlColorReset, wheelColorReset);
+                }
                 SetVehicleInteriorColour(vehicle.Handle, vehicleInfo.colors["trim"]);
                 SetVehicleDashboardColour(vehicle.Handle, vehicleInfo.colors["dash"]);
 
@@ -1462,6 +1487,11 @@ namespace vMenuClient
 
                 VehicleOptions.SetHeadlightsColorForVehicle(vehicle, vehicleInfo.headlightColor);
 
+                bool useCustomRgbHeadlight = vehicleInfo.colors.ContainsKey("customheadlightR") && vehicleInfo.colors.ContainsKey("customheadlightG") && vehicleInfo.colors.ContainsKey("customheadlightB");
+                if (useCustomRgbHeadlight)
+                {
+                    SetVehicleXenonLightsCustomColor(vehicle.Handle, vehicleInfo.colors["customheadlightR"], vehicleInfo.colors["customheadlightG"], vehicleInfo.colors["customheadlightB"]);
+                }
                 vehicle.Mods.NeonLightsColor = System.Drawing.Color.FromArgb(red: vehicleInfo.colors["neonR"], green: vehicleInfo.colors["neonG"], blue: vehicleInfo.colors["neonB"]);
                 vehicle.Mods.SetNeonLightsOn(VehicleNeonLight.Left, vehicleInfo.neonLeft);
                 vehicle.Mods.SetNeonLightsOn(VehicleNeonLight.Right, vehicleInfo.neonRight);
@@ -1590,6 +1620,11 @@ namespace vMenuClient
                     {
                         GetVehicleCustomPrimaryColour(veh.Handle, ref customPrimaryR, ref customPrimaryG, ref customPrimaryB);
                     }
+
+                    if (veh.State.Get("vMenu:PrimaryPaintFinish") is int primaryPaintFinish)
+                    {
+                        colors.Add("PrimaryPaintFinish", primaryPaintFinish);
+                    }
                     
                     colors.Add("customPrimaryR", customPrimaryR);
                     colors.Add("customPrimaryG", customPrimaryG);
@@ -1606,9 +1641,24 @@ namespace vMenuClient
                         GetVehicleCustomSecondaryColour(veh.Handle, ref customSecondaryR, ref customSecondaryG, ref customSecondaryB);
                     }
 
+                    if (veh.State.Get("vMenu:SecondaryPaintFinish") is int secondaryPaintFinish)
+                    {
+                        colors.Add("SecondaryPaintFinish", secondaryPaintFinish);
+                    }
+
                     colors.Add("customSecondaryR", customSecondaryR);
                     colors.Add("customSecondaryG", customSecondaryG);
                     colors.Add("customSecondaryB", customSecondaryB);
+
+                    int customheadlightR = -1;
+                    int customheadlightG = -1;
+                    int customheadlightB = -1;
+                    if (GetVehicleXenonLightsCustomColor(veh.Handle, ref customheadlightR, ref customheadlightG, ref customheadlightB))
+                    {
+                        colors.Add("customheadlightR", customheadlightR);
+                        colors.Add("customheadlightG", customheadlightG);
+                        colors.Add("customheadlightB", customheadlightB);
+                    }
                     #endregion
 
                     var extras = new Dictionary<int, bool>();
@@ -1733,7 +1783,7 @@ namespace vMenuClient
             // Create a Dictionary to store all vehicle information in.
             //var vehiclesList = new Dictionary<string, Dictionary<string, string>>();
             var vehiclesList = new Dictionary<string, VehicleInfo>();
-            // Loop through all save names (keys) from the list above, convert the string into a dictionary 
+            // Loop through all save names (keys) from the list above, convert the string into a dictionary
             // and add it to the dictionary above, with the vehicle save name as the key.
             foreach (var saveName in savedVehicleNames)
             {
@@ -1953,7 +2003,7 @@ namespace vMenuClient
                 ClearPedTasks(Game.PlayerPed.Handle);
 
                 var canPlay = true;
-                // Check if the player CAN play a scenario... 
+                // Check if the player CAN play a scenario...
                 if (IsPedRunning(Game.PlayerPed.Handle))
                 {
                     Notify.Alert("You can't start a scenario when you are running.", true, false);
@@ -2754,6 +2804,14 @@ namespace vMenuClient
 
                 foreach (var w in loadout)
                 {
+                    // Skip weapons whose model isn't present in the current game files
+                    // (e.g. an addon resource that has since been removed from the server).
+                    if (!IsWeaponValid(w.Hash))
+                    {
+                        Debug.WriteLine($"[vMenu] Skipping weapon {w.SpawnName} ({w.Hash}) - not valid in current game files.");
+                        continue;
+                    }
+
                     if (ignoreSettingsAndPerms || IsAllowed(w.Perm))
                     {
                         // Give the weapon
@@ -2837,38 +2895,72 @@ namespace vMenuClient
 
             var pedWeapons = new List<ValidWeapon>();
 
+            var pedHandle = Game.PlayerPed.Handle;
+
             // Loop through all possible weapons.
             foreach (var vw in ValidWeapons.WeaponList)
             {
                 // Check if the ped has that specific weapon.
-                if (HasPedGotWeapon(Game.PlayerPed.Handle, vw.Hash, false))
+                if (HasPedGotWeapon(pedHandle, vw.Hash, false))
                 {
                     // Create the weapon data with basic info.
                     var weapon = new ValidWeapon
                     {
                         Hash = vw.Hash,
-                        CurrentTint = GetPedWeaponTintIndex(Game.PlayerPed.Handle, vw.Hash),
+                        CurrentTint = GetPedWeaponTintIndex(pedHandle, vw.Hash),
                         Name = vw.Name,
                         Perm = vw.Perm,
                         SpawnName = vw.SpawnName,
-                        Components = new Dictionary<string, uint>(),
-                        CurrentAmmo = GetAmmoInPedWeapon(Game.PlayerPed.Handle, vw.Hash)
+                        Components = [],
+                        CurrentAmmo = GetAmmoInPedWeapon(pedHandle, vw.Hash)
                     };
 
 
                     // Check for and add components if applicable.
-                    foreach (var comp in vw.Components)
+                    var equippedComponents = vw.Components.Where(
+                        component =>
+                            DoesWeaponTakeWeaponComponent(weapon.Hash, component.Value)
+                            && HasPedGotWeaponComponent(pedHandle, vw.Hash, component.Value)
+                        );
+
+                    foreach (var comp in equippedComponents)
                     {
-                        if (DoesWeaponTakeWeaponComponent(weapon.Hash, comp.Value))
-                        {
-                            if (HasPedGotWeaponComponent(Game.PlayerPed.Handle, vw.Hash, comp.Value))
-                            {
-                                weapon.Components.Add(comp.Key, comp.Value);
-                            }
-                        }
+                        weapon.Components.Add(comp.Key, comp.Value);
                     }
 
                     // Add the weapon info to the list.
+                    pedWeapons.Add(weapon);
+                }
+            }
+
+            // Loop through addon weapons and save any that the ped currently has.
+            foreach (var avw in ValidAddonWeapons.AddonWeaponsList)
+            {
+                if (HasPedGotWeapon(pedHandle, avw.Hash, false))
+                {
+                    var weapon = new ValidWeapon
+                    {
+                        Hash = avw.Hash,
+                        CurrentTint = GetPedWeaponTintIndex(pedHandle, avw.Hash),
+                        Name = avw.Name,
+                        Perm = avw.Perm,
+                        SpawnName = avw.SpawnName,
+                        Components = [],
+                        CurrentAmmo = GetAmmoInPedWeapon(pedHandle, avw.Hash)
+                    };
+
+                    // AddonComponents is the equivalent of Components on ValidAddonWeapon.
+                    var equippedComponents = avw.AddonComponents.Where(
+                        component =>
+                            DoesWeaponTakeWeaponComponent(weapon.Hash, component.Value)
+                            && HasPedGotWeaponComponent(pedHandle, avw.Hash, component.Value)
+                        );
+
+                    foreach (var comp in equippedComponents)
+                    {
+                        weapon.Components.Add(comp.Key, comp.Value);
+                    }
+
                     pedWeapons.Add(weapon);
                 }
             }

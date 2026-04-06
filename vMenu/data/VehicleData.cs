@@ -322,7 +322,6 @@ namespace vMenuClient.data
             new VehicleColor(133, "OLIVE_GREEN"),
         };
 
-        // Chameleon Colour List //
         public static readonly List<VehicleColor> ChameleonColors = new()
         {
             new VehicleColor(223, "G9_PAINT01"),
@@ -341,6 +340,23 @@ namespace vMenuClient.data
             new VehicleColor(236, "G9_PAINT14"),
             new VehicleColor(237, "G9_PAINT15"),
             new VehicleColor(238, "G9_PAINT16"),
+        };
+
+        public static readonly List<int[]> NeonLightColors = new()
+        {
+            { new int[3] { 255, 255, 255 } },   // White
+            { new int[3] { 2, 21, 255 } },      // Blue
+            { new int[3] { 3, 83, 255 } },      // Electric blue
+            { new int[3] { 0, 255, 140 } },     // Mint Green
+            { new int[3] { 94, 255, 1 } },      // Lime Green
+            { new int[3] { 255, 255, 0 } },     // Yellow
+            { new int[3] { 255, 150, 5 } },     // Golden Shower
+            { new int[3] { 255, 62, 0 } },      // Orange
+            { new int[3] { 255, 0, 0 } },       // Red
+            { new int[3] { 255, 50, 100 } },    // Pony Pink
+            { new int[3] { 255, 5, 190 } },     // Hot Pink
+            { new int[3] { 35, 1, 255 } },      // Purple
+            { new int[3] { 15, 3, 255 } },      // Blacklight
         };
 
         public static class Vehicles
@@ -408,6 +424,7 @@ namespace vMenuClient.data
                 "SCHAFTER2",
                 "SCHAFTER5",
                 "SCHAFTER6",
+                "SENTINEL6", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
                 "STAFFORD",
                 "STANIER",
                 "STRATUM",
@@ -480,6 +497,7 @@ namespace vMenuClient.data
             {
                 "COGCABRIO",
                 "DRIFTFR36", // CHOP SHOP (MP2023_02) DLC - Requires b3095
+                "DRIFTSENTINEL2", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
                 "EUROSX32", // BOTTOM DOLLAR BOUNTIES (MP2024_01) DLC - Requires b3258
                 "EXEMPLAR",
                 "F620",
@@ -526,6 +544,7 @@ namespace vMenuClient.data
                 "DOMINATOR7", // LS TUNERS (MPTUNER) DLC - Requires b2372
                 "DOMINATOR8", // LS TUNERS (MPTUNER) DLC - Requires b2372
                 "DOMINATOR9", // CHOP SHOP (MP2023_02) DLC - Requires b3095
+                "DRIFTDOMINATOR9", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
                 "DRIFTDOMINATOR10", // MONEY FRONTS (MP2025_01) DLC - Requires b3570
                 "DRIFTGAUNTLET4", // MONEY FRONTS (MP2025_01) DLC - Requires b3570
                 "DRIFTYOSEMITE", // CHOP SHOP (MP2023_02) DLC - Requires b3095
@@ -602,6 +621,7 @@ namespace vMenuClient.data
             public static List<string> SportsClassics { get; } = new List<string>()
             {
                 "ARDENT",
+                "ASTRALE", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
                 "BTYPE",
                 "BTYPE2",
                 "BTYPE3",
@@ -619,7 +639,9 @@ namespace vMenuClient.data
                 "FAGALOA",
                 "FELTZER3", // Stirling GT
                 "GT500",
+                "GT750", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
                 "INFERNUS2",
+                "ITALI2", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
                 "JB700",
                 "JB7002", // CASINO HEIST (MPHEIST3) DLC - Requires b2060
                 "JESTER3",
@@ -688,6 +710,7 @@ namespace vMenuClient.data
                 "DRIFTFUTO2", // AGENTS OF SABOTAGE (MP2024_02) DLC - Requires b3407
                 "DRIFTJESTER", // CHOP SHOP (MP2023_02) DLC - Requires b3095
                 "DRIFTREMUS", // CHOP SHOP (MP2023_02) DLC - Requires b3095
+                "DRIFTRT3000", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
                 "DRIFTSENTINEL", // BOTTOM DOLLAR BOUNTIES (MP2024_01) DLC - Requires b3258
                 "DRIFTTAMPA", // CHOP SHOP (MP2023_02) DLC - Requires b3095
                 "DRIFTZR350", // CHOP SHOP (MP2023_02) DLC - Requires b3095
@@ -797,6 +820,7 @@ namespace vMenuClient.data
                 "ENTITY2",
                 "ENTITY3", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "FMJ",
+                "FMJ2", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
                 "FURIA", // CASINO HEIST (MPHEIST3) DLC - Requires b2060
                 "GP1",
                 "IGNUS", // THE CONTRACT (MPSECURITY) DLC - Requires b2545
@@ -806,6 +830,7 @@ namespace vMenuClient.data
                 "KRIEGER", // CASINO AND RESORT (MPVINEWOOD) DLC - Requires b2060
                 "LE7B",
                 "LM87", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
+                "LUIVA", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
                 "NERO",
                 "NERO2",
                 "OSIRIS",
@@ -839,6 +864,7 @@ namespace vMenuClient.data
                 "VOLTIC",
                 "VOLTIC2",
                 "XA21",
+                "XTREME", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
                 "ZENO", // THE CONTRACT (MPSECURITY) DLC - Requires b2545
                 "ZENTORNO",
                 "ZORRUSSO", // CASINO AND RESORT (MPVINEWOOD) DLC - Requires b2060
@@ -1008,7 +1034,9 @@ namespace vMenuClient.data
                 "CADDY2",
                 "CADDY3",
                 "DOCKTUG",
+                "DRIFTKEITORA", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
                 "FORKLIFT",
+                "KEITORA", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
                 "MOWER", // Lawnmower
                 "RIPLEY",
                 "SADLER",
@@ -1260,6 +1288,7 @@ namespace vMenuClient.data
                 "TOURBUS",
                 "TRASH",
                 "TRASH2",
+                "VIVANITE2", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
                 "WASTELANDER",
             };
             #endregion
@@ -1272,6 +1301,8 @@ namespace vMenuClient.data
                 "FIRETRUK",
                 "LGUARD",
                 "PBUS",
+                "POLBUFFALO", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
+                "POLBUFFALO6", // A SAFEHOUSE IN THE HILLS (MP2025_02) DLC - Requires b3717
                 "POLCARACARA", // AGENTS OF SABOTAGE (MP2024_02) DLC - Requires b3407
                 "POLCOQUETTE4", // AGENTS OF SABOTAGE (MP2024_02) DLC - Requires b3407
                 "POLDOMINATOR10", // BOTTOM DOLLAR BOUNTIES (MP2024_01) DLC - Requires b3258

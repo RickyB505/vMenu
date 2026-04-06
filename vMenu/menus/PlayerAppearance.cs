@@ -254,7 +254,15 @@ namespace vMenuClient.menus
 
                 foreach (var ped in savedPeds)
                 {
-                    if (size < 1 || !savedPedsMenu.GetMenuItems().Any(e => ped.Key == e.ItemData.Key))
+                    if (size < 1 || !savedPedsMenu.GetMenuItems().Exists(e =>
+                    {
+                        if (e.ItemData is not KeyValuePair<string, PedInfo> kvp)
+                        {
+                            return true;
+                        }
+
+                        return ped.Key == kvp.Key;
+                    }))
                     {
                         var btn = new MenuItem(ped.Key.Substring(4), "Click to manage this saved ped.") { Label = "→→→", ItemData = ped };
                         savedPedsMenu.AddMenuItem(btn);
@@ -266,14 +274,19 @@ namespace vMenuClient.menus
                 {
                     foreach (var d in savedPedsMenu.GetMenuItems())
                     {
-                        if (!savedPeds.ContainsKey(d.ItemData.Key))
+                        if (d.ItemData is not KeyValuePair<string, PedInfo> kvp)
+                        {
+                            continue;
+                        }
+
+                        if (!savedPeds.ContainsKey(kvp.Key))
                         {
                             savedPedsMenu.RemoveMenuItem(d);
                         }
                         else
                         {
                             // Make sure the saved ped data is actually correct and up to date for this item.
-                            var p = savedPeds.First(e => e.Key == d.ItemData.Key);
+                            var p = savedPeds.First(e => e.Key == kvp.Key);
                             if (!string.IsNullOrEmpty(p.Key))
                             {
                                 d.ItemData = p;
@@ -301,7 +314,12 @@ namespace vMenuClient.menus
 
             savedPedsMenu.OnItemSelect += (_, item, __) =>
             {
-                savedPed = item.ItemData;
+                if (item.ItemData is not KeyValuePair<string, PedInfo> kvp)
+                {
+                    return;
+                }
+
+                savedPed = kvp;
                 selectedSavedPedMenu.MenuSubtitle = item.Text;
             };
 
@@ -540,7 +558,61 @@ namespace vMenuClient.menus
 
             #region ped drawable list changes
             // Manage list changes.
-            pedCustomizationMenu.OnListIndexChange += (sender, item, oldListIndex, newListIndex, itemIndex) =>
+            pedCustomizationMenu.OnListIndexChange += (sender, item, oldListIndex, newListIndex, itemIndex) => ChangeListItem(item, newListIndex);
+
+            // Manage list selections.
+            pedCustomizationMenu.OnListItemSelect += async (sender, item, listIndex, itemIndex) =>
+            {
+                int controlIndex = 0;
+                bool isDrawable = drawablesMenuListItems.ContainsKey(item);
+                bool isCtrlPressed = Game.IsControlPressed(controlIndex, Control.Duck);
+
+                if (isCtrlPressed)
+                {
+                    string userInput = await GetUserInput($"Enter {(isDrawable ? "Drawable" : "Prop")} ID", 5);
+
+                    if (string.IsNullOrEmpty(userInput) || !int.TryParse(userInput, out int drawableId) || drawableId < 1 || drawableId > item.ItemsCount)
+                    {
+                        Notify.Error("Invalid input");
+                        return;
+                    }
+
+                    drawableId--;
+
+                    item.ListIndex = drawableId;
+
+                    ChangeListItem(item, drawableId);
+                    return;
+                }
+
+                if (isDrawable)
+                {
+                    var currentDrawableID = drawablesMenuListItems[item];
+                    var currentTextureIndex = GetPedTextureVariation(Game.PlayerPed.Handle, currentDrawableID);
+                    var maxDrawableTextures = GetNumberOfPedTextureVariations(Game.PlayerPed.Handle, currentDrawableID, listIndex) - 1;
+
+                    if (currentTextureIndex == -1)
+                    {
+                        currentTextureIndex = 0;
+                    }
+
+                    var newTexture = currentTextureIndex < maxDrawableTextures ? currentTextureIndex + 1 : 0;
+
+                    SetPedComponentVariation(Game.PlayerPed.Handle, currentDrawableID, listIndex, newTexture, 0);
+                }
+                else // prop
+                {
+                    var currentPropIndex = propsMenuListItems[item];
+                    var currentPropVariationIndex = GetPedPropIndex(Game.PlayerPed.Handle, currentPropIndex);
+                    var currentPropTextureVariation = GetPedPropTextureIndex(Game.PlayerPed.Handle, currentPropIndex);
+                    var maxPropTextureVariations = GetNumberOfPedPropTextureVariations(Game.PlayerPed.Handle, currentPropIndex, currentPropVariationIndex) - 1;
+
+                    var newPropTextureVariationIndex = currentPropTextureVariation < maxPropTextureVariations ? currentPropTextureVariation + 1 : 0;
+                    SetPedPropIndex(Game.PlayerPed.Handle, currentPropIndex, currentPropVariationIndex, newPropTextureVariationIndex, true);
+                }
+            };
+
+            void ChangeListItem(MenuListItem item, int newListIndex)
             {
                 if (drawablesMenuListItems.ContainsKey(item))
                 {
@@ -563,44 +635,20 @@ namespace vMenuClient.menus
                     {
                         ShowVisorText(Game.PlayerPed.Handle);
                     }
-
                 }
-            };
-
-            // Manage list selections.
-            pedCustomizationMenu.OnListItemSelect += (sender, item, listIndex, itemIndex) =>
-            {
-                if (drawablesMenuListItems.ContainsKey(item)) // drawable
-                {
-                    var currentDrawableID = drawablesMenuListItems[item];
-                    var currentTextureIndex = GetPedTextureVariation(Game.PlayerPed.Handle, currentDrawableID);
-                    var maxDrawableTextures = GetNumberOfPedTextureVariations(Game.PlayerPed.Handle, currentDrawableID, listIndex) - 1;
-
-                    if (currentTextureIndex == -1)
-                    {
-                        currentTextureIndex = 0;
-                    }
-
-                    var newTexture = currentTextureIndex < maxDrawableTextures ? currentTextureIndex + 1 : 0;
-
-                    SetPedComponentVariation(Game.PlayerPed.Handle, currentDrawableID, listIndex, newTexture, 0);
-                }
-                else if (propsMenuListItems.ContainsKey(item)) // prop
-                {
-                    var currentPropIndex = propsMenuListItems[item];
-                    var currentPropVariationIndex = GetPedPropIndex(Game.PlayerPed.Handle, currentPropIndex);
-                    var currentPropTextureVariation = GetPedPropTextureIndex(Game.PlayerPed.Handle, currentPropIndex);
-                    var maxPropTextureVariations = GetNumberOfPedPropTextureVariations(Game.PlayerPed.Handle, currentPropIndex, currentPropVariationIndex) - 1;
-
-                    var newPropTextureVariationIndex = currentPropTextureVariation < maxPropTextureVariations ? currentPropTextureVariation + 1 : 0;
-                    SetPedPropIndex(Game.PlayerPed.Handle, currentPropIndex, currentPropVariationIndex, newPropTextureVariationIndex, true);
-                }
-            };
+            }
             #endregion
 
             pedCollectionsCustomizationMenu.OnListIndexChange += (_, item, oldListIndex, newListIndex, ___) =>
             {
-                string collectionName = item.ItemData;
+                if (item.ItemData is not Tuple<int, int, string> data)
+                {
+                    return;
+                }
+
+                int originalItemId = data.Item1;
+                int originalTextureId = data.Item2;
+                string collectionName = data.Item3;
                 int pedHandle = Game.PlayerPed.Handle;
 
                 if (drawablesMenuListItems.ContainsKey(item))
@@ -616,26 +664,26 @@ namespace vMenuClient.menus
 
                         item.Description = $"← & → to select, ~r~enter~s~ to cycle textures. Selected texture: #{GetPedTextureVariation(pedHandle, currentDrawableID) + 1} (of {maxDrawableTextures}).";
                     }
+                    else if (item.ListItems[newListIndex].StartsWith("None"))
+                    {
+                        SetPedComponentVariation(pedHandle, currentDrawableID, originalItemId, originalTextureId, paletteId: 0);
+
+                        item.Description = "← & → to select, ~r~enter~s~ to cycle textures. Current selection not part collection.";
+                    }
                     else
                     {
                         item.Description = $"← & → to select, ~r~enter~s~ to cycle textures. Selection is invalid (broken, Gen9, etc.)";
-                    }
-
-                    if (item.ListItems[oldListIndex].StartsWith("None"))
-                    {
-                        item.ListItems.RemoveAt(oldListIndex);
                     }
                 }
                 else if (propsMenuListItems.ContainsKey(item))
                 {
                     int propID = propsMenuListItems[item];
 
-                    if (newListIndex == 0)
+                    if (item.ListItems[newListIndex].StartsWith("None"))
                     {
-                        SetPedPropIndex(pedHandle, propID, -1, 0, false);
-                        ClearPedProp(pedHandle, propID);
+                        SetPedPropIndex(pedHandle, propID, originalItemId, originalTextureId, attach: false);
 
-                        item.Description = $"← & → to select, ~r~enter~s~ to cycle textures.";
+                        item.Description = "← & → to select, ~r~enter~s~ to cycle textures. Current selection not part collection.";
                     }
                     else
                     {
@@ -655,11 +703,16 @@ namespace vMenuClient.menus
 
             pedCollectionsCustomizationMenu.OnListItemSelect += (_, item, listIndex, __) =>
             {
+                if (item.ItemData is not Tuple<int, int, string> data || item.ListItems[listIndex].StartsWith("None"))
+                {
+                    return;
+                }
+
+                string collectionName = data.Item3;
                 int pedHandle = Game.PlayerPed.Handle;
-                string collectionName = item.ItemData;
 
                 if (drawablesMenuListItems.ContainsKey(item))
-                {                    
+                {
                     int currentDrawableID = drawablesMenuListItems[item];
                     bool isValid = IsPedCollectionComponentVariationValid(pedHandle, currentDrawableID, collectionName, listIndex, 0) && !IsPedCollectionComponentVariationGen9Exclusive(pedHandle, currentDrawableID, collectionName, listIndex);
 
@@ -695,9 +748,16 @@ namespace vMenuClient.menus
                 }
             };
 
-            pedCollectionsMenu.OnItemSelect += (_, menuItem, ___) =>
+            pedCollectionsMenu.OnItemSelect += (_, item, ___) =>
             {
-                RefreshCollectionsDrawables(menuItem.ItemData);
+                if (item.ItemData is not Tuple<int, int, string> data)
+                {
+                    return;
+                }
+
+                string collectionName = data.Item3;
+
+                RefreshCollectionsDrawables(collectionName);
             };
         }
 
@@ -846,10 +906,12 @@ namespace vMenuClient.menus
                     drawableTexturesList.Add($"Drawable #{i + 1}{(!isValid ? " (Invalid)" : "")} (of {totalVariations})");
                 }
 
+                int currentTextureId = GetPedTextureVariation(pedHandle, drawable);
+
                 if (currentCollection == collectionName)
                 {
                     currentLocalIndex = GetPedCollectionLocalIndexFromDrawable(pedHandle, drawable, currentDrawableGlobalId);
-                    suffixText = $"Selected texture: #{GetPedTextureVariation(pedHandle, drawable) + 1} (of {GetNumberOfPedCollectionTextureVariations(pedHandle, drawable, collectionName, currentLocalIndex)}).";
+                    suffixText = $"Selected texture: #{currentTextureId + 1} (of {GetNumberOfPedCollectionTextureVariations(pedHandle, drawable, collectionName, currentLocalIndex)}).";
                 }
                 else
                 {
@@ -860,7 +922,7 @@ namespace vMenuClient.menus
 
                 MenuListItem item = new MenuListItem($"{textureNames[drawable]}", drawableTexturesList, currentLocalIndex, $"← & → to select, ~r~enter~s~ to cycle textures. {suffixText}")
                 {
-                    ItemData = collectionName
+                    ItemData = new Tuple<int, int, string>(currentDrawableGlobalId, currentTextureId, collectionName)
                 };
 
                 drawablesMenuListItems.Add(item, drawable);
@@ -888,10 +950,12 @@ namespace vMenuClient.menus
                     propTexturesList.Add($"Prop #{i + 1} (of {totalVariations})");
                 }
 
+                int currentTextureId = GetPedPropTextureIndex(pedHandle, realProp);
+
                 if (currentCollection == collectionName)
                 {
                     currentLocalIndex = GetPedCollectionLocalIndexFromProp(pedHandle, realProp, currentPropGlobalId);
-                    suffixText = $"Selected texture: #{GetPedPropTextureIndex(pedHandle, realProp) + 1} (of {GetNumberOfPedCollectionPropTextureVariations(pedHandle, realProp, collectionName, currentLocalIndex)}).";
+                    suffixText = $"Selected texture: #{currentTextureId + 1} (of {GetNumberOfPedCollectionPropTextureVariations(pedHandle, realProp, collectionName, currentLocalIndex)}).";
                 }
                 else
                 {
@@ -901,7 +965,7 @@ namespace vMenuClient.menus
 
                 MenuListItem propTextures = new MenuListItem($"{propNames[tmpProp]}", propTexturesList, currentLocalIndex + 1, $"← & → to select, ~r~enter~s~ to cycle textures. {suffixText}")
                 {
-                    ItemData = collectionName
+                    ItemData = new Tuple<int, int, string>(currentPropGlobalId, currentTextureId, collectionName)
                 };
 
                 propsMenuListItems.Add(propTextures, realProp);
@@ -1421,6 +1485,7 @@ namespace vMenuClient.menus
             ["a_c_boar"] = "Boar",
             ["a_c_boar_02"] = "Boar 2", // mp2023_01
             ["a_c_cat_01"] = "Cat",
+            ["a_c_cat_02"] = "Cat 2", // mp2025_02
             ["a_c_chickenhawk"] = "ChickenHawk",
             ["a_c_chimp"] = "Chimp",
             ["a_c_chimp_02"] = "Chimp 2", // mpchristmas3
@@ -1691,6 +1756,7 @@ namespace vMenuClient.menus
         };
         private readonly Dictionary<string, string> otherPeds = new()
         {
+            ["cs_amandaTownley_02"] = "AmandaTownley02Cutscene", // mp2025_02
             ["csb_abigail"] = "AbigailCutscene",
             ["csb_agatha"] = "AgathaCutscene", // mpvinewood
             ["csb_agent"] = "AgentCutscene",
@@ -1703,6 +1769,7 @@ namespace vMenuClient.menus
             ["csb_avery"] = "AveryCutscene", // mpvinewood
             ["csb_avischwartzman_02"] = "AviSchwartzman02Cutscene", // mptuner
             ["csb_avischwartzman_03"] = "AviSchwartzman03Cutscene", // mp2023_01
+            ["csb_avi_04"] = "AviSchwartzman04Cutscene", // mp2023_01
             ["csb_avon"] = "AvonCutscene",
             ["csb_ballas_leader"] = "BallasLeaderCutscene", // mpsecurity
             ["csb_ballasog"] = "BallasogCutscene",
@@ -1732,6 +1799,7 @@ namespace vMenuClient.menus
             ["csb_drugdealer"] = "DrugDealerCutscene", // mptuner
             ["csb_englishdave"] = "EnglishDaveCutscene",
             ["csb_englishdave_02"] = "EnglishDave02Cutscene", // mpheist4
+            ["csb_faber_02 "] = "FaberCutscene", // mp2025_02
             ["csb_fos_rep"] = "FosRepCutscene",
             ["csb_g"] = "GCutscene",
             ["csb_georginacheng"] = "GeorginaChengCutscene", // mpheist3
@@ -1846,6 +1914,7 @@ namespace vMenuClient.menus
             ["g_m_m_genthug_01"] = "GenThug01GMM", // mpsum2
             ["g_m_m_goons_01"] = "Goons01GMM", // mpsecurity
             ["g_m_m_korboss_01"] = "KorBoss01GMM",
+            ["g_m_m_knowway_01"] = "KnoWay01GMM", // mp2025_02
             ["g_m_m_maragrande_01"] = "MaraGrande01GMM", // mp2023_02
             ["g_m_m_mexboss_01"] = "MexBoss01GMM",
             ["g_m_m_mexboss_02"] = "MexBoss02GMM",
@@ -1893,6 +1962,7 @@ namespace vMenuClient.menus
             ["ig_agent_02"] = "Agent02", //mpsum2
             ["ig_ahronward"] = "AhronWard", // mp2023_02
             ["ig_amandatownley"] = "AmandaTownley",
+            ["ig_amandatownley_02"] = "AmandaTownley02", // mp2025_02
             ["ig_andreas"] = "Andreas",
             ["ig_armsmanufac_01"] = "ArmsManufac01", // mp2024_02
             ["ig_ary"] = "ARY", // mpheist4
@@ -1901,6 +1971,7 @@ namespace vMenuClient.menus
             ["ig_avery"] = "Avery", // mpvinewood
             ["ig_avischwartzman_02"] = "AviSchwartzman02", // mptuner
             ["ig_avischwartzman_03"] = "AviSchwartzman03", // mp2023_01
+            ["ig_avi_04"] = "AviSchwartzman04", // mp2025_02
             ["ig_avon"] = "Avon",
             ["ig_ballas_leader"] = "BallasLeader", // mpsecurity
             ["ig_ballasog"] = "Ballasog",
@@ -1964,7 +2035,9 @@ namespace vMenuClient.menus
             ["ig_entourage_a"] = "EntourageA", // mpsecurity
             ["ig_entourage_b"] = "EntourageB", // mpsecurity
             ["ig_fabien"] = "Fabien",
+            ["ig_faber_02"] = "Faber02", // mp2025_02
             ["ig_fbisuit_01"] = "FbiSuit01",
+            ["ig_fibleader_01"] = "FIBLeader01", // mp2025_02
             ["ig_floyd"] = "Floyd",
             ["ig_fooliganz_01"] = "Fooliganz1", // mpchristmas3
             ["ig_fooliganz_02"] = "Fooliganz2", // mpchristmas3
@@ -2125,6 +2198,7 @@ namespace vMenuClient.menus
             ["ig_tylerdix_02"] = "TylerDixon02",
             ["ig_vagos_leader"] = "VagosLeader", // mpsecurity
             ["ig_vagspeak"] = "VagSpeak",
+            ["ig_valencheat"] = "valencheat", // mp2025_02
             ["ig_valentina"] = "Valentina", // mp2025_01
             ["ig_vernon"] = "Vernon", // mpsecurity
             ["ig_vincent"] = "Vincent", // mpvinewood
@@ -2176,6 +2250,7 @@ namespace vMenuClient.menus
             ["mp_m_weapwork_01"] = "WeapWork01",
             ["mp_m_weed_01"] = "MWeed01",
             ["mp_s_m_armoured_01"] = "Armoured01",
+            ["p_michael_02"] = "Michael02", // mp2025_02
             ["s_f_m_autoshop_01"] = "Autoshop01SFM", // mptuner
             ["s_f_m_fembarber"] = "FemBarberSFM",
             ["s_f_m_maid_01"] = "Maid01SFM",
@@ -2240,6 +2315,7 @@ namespace vMenuClient.menus
             ["s_m_m_highsec_03"] = "Highsec03SMM", // mpheist3
             ["s_m_m_highsec_04"] = "Highsec04SMM", // mpheist4
             ["s_m_m_highsec_05"] = "Highsec05SMM", // mpsecurity
+            ["s_m_m_highsec_06"] = "Highsec06SMM", // mp2025_02
             ["s_m_m_janitor"] = "JanitorSMM",
             ["s_m_m_lathandy_01"] = "Lathandy01SMM",
             ["s_m_m_lifeinvad_01"] = "Lifeinvad01SMM",
