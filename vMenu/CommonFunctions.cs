@@ -1620,12 +1620,11 @@ namespace vMenuClient
                     {
                         GetVehicleCustomPrimaryColour(veh.Handle, ref customPrimaryR, ref customPrimaryG, ref customPrimaryB);
                     }
-                    
-                    if (!string.IsNullOrWhiteSpace($"{veh.State.Get("vMenu:PrimaryPaintFinish")}"))
-                    {
-                        colors.Add("PrimaryPaintFinish",  Convert.ToInt32((object)veh.State.Get("vMenu:PrimaryPaintFinish")));
-                    }
 
+                    if (veh.State.Get("vMenu:PrimaryPaintFinish") is int primaryPaintFinish)
+                    {
+                        colors.Add("PrimaryPaintFinish", primaryPaintFinish);
+                    }
                     
                     colors.Add("customPrimaryR", customPrimaryR);
                     colors.Add("customPrimaryG", customPrimaryG);
@@ -1642,9 +1641,9 @@ namespace vMenuClient
                         GetVehicleCustomSecondaryColour(veh.Handle, ref customSecondaryR, ref customSecondaryG, ref customSecondaryB);
                     }
 
-                    if (!string.IsNullOrWhiteSpace($"{veh.State.Get("vMenu:SecondaryPaintFinish")}"))
+                    if (veh.State.Get("vMenu:SecondaryPaintFinish") is int secondaryPaintFinish)
                     {
-                        colors.Add("SecondaryPaintFinish", Convert.ToInt32((object)veh.State.Get("vMenu:SecondaryPaintFinish")));
+                        colors.Add("SecondaryPaintFinish", secondaryPaintFinish);
                     }
 
                     colors.Add("customSecondaryR", customSecondaryR);
