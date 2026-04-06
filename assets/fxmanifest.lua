@@ -13,16 +13,14 @@ url 'https://github.com/TomGrobbe/vMenu/'
 client_debug_mode 'false'
 server_debug_mode 'false'
 
--- Leave this set to '0' to prevent compatibility issues
--- and to keep the save files your users.
+-- Adds extra commands for testing and development
 experimental_features_enabled '0'
 
 -- Files & scripts
 files {
     'Newtonsoft.Json.dll',
     'MenuAPI.dll',
-    'config/locations.json',
-    'config/addons.json'
+    'config/*.json'
 }
 
 client_script 'vMenuClient.net.dll'
