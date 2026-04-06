@@ -21,8 +21,7 @@ experimental_features_enabled '0'
 files {
     'Newtonsoft.Json.dll',
     'MenuAPI.dll',
-    'config/locations.json',
-    'config/addons.json'
+    'config/*.json'
 }
 
 client_script 'vMenuClient.net.dll'
