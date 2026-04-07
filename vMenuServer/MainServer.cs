@@ -118,6 +118,26 @@ namespace vMenuServer
                 SetConvarReplicated(Setting.vmenu_current_weather.ToString(), value.ToUpper());
             }
         }
+        private string CurrentWeather_2
+        {
+            get
+            {
+                var value = GetSettingsString(Setting.vmenu_current_weather_2, "CLEAR");
+                if (!WeatherTypes.Contains(value.ToUpper()))
+                {
+                    return "CLEAR";
+                }
+                return value;
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(value) || !WeatherTypes.Contains(value.ToUpper()))
+                {
+                    SetConvarReplicated(Setting.vmenu_current_weather_2.ToString(), "CLEAR");
+                }
+                SetConvarReplicated(Setting.vmenu_current_weather_2.ToString(), value.ToUpper());
+            }
+        }
         private bool DynamicWeatherEnabled
         {
             get { return GetSettingsBool(Setting.vmenu_enable_dynamic_weather); }
@@ -705,7 +725,7 @@ namespace vMenuServer
         /// <param name="newWeather"></param>
         /// <param name="dynamicWeatherNew"></param>
         [EventHandler("vMenu:UpdateServerWeather")]
-        internal void UpdateWeather([FromSource] Player source, string newWeather, bool dynamicWeatherNew, bool enableSnow)
+        internal void UpdateWeather([FromSource] Player source, string newWeather, string newWeather_2, float newWeather_mix, bool dynamicWeatherNew, bool enableSnow)
         {
             if (!PermissionsManager.IsAllowed(PermissionsManager.Permission.WOSetWeather, source) && !PermissionsManager.IsAllowed(PermissionsManager.Permission.WOAll, source))
             {
@@ -721,6 +741,8 @@ namespace vMenuServer
 
             // Update the new weather related variables.
             CurrentWeather = newWeather;
+            CurrentWeather_2 = newWeather_2;
+            CurrentWeather_2 = newWeather_2;
             DynamicWeatherEnabled = dynamicWeatherNew;
             ManualSnowEnabled = enableSnow;
 
@@ -791,18 +813,41 @@ namespace vMenuServer
         /// <param name="newHours"></param>
         /// <param name="newMinutes"></param>
         [EventHandler("vMenu:UpdateServerTime")]
-        internal void UpdateTime([FromSource] Player source, int newHours, int newMinutes)
+        internal async void UpdateTime([FromSource] Player source, int newHours, int newMinutes, bool freezeTimeNew)
         {
             if (!PermissionsManager.IsAllowed(PermissionsManager.Permission.TOSetTime, source) && !PermissionsManager.IsAllowed(PermissionsManager.Permission.TOAll, source))
             {
                 BanManager.BanCheater(source);
                 return;
             }
-
+            CurrentHours = CurrentHours;
+            CurrentMinutes = CurrentMinutes;
+            FreezeTime = true;
+            while (newHours != CurrentHours)
+            {
+                if ((CurrentMinutes + 1) > 59)
+                {
+                    CurrentMinutes = 0;
+                    if ((CurrentHours + 1) > 23)
+                    {
+                        CurrentHours = 0;
+                    }
+                    else
+                    {
+                        CurrentHours++;
+                    }
+                }
+                else
+                {
+                    CurrentMinutes = CurrentMinutes + 5;
+                }
+                await Delay(0);
+            }
             CurrentHours = newHours;
             CurrentMinutes = newMinutes;
-        }
+            FreezeTime = freezeTimeNew;
 
+        }
         /// <summary>
         /// Set and sync if time is frozen for all clients.
         /// </summary>

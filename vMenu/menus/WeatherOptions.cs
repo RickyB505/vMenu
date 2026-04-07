@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 
 using CitizenFX.Core;
 
@@ -19,7 +22,8 @@ namespace vMenuClient.menus
         public MenuCheckboxItem blackout;
         public MenuCheckboxItem vehicleBlackout;
         public MenuCheckboxItem snowEnabled;
-        public static readonly List<string> weatherTypes = new()
+
+        public readonly List<string> WeatherTypes = new()
         {
             "EXTRASUNNY",
             "CLEAR",
@@ -38,6 +42,24 @@ namespace vMenuClient.menus
             "HALLOWEEN"
         };
         
+        public readonly List<string> WeatherLabels = new()
+        {
+            "Extra Sunny",
+            "Clear",
+            "Neutral",
+            "Smog",
+            "Foggy",
+            "Cloudy",
+            "Overcast",
+            "Clearing",
+            "Rainy",
+            "Thunder",
+            "Blizzard",
+            "Snow",
+            "Light Snow",
+            "X-MAS Snow",
+            "Halloween"
+        };
         private void CreateMenu()
         {
             // Create the menu.
@@ -48,21 +70,10 @@ namespace vMenuClient.menus
             vehicleBlackout = new MenuCheckboxItem("Toggle Vehicle Lights Blackout", "This disables or enables all vehicle lights across the map.", !EventManager.IsVehicleLightsEnabled);
             snowEnabled = new MenuCheckboxItem("Enable Snow Effects", "This will force snow to appear on the ground and enable snow particle effects for peds and vehicles. Combine with X-MAS or Light Snow weather for best results.", ConfigManager.GetSettingsBool(ConfigManager.Setting.vmenu_enable_snow));
             
-            var extrasunny = new MenuItem("Extra Sunny", "Set the weather to ~y~extra sunny~s~!") { ItemData = "EXTRASUNNY" };
-            var clear = new MenuItem("Clear", "Set the weather to ~y~clear~s~!") { ItemData = "CLEAR" };
-            var neutral = new MenuItem("Neutral", "Set the weather to ~y~neutral~s~!") { ItemData = "NEUTRAL" };
-            var smog = new MenuItem("Smog", "Set the weather to ~y~smog~s~!") { ItemData = "SMOG" };
-            var foggy = new MenuItem("Foggy", "Set the weather to ~y~foggy~s~!") { ItemData = "FOGGY" };
-            var clouds = new MenuItem("Cloudy", "Set the weather to ~y~clouds~s~!") { ItemData = "CLOUDS" };
-            var overcast = new MenuItem("Overcast", "Set the weather to ~y~overcast~s~!") { ItemData = "OVERCAST" };
-            var clearing = new MenuItem("Clearing", "Set the weather to ~y~clearing~s~!") { ItemData = "CLEARING" };
-            var rain = new MenuItem("Rainy", "Set the weather to ~y~rain~s~!") { ItemData = "RAIN" };
-            var thunder = new MenuItem("Thunder", "Set the weather to ~y~thunder~s~!") { ItemData = "THUNDER" };
-            var blizzard = new MenuItem("Blizzard", "Set the weather to ~y~blizzard~s~!") { ItemData = "BLIZZARD" };
-            var snow = new MenuItem("Snow", "Set the weather to ~y~snow~s~!") { ItemData = "SNOW" };
-            var snowlight = new MenuItem("Light Snow", "Set the weather to ~y~light snow~s~!") { ItemData = "SNOWLIGHT" };
-            var xmas = new MenuItem("X-MAS Snow", "Set the weather to ~y~x-mas~s~!") { ItemData = "XMAS" };
-            var halloween = new MenuItem("Halloween", "Set the weather to ~y~halloween~s~!") { ItemData = "HALLOWEEN" };
+            var weatherA = new MenuListItem("Weather A", WeatherLabels, 0, "Send to apply Weather A"); // dont forget to fix index cunt
+            var weatherB = new MenuListItem("Weather B", WeatherLabels, 0, "Send to apply Weather B"); // dont forget to fix index cunt
+            var weatherMix = new MenuSliderItem("Weather Mix", 0, 100, 50, false);
+
             var removeclouds = new MenuItem("Remove All Clouds", "Remove all clouds from the sky!");
             var randomizeclouds = new MenuItem("Randomize Clouds", "Add random clouds to the sky!");
 
@@ -81,21 +92,10 @@ namespace vMenuClient.menus
             if (IsAllowed(Permission.WOSetWeather))
             {
                 menu.AddMenuItem(snowEnabled);
-                menu.AddMenuItem(extrasunny);
-                menu.AddMenuItem(clear);
-                menu.AddMenuItem(neutral);
-                menu.AddMenuItem(smog);
-                menu.AddMenuItem(foggy);
-                menu.AddMenuItem(clouds);
-                menu.AddMenuItem(overcast);
-                menu.AddMenuItem(clearing);
-                menu.AddMenuItem(rain);
-                menu.AddMenuItem(thunder);
-                menu.AddMenuItem(blizzard);
-                menu.AddMenuItem(snow);
-                menu.AddMenuItem(snowlight);
-                menu.AddMenuItem(xmas);
-                menu.AddMenuItem(halloween);
+    
+                menu.AddMenuItem(weatherA);
+                menu.AddMenuItem(weatherB);
+                menu.AddMenuItem(weatherMix);
             }
             if (IsAllowed(Permission.WORandomizeClouds))
             {
@@ -117,10 +117,10 @@ namespace vMenuClient.menus
                 {
                     ModifyClouds(false);
                 }
-                else if (item.ItemData is string weatherType)
+                else if (item == weatherA)
                 {
-                    Notify.Custom($"The weather will be changed to ~y~{item.Text}~s~. This will take {EventManager.WeatherChangeTime} seconds.");
-                    UpdateServerWeather(weatherType, EventManager.DynamicWeatherEnabled, EventManager.IsSnowEnabled);
+                    Notify.Custom($"The weather will be changed to ~y~{WeatherLabels[weatherA.Index]}~s~. This will take {EventManager.WeatherChangeTime} seconds.");
+                    UpdateServerWeather(WeatherTypes[weatherA.Index], EventManager.DynamicWeatherEnabled, EventManager.IsSnowEnabled);
                 }
             };
 
