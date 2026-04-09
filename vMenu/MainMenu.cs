@@ -8,6 +8,7 @@ using MenuAPI;
 
 using Newtonsoft.Json;
 
+using vMenuClient.data;
 using vMenuClient.menus;
 
 using static CitizenFX.Core.Native.API;
@@ -63,11 +64,33 @@ namespace vMenuClient
         private const int currentCleanupVersion = 2;
         #endregion
 
+        public struct Weapon
+        {
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public string Permission { get; set; }
+            public Dictionary<string, string> Components { get; set; }
+        }
+
         /// <summary>
         /// Constructor.
         /// </summary>
+        public static string weapons = LoadResourceFile(GetCurrentResourceName(), "config/weapons.json") ?? "{}";
         public MainMenu()
         {
+            Dictionary<string, Weapon> addonWeapons = JsonConvert.DeserializeObject<Dictionary<string, Weapon>>( weapons );
+            foreach (var weapon in addonWeapons)
+            {
+                ValidWeapons.weaponDescriptions.Add(weapon.Key, weapon.Value.Description);
+                ValidWeapons.weaponNames.Add(weapon.Key, weapon.Value.Name);
+                ValidWeapons.weaponPermissions.Add(weapon.Key, weapon.Value.Permission);
+                vMenuShared.PermissionsManager.Permission.Add(weapon.Value.Permission);
+                foreach (var components in weapon.Value.Components)
+                {
+                    ValidWeapons.weaponComponentNames.Add(components.Key, components.Value);
+                }
+            }
+            
             PlayersList = new NativePlayerList(Players);
 
             #region cleanup unused kvps

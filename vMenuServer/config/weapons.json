@@ -1,0 +1,10 @@
+{
+    "weapon_name": {
+        "name": "name",
+        "description": "description",
+        "permission": "WPChangeThis", // wp == vMenu.WeaponOption.ChangeThis use it like any other weapon permission
+        "Components": {
+            "component": "name"
+        }
+    }
+}

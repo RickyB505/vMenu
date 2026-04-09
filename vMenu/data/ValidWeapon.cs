@@ -141,9 +141,9 @@ namespace vMenuClient.data
 
         #region Weapon names, hashes and localized names (+ all components & tints).
         #region weapon descriptions & names
-        public static readonly Dictionary<string, string> weaponDescriptions = new()
+        public static Dictionary<string, string> weaponDescriptions = new()
         {
-            { "weapon_advancedrifle", GetLabelText("WTD_RIFLE_ADV") },
+            //{ "weapon_advancedrifle", GetLabelText("WTD_RIFLE_ADV") },
             { "weapon_appistol", GetLabelText("WTD_PIST_AP") },
             { "weapon_assaultrifle", GetLabelText("WTD_RIFLE_ASL") },
             { "weapon_assaultrifle_mk2", GetLabelText("WTD_RIFLE_ASL2") },
@@ -264,9 +264,9 @@ namespace vMenuClient.data
             { "weapon_newspaper", GetLabelText("WTD_NEWSPAPER") },
         };
 
-        public static readonly Dictionary<string, string> weaponNames = new()
+        public static Dictionary<string, string> weaponNames = new()
         {
-            { "weapon_advancedrifle", GetLabelText("WT_RIFLE_ADV") },
+            //{ "weapon_advancedrifle", GetLabelText("WT_RIFLE_ADV") },
             { "weapon_appistol", GetLabelText("WT_PIST_AP") },
             { "weapon_assaultrifle", GetLabelText("WT_RIFLE_ASL") },
             { "weapon_assaultrifle_mk2", GetLabelText("WT_RIFLE_ASL2") },
@@ -391,9 +391,9 @@ namespace vMenuClient.data
         #endregion
 
         #region weapon permissions
-        public static readonly Dictionary<string, string> weaponPermissions = new()
+        public static Dictionary<string, string> weaponPermissions = new()
         {
-            ["weapon_advancedrifle"] = "WPAdvancedRifle",
+            //["weapon_advancedrifle"] = "WPAdvancedRifle",
             ["weapon_appistol"] = "WPAPPistol",
             ["weapon_assaultrifle"] = "WPAssaultRifle",
             ["weapon_assaultrifle_mk2"] = "WPAssaultRifleMk2",
@@ -518,7 +518,7 @@ namespace vMenuClient.data
         #endregion
 
         #region weapon component names
-        private static readonly Dictionary<string, string> weaponComponentNames = new()
+        public static Dictionary<string, string> weaponComponentNames = new()
         {
             ["COMPONENT_ADVANCEDRIFLE_CLIP_01"] = GetLabelText("WCT_CLIP1"),
             ["COMPONENT_ADVANCEDRIFLE_CLIP_02"] = GetLabelText("WCT_CLIP2"),

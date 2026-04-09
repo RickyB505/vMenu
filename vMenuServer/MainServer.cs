@@ -185,14 +185,28 @@ namespace vMenuServer
             "XMAS",
             "HALLOWEEN"
         };
+
+        public struct Weapon
+        {
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public string Permission { get; set; }
+            public Dictionary<string, string> Components { get; set; }
+        }
         #endregion
 
         #region Constructor
         /// <summary>
         /// Constructor.
         /// </summary>
+        public static string weapons = LoadResourceFile(GetCurrentResourceName(), "config/weapons.json") ?? "{}";
         public MainServer()
         {
+            Dictionary<string, Weapon> addonWeapons = JsonConvert.DeserializeObject<Dictionary<string, Weapon>>( weapons );
+            foreach (var weapon in addonWeapons)
+            {
+                vMenuShared.PermissionsManager.Permission.Add(weapon.Value.Permission);
+            }
             // name check
             if (GetCurrentResourceName() != "vMenu")
             {
