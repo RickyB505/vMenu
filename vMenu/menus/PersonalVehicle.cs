@@ -61,60 +61,60 @@ namespace vMenuClient.menus
             // Add conditional features.
 
             // Toggle engine.
-            if (IsAllowed(Permission.PVToggleEngine))
+            if (IsAllowed("PVToggleEngine"))
             {
                 menu.AddMenuItem(toggleEngine);
             }
 
             // Toggle lights
-            if (IsAllowed(Permission.PVToggleLights))
+            if (IsAllowed("PVToggleLights"))
             {
                 menu.AddMenuItem(toggleLights);
             }
 
             // Toggle stance
-            if (IsAllowed(Permission.PVToggleStance))
+            if (IsAllowed("PVToggleStance"))
             {
                 menu.AddMenuItem(toggleStance);
             }
 
             // Kick vehicle passengers
-            if (IsAllowed(Permission.PVKickPassengers))
+            if (IsAllowed("PVKickPassengers"))
             {
                 menu.AddMenuItem(kickAllPassengers);
             }
 
             // Lock and unlock vehicle doors
-            if (IsAllowed(Permission.PVLockDoors))
+            if (IsAllowed("PVLockDoors"))
             {
                 menu.AddMenuItem(lockDoors);
                 menu.AddMenuItem(unlockDoors);
             }
 
-            if (IsAllowed(Permission.PVDoors))
+            if (IsAllowed("PVDoors"))
             {
                 menu.AddMenuItem(doorsMenuBtn);
             }
 
             // Sound horn
-            if (IsAllowed(Permission.PVSoundHorn))
+            if (IsAllowed("PVSoundHorn"))
             {
                 menu.AddMenuItem(soundHorn);
             }
 
             // Toggle alarm sound
-            if (IsAllowed(Permission.PVToggleAlarm))
+            if (IsAllowed("PVToggleAlarm"))
             {
                 menu.AddMenuItem(toggleAlarm);
             }
 
             // Enable blip for personal vehicle
-            if (IsAllowed(Permission.PVAddBlip))
+            if (IsAllowed("PVAddBlip"))
             {
                 menu.AddMenuItem(enableBlip);
             }
 
-            if (IsAllowed(Permission.PVExclusiveDriver))
+            if (IsAllowed("PVExclusiveDriver"))
             {
                 menu.AddMenuItem(exclusiveDriver);
             }
@@ -245,7 +245,7 @@ namespace vMenuClient.menus
                                 CurrentPersonalVehicle = veh;
                                 veh.PreviouslyOwnedByPlayer = true;
                                 veh.IsPersistent = true;
-                                if (EnableVehicleBlip && IsAllowed(Permission.PVAddBlip))
+                                if (EnableVehicleBlip && IsAllowed("PVAddBlip"))
                                 {
                                     if (veh.AttachedBlip == null || !veh.AttachedBlip.Exists())
                                     {

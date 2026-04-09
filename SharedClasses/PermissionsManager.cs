@@ -10,375 +10,375 @@ namespace vMenuShared
 {
     public static class PermissionsManager
     {
-        public enum Permission
+        public static List<string> Permission = new()
         {
             // Global
             #region global
-            Everything,
-            DontKickMe,
-            DontBanMe,
-            NoClip,
-            Staff,
+            "Everything",
+            "DontKickMe",
+            "DontBanMe",
+            "NoClip",
+            "Staff",
             #endregion
 
             // Online Players
             #region online players
-            OPMenu,
-            OPAll,
-            OPTeleport,
-            OPWaypoint,
-            OPSpectate,
-            OPSendMessage,
-            OPIdentifiers,
-            OPSummon,
-            OPKill,
-            OPKick,
-            OPPermBan,
-            OPTempBan,
-            OPUnban,
-            OPViewBannedPlayers,
-            OPSeePrivateMessages,
+            "OPMenu",
+            "OPAll",
+            "OPTeleport",
+            "OPWaypoint",
+            "OPSpectate",
+            "OPSendMessage",
+            "OPIdentifiers",
+            "OPSummon",
+            "OPKill",
+            "OPKick",
+            "OPPermBan",
+            "OPTempBan",
+            "OPUnban",
+            "OPViewBannedPlayers",
+            "OPSeePrivateMessages",
             #endregion
 
             // Player Options
             #region player options
-            POMenu,
-            POAll,
-            POGod,
-            POInvisible,
-            POFastRun,
-            POFastSwim,
-            POSuperjump,
-            PONoRagdoll,
-            PONeverWanted,
-            POSetWanted,
-            POClearBlood,
-            POSetBlood,
-            POIgnored,
-            POStayInVehicle,
-            POMaxHealth,
-            POMaxArmor,
-            POCleanPlayer,
-            PODryPlayer,
-            POWetPlayer,
-            POVehicleAutoPilotMenu,
-            POFreeze,
-            POScenarios,
-            POUnlimitedStamina,
+            "POMenu",
+            "POAll",
+            "POGod",
+            "POInvisible",
+            "POFastRun",
+            "POFastSwim",
+            "POSuperjump",
+            "PONoRagdoll",
+            "PONeverWanted",
+            "POSetWanted",
+            "POClearBlood",
+            "POSetBlood",
+            "POIgnored",
+            "POStayInVehicle",
+            "POMaxHealth",
+            "POMaxArmor",
+            "POCleanPlayer",
+            "PODryPlayer",
+            "POWetPlayer",
+            "POVehicleAutoPilotMenu",
+            "POFreeze",
+            "POScenarios",
+            "POUnlimitedStamina",
             #endregion
 
             // Vehicle Options
             #region vehicle options
-            VOMenu,
-            VOAll,
-            VOGod,
-            VOKeepClean,
-            VORepair,
-            VOWash,
-            VOEngine,
-            VODestroyEngine,
-            VOBikeSeatbelt,
-            VOSpeedLimiter,
-            VOChangePlate,
-            VOMod,
-            VOColors,
-            VOLiveries,
-            VOComponents,
-            VODoors,
-            VOWindows,
-            VOFreeze,
-            VOInvisible,
-            VOTorqueMultiplier,
-            VOPowerMultiplier,
-            VOFlip,
-            VOAlarm,
-            VOCycleSeats,
-            VOEngineAlwaysOn,
-            VONoSiren,
-            VONoHelmet,
-            VOLights,
-            VOFixOrDestroyTires,
-            VODelete,
-            VOUnderglow,
-            VOFlashHighbeamsOnHonk,
-            VODisableTurbulence,
-            VOAnchorBoat,
-            VOInfiniteFuel,
-            VOFlares,
-            VOPlaneBombs,
-            VOBypassExtraDamage,
+            "VOMenu",
+            "VOAll",
+            "VOGod",
+            "VOKeepClean",
+            "VORepair",
+            "VOWash",
+            "VOEngine",
+            "VODestroyEngine",
+            "VOBikeSeatbelt",
+            "VOSpeedLimiter",
+            "VOChangePlate",
+            "VOMod",
+            "VOColors",
+            "VOLiveries",
+            "VOComponents",
+            "VODoors",
+            "VOWindows",
+            "VOFreeze",
+            "VOInvisible",
+            "VOTorqueMultiplier",
+            "VOPowerMultiplier",
+            "VOFlip",
+            "VOAlarm",
+            "VOCycleSeats",
+            "VOEngineAlwaysOn",
+            "VONoSiren",
+            "VONoHelmet",
+            "VOLights",
+            "VOFixOrDestroyTires",
+            "VODelete",
+            "VOUnderglow",
+            "VOFlashHighbeamsOnHonk",
+            "VODisableTurbulence",
+            "VOAnchorBoat",
+            "VOInfiniteFuel",
+            "VOFlares",
+            "VOPlaneBombs",
+            "VOBypassExtraDamage",
             #endregion
 
             // Vehicle Spawner
             #region vehicle spawner
-            VSMenu,
-            VSAll,
-            VSDisableReplacePrevious,
-            VSSpawnByName,
-            VSAddon,
-            VSCompacts,
-            VSSedans,
-            VSSUVs,
-            VSCoupes,
-            VSMuscle,
-            VSSportsClassic,
-            VSSports,
-            VSSuper,
-            VSMotorcycles,
-            VSOffRoad,
-            VSIndustrial,
-            VSUtility,
-            VSVans,
-            VSCycles,
-            VSBoats,
-            VSHelicopters,
-            VSPlanes,
-            VSService,
-            VSEmergency,
-            VSMilitary,
-            VSCommercial,
-            VSTrains,
-            VSOpenWheel,
+            "VSMenu",
+            "VSAll",
+            "VSDisableReplacePrevious",
+            "VSSpawnByName",
+            "VSAddon",
+            "VSCompacts",
+            "VSSedans",
+            "VSSUVs",
+            "VSCoupes",
+            "VSMuscle",
+            "VSSportsClassic",
+            "VSSports",
+            "VSSuper",
+            "VSMotorcycles",
+            "VSOffRoad",
+            "VSIndustrial",
+            "VSUtility",
+            "VSVans",
+            "VSCycles",
+            "VSBoats",
+            "VSHelicopters",
+            "VSPlanes",
+            "VSService",
+            "VSEmergency",
+            "VSMilitary",
+            "VSCommercial",
+            "VSTrains",
+            "VSOpenWheel",
             #endregion
 
             // Saved Vehicles
             #region saved vehicles
-            SVMenu,
-            SVAll,
-            SVSpawn,
+            "SVMenu",
+            "SVAll",
+            "SVSpawn",
             #endregion
 
             // Personal Vehicle
             #region personal vehicle
-            PVMenu,
-            PVAll,
-            PVToggleEngine,
-            PVToggleLights,
-            PVToggleStance,
-            PVKickPassengers,
-            PVLockDoors,
-            PVDoors,
-            PVSoundHorn,
-            PVToggleAlarm,
-            PVAddBlip,
-            PVExclusiveDriver,
+            "PVMenu",
+            "PVAll",
+            "PVToggleEngine",
+            "PVToggleLights",
+            "PVToggleStance",
+            "PVKickPassengers",
+            "PVLockDoors",
+            "PVDoors",
+            "PVSoundHorn",
+            "PVToggleAlarm",
+            "PVAddBlip",
+            "PVExclusiveDriver",
             #endregion
 
             // Player Appearance
             #region player appearance
-            PAMenu,
-            PAAll,
-            PACustomize,
-            PASpawnSaved,
-            PASpawnNew,
-            PAAddonPeds,
+            "PAMenu",
+            "PAAll",
+            "PACustomize",
+            "PASpawnSaved",
+            "PASpawnNew",
+            "PAAddonPeds",
             #endregion
 
             // Time Options
             #region time options
-            TOMenu,
-            TOAll,
-            TOFreezeTime,
-            TOSetTime,
+            "TOMenu",
+            "TOAll",
+            "TOFreezeTime",
+            "TOSetTime",
             #endregion
 
             // Weather Options
             #region weather options
-            WOMenu,
-            WOAll,
-            WODynamic,
-            WOBlackout,
-            WOVehBlackout,
-            WOSetWeather,
-            WORemoveClouds,
-            WORandomizeClouds,
+            "WOMenu",
+            "WOAll",
+            "WODynamic",
+            "WOBlackout",
+            "WOVehBlackout",
+            "WOSetWeather",
+            "WORemoveClouds",
+            "WORandomizeClouds",
             #endregion
 
             // Weapon Options
             #region weapon options
-            WPMenu,
-            WPAll,
-            WPGetAll,
-            WPRemoveAll,
-            WPUnlimitedAmmo,
-            WPNoReload,
-            WPSpawn,
-            WPSpawnByName,
-            WPSetAllAmmo,
+            "WPMenu",
+            "WPAll",
+            "WPGetAll",
+            "WPRemoveAll",
+            "WPUnlimitedAmmo",
+            "WPNoReload",
+            "WPSpawn",
+            "WPSpawnByName",
+            "WPSetAllAmmo",
             #endregion
 
             //Weapons Permissions
             #region weapon specific permissions
-            WPAPPistol,
-            WPAdvancedRifle,
-            WPAssaultRifle,
-            WPAssaultRifleMk2,
-            WPAssaultSMG,
-            WPAssaultShotgun,
-            WPBZGas,
-            WPBall,
-            WPBat,
-            WPBattleAxe,
-            WPBottle,
-            WPBullpupRifle,
-            WPBullpupRifleMk2,
-            WPBullpupShotgun,
-            WPCarbineRifle,
-            WPCarbineRifleMk2,
-            WPCombatMG,
-            WPCombatMGMk2,
-            WPCombatPDW,
-            WPCombatPistol,
-            WPCompactGrenadeLauncher,
-            WPCompactRifle,
-            WPCrowbar,
-            WPDagger,
-            WPDoubleAction,
-            WPDoubleBarrelShotgun,
-            WPFireExtinguisher,
-            WPFirework,
-            WPFlare,
-            WPFlareGun,
-            WPFlashlight,
-            WPGolfClub,
-            WPGrenade,
-            WPGrenadeLauncher,
-            WPGrenadeLauncherSmoke,
-            WPGusenberg,
-            WPHammer,
-            WPHatchet,
-            WPHeavyPistol,
-            WPHeavyShotgun,
-            WPHeavySniper,
-            WPHeavySniperMk2,
-            WPHomingLauncher,
-            WPKnife,
-            WPKnuckleDuster,
-            WPMG,
-            WPMachete,
-            WPMachinePistol,
-            WPMarksmanPistol,
-            WPMarksmanRifle,
-            WPMarksmanRifleMk2,
-            WPMicroSMG,
-            WPMiniSMG,
-            WPMinigun,
-            WPMolotov,
-            WPMusket,
-            WPNightVision,
-            WPNightstick,
-            WPParachute,
-            WPPetrolCan,
-            WPPipeBomb,
-            WPPistol,
-            WPPistol50,
-            WPPistolMk2,
-            WPPoolCue,
-            WPProximityMine,
-            WPPumpShotgun,
-            WPPumpShotgunMk2,
-            WPRPG,
-            WPRailgun,
-            WPRevolver,
-            WPRevolverMk2,
-            WPSMG,
-            WPSMGMk2,
-            WPSNSPistol,
-            WPSNSPistolMk2,
-            WPSawnOffShotgun,
-            WPSmokeGrenade,
-            WPSniperRifle,
-            WPSnowball,
-            WPSpecialCarbine,
-            WPSpecialCarbineMk2,
-            WPStickyBomb,
-            WPStunGun,
-            WPSweeperShotgun,
-            WPSwitchBlade,
-            WPUnarmed,
-            WPVintagePistol,
-            WPWrench,
-            WPPlasmaPistol,
-            WPPlasmaCarbine,
-            WPPlasmaMinigun,
-            WPStoneHatchet,
+            "WPAPPistol",
+            "WPAdvancedRifle",
+            "WPAssaultRifle",
+            "WPAssaultRifleMk2",
+            "WPAssaultSMG",
+            "WPAssaultShotgun",
+            "WPBZGas",
+            "WPBall",
+            "WPBat",
+            "WPBattleAxe",
+            "WPBottle",
+            "WPBullpupRifle",
+            "WPBullpupRifleMk2",
+            "WPBullpupShotgun",
+            "WPCarbineRifle",
+            "WPCarbineRifleMk2",
+            "WPCombatMG",
+            "WPCombatMGMk2",
+            "WPCombatPDW",
+            "WPCombatPistol",
+            "WPCompactGrenadeLauncher",
+            "WPCompactRifle",
+            "WPCrowbar",
+            "WPDagger",
+            "WPDoubleAction",
+            "WPDoubleBarrelShotgun",
+            "WPFireExtinguisher",
+            "WPFirework",
+            "WPFlare",
+            "WPFlareGun",
+            "WPFlashlight",
+            "WPGolfClub",
+            "WPGrenade",
+            "WPGrenadeLauncher",
+            "WPGrenadeLauncherSmoke",
+            "WPGusenberg",
+            "WPHammer",
+            "WPHatchet",
+            "WPHeavyPistol",
+            "WPHeavyShotgun",
+            "WPHeavySniper",
+            "WPHeavySniperMk2",
+            "WPHomingLauncher",
+            "WPKnife",
+            "WPKnuckleDuster",
+            "WPMG",
+            "WPMachete",
+            "WPMachinePistol",
+            "WPMarksmanPistol",
+            "WPMarksmanRifle",
+            "WPMarksmanRifleMk2",
+            "WPMicroSMG",
+            "WPMiniSMG",
+            "WPMinigun",
+            "WPMolotov",
+            "WPMusket",
+            "WPNightVision",
+            "WPNightstick",
+            "WPParachute",
+            "WPPetrolCan",
+            "WPPipeBomb",
+            "WPPistol",
+            "WPPistol50",
+            "WPPistolMk2",
+            "WPPoolCue",
+            "WPProximityMine",
+            "WPPumpShotgun",
+            "WPPumpShotgunMk2",
+            "WPRPG",
+            "WPRailgun",
+            "WPRevolver",
+            "WPRevolverMk2",
+            "WPSMG",
+            "WPSMGMk2",
+            "WPSNSPistol",
+            "WPSNSPistolMk2",
+            "WPSawnOffShotgun",
+            "WPSmokeGrenade",
+            "WPSniperRifle",
+            "WPSnowball",
+            "WPSpecialCarbine",
+            "WPSpecialCarbineMk2",
+            "WPStickyBomb",
+            "WPStunGun",
+            "WPSweeperShotgun",
+            "WPSwitchBlade",
+            "WPUnarmed",
+            "WPVintagePistol",
+            "WPWrench",
+            "WPPlasmaPistol",
+            "WPPlasmaCarbine",
+            "WPPlasmaMinigun",
+            "WPStoneHatchet",
             // MPHEIST3 DLC (v 1868)
-            WPCeramicPistol,
-            WPNavyRevolver,
-            WPHazardCan,
+            "WPCeramicPistol",
+            "WPNavyRevolver",
+            "WPHazardCan",
             // MPHEIST4 DLC (v 2189)
-            WPPericoPistol,
-            WPMilitaryRifle,
-            WPCombatShotgun,
+            "WPPericoPistol",
+            "WPMilitaryRifle",
+            "WPCombatShotgun",
             // MPSECURITY DLC (v 2545)
-            WPEMPLauncher,
-            WPHeavyRifle,
-            WPFertilizerCan,
-            WPStunGunMP,
+            "WPEMPLauncher",
+            "WPHeavyRifle",
+            "WPFertilizerCan",
+            "WPStunGunMP",
             // MPSUM2 DLC (v 2699)
-            WPPrecisionRifle,
-            WPTacticalRifle,
+            "WPPrecisionRifle",
+            "WPTacticalRifle",
             // MPCHRISTMAS3 DLC (V 2802)
-            WPPistolXM3,
-            WPCandyCane,
-            WPRailgunXM3,
-            WPAcidPackage,
+            "WPPistolXM3",
+            "WPCandyCane",
+            "WPRailgunXM3",
+            "WPAcidPackage",
             // MP2023_01 DLC (V 2944)
-            WPTecPistol,
+            "WPTecPistol",
             // MP2023_02 DLC (V 3095)
-            WPBattleRifle,
-            WPSnowLauncher,
-            WPHackingDevice,
+            "WPBattleRifle",
+            "WPSnowLauncher",
+            "WPHackingDevice",
             // MP2024_01 DLC (V 3258)
-            WPStunRod,
+            "WPStunRod",
             // MP2025_02 DLC (V 3717)
-            WPNewspaper,
+            "WPNewspaper",
             #endregion
 
             // Weapon Loadouts Menu
             #region weapon loadouts
-            WLMenu,
-            WLAll,
-            WLEquip,
-            WLEquipOnRespawn,
+            "WLMenu",
+            "WLAll",
+            "WLEquip",
+            "WLEquipOnRespawn",
             #endregion
 
             // Misc Settings
             #region misc settings
-            MSAll,
-            MSClearArea,
-            MSTeleportToWp,
-            MSTeleportToCoord,
-            MSShowCoordinates,
-            MSShowLocation,
-            MSJoinQuitNotifs,
-            MSDeathNotifs,
-            MSNightVision,
-            MSThermalVision,
-            MSLocationBlips,
-            MSPlayerBlips,
-            MSOverheadNames,
-            MSTeleportLocations,
-            MSTeleportSaveLocation,
-            MSConnectionMenu,
-            MSRestoreAppearance,
-            MSRestoreWeapons,
-            MSDriftMode,
-            MSEntitySpawner,
-            MSDevTools,
+            "MSAll",
+            "MSClearArea",
+            "MSTeleportToWp",
+            "MSTeleportToCoord",
+            "MSShowCoordinates",
+            "MSShowLocation",
+            "MSJoinQuitNotifs",
+            "MSDeathNotifs",
+            "MSNightVision",
+            "MSThermalVision",
+            "MSLocationBlips",
+            "MSPlayerBlips",
+            "MSOverheadNames",
+            "MSTeleportLocations",
+            "MSTeleportSaveLocation",
+            "MSConnectionMenu",
+            "MSRestoreAppearance",
+            "MSRestoreWeapons",
+            "MSDriftMode",
+            "MSEntitySpawner",
+            "MSDevTools",
             #endregion
 
             // Voice Chat
             #region voice chat
-            VCMenu,
-            VCAll,
-            VCEnable,
-            VCShowSpeaker,
-            VCStaffChannel,
+            "VCMenu",
+            "VCAll",
+            "VCEnable",
+            "VCShowSpeaker",
+            "VCStaffChannel",
             #endregion
         };
 
-        public static Dictionary<Permission, bool> Permissions { get; private set; } = new Dictionary<Permission, bool>();
+        public static Dictionary<string, bool> Permissions { get; private set; } = new Dictionary<string, bool>();
         public static bool ArePermissionsSetup { get; set; } = false;
 
 
@@ -389,7 +389,7 @@ namespace vMenuShared
         /// <param name="permission"></param>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static bool IsAllowed(Permission permission, Player source) => IsAllowedServer(permission, source);
+        public static bool IsAllowed(string permission, Player source) => IsAllowedServer(permission, source);
 
         /// <summary>
         /// Public function to check if a permission is allowed.
@@ -397,7 +397,7 @@ namespace vMenuShared
         /// <param name="permission"></param>
         /// <param name="playerHandle"></param>
         /// <returns></returns>
-        public static bool IsAllowed(Permission permission, string playerHandle) => IsAllowedServer(permission, playerHandle);
+        public static bool IsAllowed(string permission, string playerHandle) => IsAllowedServer(permission, playerHandle);
 #endif
 
 #if CLIENT
@@ -407,22 +407,22 @@ namespace vMenuShared
         /// <param name="permission"></param>
         /// <param name="checkAnyway">if true, then the permissions will be checked even if they aren't setup yet.</param>
         /// <returns></returns>
-        public static bool IsAllowed(Permission permission, bool checkAnyway = false) => IsAllowedClient(permission, checkAnyway);
+        public static bool IsAllowed(string permission, bool checkAnyway = false) => IsAllowedClient(permission, checkAnyway);
 
-        private static readonly Dictionary<Permission, bool> allowedPerms = new();
+        private static readonly Dictionary<string, bool> allowedPerms = new();
         /// <summary>
         /// Private function that handles client side permission requests.
         /// </summary>
         /// <param name="permission"></param>
         /// <returns></returns>
-        private static bool IsAllowedClient(Permission permission, bool checkAnyway)
+        private static bool IsAllowedClient(string permission, bool checkAnyway)
         {
             if (ArePermissionsSetup || checkAnyway)
             {
                 var staffPermissionAllowed = (
-                    Permissions.ContainsKey(Permission.Staff) && Permissions[Permission.Staff]
+                    Permissions.ContainsKey("Staff") && Permissions["Staff"]
                 ) || (
-                    Permissions.ContainsKey(Permission.Everything) && Permissions[Permission.Everything]
+                    Permissions.ContainsKey("Everything") && Permissions["Everything"]
                 );
                 // Return false immediately if the staff only convar is set and the user is not a staff member.
                 if (ConfigManager.GetSettingsBool(ConfigManager.Setting.vmenu_menu_staff_only) && !staffPermissionAllowed)
@@ -459,7 +459,7 @@ namespace vMenuShared
         /// <param name="permission"></param>
         /// <param name="source"></param>
         /// <returns></returns>
-        private static bool IsAllowedServer(Permission permission, Player source)
+        private static bool IsAllowedServer(string permission, Player source)
         {
             if (source == null)
             {
@@ -475,7 +475,7 @@ namespace vMenuShared
         /// <param name="permission"></param>
         /// <param name="playerHandle"></param>
         /// <returns></returns>
-        private static bool IsAllowedServer(Permission permission, string playerHandle)
+        private static bool IsAllowedServer(string permission, string playerHandle)
         {
             if (!DoesPlayerExist(playerHandle))
             {
@@ -486,14 +486,14 @@ namespace vMenuShared
         }
 #endif
 
-        private static readonly Dictionary<Permission, List<Permission>> parentPermissions = new();
+        private static readonly Dictionary<string, List<string>> parentPermissions = new();
 
         /// <summary>
         /// Gets the current permission and all parent permissions.
         /// </summary>
         /// <param name="permission"></param>
         /// <returns></returns>
-        public static List<Permission> GetPermissionAndParentPermissions(Permission permission)
+        public static List<string> GetPermissionAndParentPermissions(string permission)
         {
             if (parentPermissions.ContainsKey(permission))
             {
@@ -501,7 +501,7 @@ namespace vMenuShared
             }
             else
             {
-                var list = new List<Permission>() { Permission.Everything, permission };
+                var list = new List<string>() { "Everything", permission };
                 var permStr = permission.ToString();
 
                 // if the first 2 characters are both uppercase
@@ -509,7 +509,7 @@ namespace vMenuShared
                 {
                     if (permStr.Substring(2) is not ("All" or "Menu"))
                     {
-                        list.AddRange(Enum.GetValues(typeof(Permission)).Cast<Permission>().Where(a => a.ToString() == permStr.Substring(0, 2) + "All"));
+                        list.AddRange(Permission.Where(a => a.ToString() == permStr.Substring(0, 2) + "All"));
                     }
                 }
                 //else // it's one of the .Everything, .DontKickMe, DontBanMe, NoClip, Staff, etc perms that are not menu specific.
@@ -533,33 +533,33 @@ namespace vMenuShared
                 return;
             }
 
-            var perms = new Dictionary<Permission, bool>();
+            var perms = new Dictionary<string, bool>();
 
             // If enabled in the permissions.cfg (disabled by default) then this will give me (only me) the option to trigger some debug commands and 
             // try out menu options. This only works if I'm in-game on your server, and you have enabled server debugging mode, this way I will never
             // be able to do something without you actually allowing it.
             if (player.Identifiers.ToList().Any(id => id == "4510587c13e0b645eb8d24bc104601792277ab98") && IsPlayerAceAllowed(player.Handle, "vMenu.Dev") && ConfigManager.DebugMode)
             {
-                perms.Add(Permission.Everything, true);
+                perms.Add("Everything", true);
             }
 
             if (!ConfigManager.GetSettingsBool(ConfigManager.Setting.vmenu_use_permissions))
             {
-                foreach (var p in Enum.GetValues(typeof(Permission)))
+                foreach (var p in Permission)
                 {
-                    var permission = (Permission)p;
+                    var permission = p;
                     switch (permission)
                     {
                         // don't allow any of the following permissions if perms are ignored.
-                        case Permission.Everything:
-                        case Permission.OPAll:
-                        case Permission.OPKick:
-                        case Permission.OPKill:
-                        case Permission.OPPermBan:
-                        case Permission.OPTempBan:
-                        case Permission.OPUnban:
-                        case Permission.OPIdentifiers:
-                        case Permission.OPViewBannedPlayers:
+                        case "Everything":
+                        case "OPAll":
+                        case "OPKick":
+                        case "OPKill":
+                        case "OPPermBan":
+                        case "OPTempBan":
+                        case "OPUnban":
+                        case "OPIdentifiers":
+                        case "OPViewBannedPlayers":
                             break;
                         // do allow the rest
                         default:
@@ -571,9 +571,9 @@ namespace vMenuShared
             else
             {
                 // Loop through all permissions and check if they're allowed.
-                foreach (var p in Enum.GetValues(typeof(Permission)))
+                foreach (var p in Permission)
                 {
-                    var permission = (Permission)p;
+                    var permission = p;
                     if (!perms.ContainsKey(permission))
                     {
                         perms.Add(permission, IsAllowed(permission, player)); // triggers IsAllowedServer
@@ -596,7 +596,7 @@ namespace vMenuShared
         /// <param name="permissions"></param>
         public static void SetPermissions(string permissions)
         {
-            Permissions = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<Permission, bool>>(permissions);
+            Permissions = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, bool>>(permissions);
             // if debug logging.
             if (GetResourceMetadata(GetCurrentResourceName(), "client_debug_mode", 0) == "true")
             {
@@ -610,7 +610,7 @@ namespace vMenuShared
         /// </summary>
         /// <param name="permission"></param>
         /// <returns></returns>
-        private static string GetAceName(Permission permission)
+        private static string GetAceName(string permission)
         {
             var name = permission.ToString();
 

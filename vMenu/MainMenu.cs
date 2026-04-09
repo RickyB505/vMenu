@@ -123,7 +123,7 @@ namespace vMenuClient
             string KeyMappingID = GetKeyMappingId();
             RegisterCommand($"vMenu:{KeyMappingID}:NoClip", new Action<dynamic, List<dynamic>, string>((dynamic source, List<dynamic> args, string rawCommand) =>
             {
-                if (IsAllowed(Permission.NoClip))
+                if (IsAllowed("NoClip"))
                 {
                     if (Game.PlayerPed.IsInVehicle())
                     {
@@ -389,29 +389,29 @@ namespace vMenuClient
 
             VehicleSpawner.allowedCategories = new List<bool>()
             {
-                IsAllowed(Permission.VSCompacts, checkAnyway: true),
-                IsAllowed(Permission.VSSedans, checkAnyway: true),
-                IsAllowed(Permission.VSSUVs, checkAnyway: true),
-                IsAllowed(Permission.VSCoupes, checkAnyway: true),
-                IsAllowed(Permission.VSMuscle, checkAnyway: true),
-                IsAllowed(Permission.VSSportsClassic, checkAnyway: true),
-                IsAllowed(Permission.VSSports, checkAnyway: true),
-                IsAllowed(Permission.VSSuper, checkAnyway: true),
-                IsAllowed(Permission.VSMotorcycles, checkAnyway: true),
-                IsAllowed(Permission.VSOffRoad, checkAnyway: true),
-                IsAllowed(Permission.VSIndustrial, checkAnyway: true),
-                IsAllowed(Permission.VSUtility, checkAnyway: true),
-                IsAllowed(Permission.VSVans, checkAnyway: true),
-                IsAllowed(Permission.VSCycles, checkAnyway: true),
-                IsAllowed(Permission.VSBoats, checkAnyway: true),
-                IsAllowed(Permission.VSHelicopters, checkAnyway: true),
-                IsAllowed(Permission.VSPlanes, checkAnyway: true),
-                IsAllowed(Permission.VSService, checkAnyway: true),
-                IsAllowed(Permission.VSEmergency, checkAnyway: true),
-                IsAllowed(Permission.VSMilitary, checkAnyway: true),
-                IsAllowed(Permission.VSCommercial, checkAnyway: true),
-                IsAllowed(Permission.VSTrains, checkAnyway: true),
-                IsAllowed(Permission.VSOpenWheel, checkAnyway: true)
+                IsAllowed("VSCompacts", checkAnyway: true),
+                IsAllowed("VSSedans", checkAnyway: true),
+                IsAllowed("VSSUVs", checkAnyway: true),
+                IsAllowed("VSCoupes", checkAnyway: true),
+                IsAllowed("VSMuscle", checkAnyway: true),
+                IsAllowed("VSSportsClassic", checkAnyway: true),
+                IsAllowed("VSSports", checkAnyway: true),
+                IsAllowed("VSSuper", checkAnyway: true),
+                IsAllowed("VSMotorcycles", checkAnyway: true),
+                IsAllowed("VSOffRoad", checkAnyway: true),
+                IsAllowed("VSIndustrial", checkAnyway: true),
+                IsAllowed("VSUtility", checkAnyway: true),
+                IsAllowed("VSVans", checkAnyway: true),
+                IsAllowed("VSCycles", checkAnyway: true),
+                IsAllowed("VSBoats", checkAnyway: true),
+                IsAllowed("VSHelicopters", checkAnyway: true),
+                IsAllowed("VSPlanes", checkAnyway: true),
+                IsAllowed("VSService", checkAnyway: true),
+                IsAllowed("VSEmergency", checkAnyway: true),
+                IsAllowed("VSMilitary", checkAnyway: true),
+                IsAllowed("VSCommercial", checkAnyway: true),
+                IsAllowed("VSTrains", checkAnyway: true),
+                IsAllowed("VSOpenWheel", checkAnyway: true)
             };
             ArePermissionsSetup = true;
             while (!ConfigOptionsSetupComplete)
@@ -450,7 +450,7 @@ namespace vMenuClient
                 {
                     return true;
                 }
-                else if (IsAllowed(Permission.Staff))
+                else if (IsAllowed("Staff"))
                 {
                     return true;
                 }
@@ -486,7 +486,7 @@ namespace vMenuClient
             if (!GetSettingsBool(Setting.vmenu_disable_player_stats_setup))
             {
                 // Manage Stamina
-                if (PlayerOptionsMenu != null && PlayerOptionsMenu.PlayerStamina && IsAllowed(Permission.POUnlimitedStamina))
+                if (PlayerOptionsMenu != null && PlayerOptionsMenu.PlayerStamina && IsAllowed("POUnlimitedStamina"))
                 {
                     StatSetInt((uint)GetHashKey("MP0_STAMINA"), 100, true);
                 }
@@ -575,7 +575,7 @@ namespace vMenuClient
 
                 //if (Game.CurrentInputMode == InputMode.MouseAndKeyboard)
                 //{
-                //    if (Game.IsControlJustPressed(0, (Control)NoClipKey) && IsAllowed(Permission.NoClip) && UpdateOnscreenKeyboard() != 0)
+                //    if (Game.IsControlJustPressed(0, (Control)NoClipKey) && IsAllowed("NoClip") && UpdateOnscreenKeyboard() != 0)
                 //    {
                 //        if (Game.PlayerPed.IsInVehicle())
                 //        {
@@ -627,7 +627,7 @@ namespace vMenuClient
         private static void CreateSubmenus()
         {
             // Add the online players menu.
-            if (IsAllowed(Permission.OPMenu))
+            if (IsAllowed("OPMenu"))
             {
                 OnlinePlayersMenu = new OnlinePlayers();
                 var menu = OnlinePlayersMenu.GetMenu();
@@ -647,7 +647,7 @@ namespace vMenuClient
                     }
                 };
             }
-            if (IsAllowed(Permission.OPUnban) || IsAllowed(Permission.OPViewBannedPlayers))
+            if (IsAllowed("OPUnban") || IsAllowed("OPViewBannedPlayers"))
             {
                 BannedPlayersMenu = new BannedPlayers();
                 var menu = BannedPlayersMenu.GetMenu();
@@ -670,7 +670,7 @@ namespace vMenuClient
             Menu.AddMenuItem(playerSubmenuBtn);
 
             // Add the player options menu.
-            if (IsAllowed(Permission.POMenu))
+            if (IsAllowed("POMenu"))
             {
                 PlayerOptionsMenu = new PlayerOptions();
                 var menu = PlayerOptionsMenu.GetMenu();
@@ -684,7 +684,7 @@ namespace vMenuClient
             var vehicleSubmenuBtn = new MenuItem("Vehicle Related Options", "Open this submenu for vehicle related subcategories.") { Label = "→→→" };
             Menu.AddMenuItem(vehicleSubmenuBtn);
             // Add the vehicle options Menu.
-            if (IsAllowed(Permission.VOMenu))
+            if (IsAllowed("VOMenu"))
             {
                 VehicleOptionsMenu = new VehicleOptions();
                 var menu = VehicleOptionsMenu.GetMenu();
@@ -696,7 +696,7 @@ namespace vMenuClient
             }
 
             // Add the vehicle spawner menu.
-            if (IsAllowed(Permission.VSMenu))
+            if (IsAllowed("VSMenu"))
             {
                 VehicleSpawnerMenu = new VehicleSpawner();
                 var menu = VehicleSpawnerMenu.GetMenu();
@@ -708,7 +708,7 @@ namespace vMenuClient
             }
 
             // Add Saved Vehicles menu.
-            if (IsAllowed(Permission.SVMenu))
+            if (IsAllowed("SVMenu"))
             {
                 SavedVehiclesMenu = new SavedVehicles();
                 var menu = SavedVehiclesMenu.GetTypeMenu();
@@ -720,7 +720,7 @@ namespace vMenuClient
             }
 
             // Add the Personal Vehicle menu.
-            if (IsAllowed(Permission.PVMenu))
+            if (IsAllowed("PVMenu"))
             {
                 PersonalVehicleMenu = new PersonalVehicle();
                 var menu = PersonalVehicleMenu.GetMenu();
@@ -732,7 +732,7 @@ namespace vMenuClient
             }
 
             // Add the player appearance menu.
-            if (IsAllowed(Permission.PAMenu))
+            if (IsAllowed("PAMenu"))
             {
                 PlayerAppearanceMenu = new PlayerAppearance();
                 var menu = PlayerAppearanceMenu.GetMenu();
@@ -756,7 +756,7 @@ namespace vMenuClient
 
             // Add the time options menu.
             // check for 'not true' to make sure that it _ONLY_ gets disabled if the owner _REALLY_ wants it disabled, not if they accidentally spelled "false" wrong or whatever.
-            if (IsAllowed(Permission.TOMenu) && GetSettingsBool(Setting.vmenu_enable_time_sync))
+            if (IsAllowed("TOMenu") && GetSettingsBool(Setting.vmenu_enable_time_sync))
             {
                 TimeOptionsMenu = new TimeOptions();
                 var menu = TimeOptionsMenu.GetMenu();
@@ -769,7 +769,7 @@ namespace vMenuClient
 
             // Add the weather options menu.
             // check for 'not true' to make sure that it _ONLY_ gets disabled if the owner _REALLY_ wants it disabled, not if they accidentally spelled "false" wrong or whatever.
-            if (IsAllowed(Permission.WOMenu) && GetSettingsBool(Setting.vmenu_enable_weather_sync))
+            if (IsAllowed("WOMenu") && GetSettingsBool(Setting.vmenu_enable_weather_sync))
             {
                 WeatherOptionsMenu = new WeatherOptions();
                 var menu = WeatherOptionsMenu.GetMenu();
@@ -781,7 +781,7 @@ namespace vMenuClient
             }
 
             // Add the weapons menu.
-            if (IsAllowed(Permission.WPMenu))
+            if (IsAllowed("WPMenu"))
             {
                 WeaponOptionsMenu = new WeaponOptions();
                 var menu = WeaponOptionsMenu.GetMenu();
@@ -793,7 +793,7 @@ namespace vMenuClient
             }
 
             // Add Weapon Loadouts menu.
-            if (IsAllowed(Permission.WLMenu))
+            if (IsAllowed("WLMenu"))
             {
                 WeaponLoadoutsMenu = new WeaponLoadouts();
                 var menu = WeaponLoadoutsMenu.GetMenu();
@@ -804,7 +804,7 @@ namespace vMenuClient
                 AddMenu(PlayerSubmenu, menu, button);
             }
 
-            if (IsAllowed(Permission.NoClip))
+            if (IsAllowed("NoClip"))
             {
                 var toggleNoclip = new MenuItem("Toggle NoClip", "Toggle NoClip on or off.");
                 PlayerSubmenu.AddMenuItem(toggleNoclip);
@@ -818,7 +818,7 @@ namespace vMenuClient
             }
 
             // Add Voice Chat Menu.
-            if (IsAllowed(Permission.VCMenu))
+            if (IsAllowed("VCMenu"))
             {
                 VoiceChatSettingsMenu = new VoiceChat();
                 var menu = VoiceChatSettingsMenu.GetMenu();

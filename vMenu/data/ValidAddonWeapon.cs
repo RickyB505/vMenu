@@ -15,7 +15,7 @@ namespace vMenuClient.data
         public uint Hash;
         public string Name;
         public Dictionary<string, uint> AddonComponents;
-        public Permission Perm;
+        public string Perm;
         public string SpawnName;
         public readonly int GetMaxAmmo
         {
@@ -110,7 +110,7 @@ namespace vMenuClient.data
                         SpawnName = realName,
                         Name = localizedName,
                         AddonComponents = componentHashes,
-                        Perm = Permission.WPSpawn
+                        Perm = "WPSpawn"
                     };
                     if (!_addonWeaponsList.Contains(avw))
                     {

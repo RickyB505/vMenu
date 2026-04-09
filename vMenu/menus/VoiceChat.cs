@@ -43,7 +43,7 @@ namespace vMenuClient.menus
         private void CreateMenu()
         {
             currentChannel = channels[0];
-            if (IsAllowed(Permission.VCStaffChannel))
+            if (IsAllowed("VCStaffChannel"))
             {
                 channels.Add("Staff Channel");
             }
@@ -70,12 +70,12 @@ namespace vMenuClient.menus
             var voiceChatProximity = new MenuItem("Voice Chat Proximity (" + ConvertToMetric(currentProximity) + ")", "Set the voice chat receiving proximity in meters. Set to 0 for global.");
             var voiceChatChannel = new MenuListItem("Voice Chat Channel", channels, channels.IndexOf(currentChannel), "Set the voice chat channel.");
 
-            if (IsAllowed(Permission.VCEnable))
+            if (IsAllowed("VCEnable"))
             {
                 menu.AddMenuItem(voiceChatEnabled);
 
                 // Nested permissions because without voice chat enabled, you wouldn't be able to use these settings anyway.
-                if (IsAllowed(Permission.VCShowSpeaker))
+                if (IsAllowed("VCShowSpeaker"))
                 {
                     menu.AddMenuItem(showCurrentSpeaker);
                 }

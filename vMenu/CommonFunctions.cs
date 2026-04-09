@@ -1284,7 +1284,7 @@ namespace vMenuClient
                     (_previousVehicle.Occupants.Count() == 0 || _previousVehicle.Driver.Handle == Game.PlayerPed.Handle))
                 {
                     // If the previous vehicle should be deleted:
-                    if (replacePrevious || !IsAllowed(Permission.VSDisableReplacePrevious))
+                    if (replacePrevious || !IsAllowed("VSDisableReplacePrevious"))
                     {
                         // Delete it.
                         _previousVehicle.PreviouslyOwnedByPlayer = false;
@@ -1303,7 +1303,7 @@ namespace vMenuClient
                 }
             }
 
-            if (Game.PlayerPed.IsInVehicle() && (replacePrevious || !IsAllowed(Permission.VSDisableReplacePrevious)))
+            if (Game.PlayerPed.IsInVehicle() && (replacePrevious || !IsAllowed("VSDisableReplacePrevious")))
             {
                 if (GetVehicle().Driver == Game.PlayerPed)
                 {
@@ -2692,7 +2692,7 @@ namespace vMenuClient
             {
                 if (!ValidWeapons.weaponPermissions.ContainsKey(inputName.ToLower()))
                 {
-                    if (!IsAllowed(Permission.WPSpawn))
+                    if (!IsAllowed("WPSpawn"))
                     {
                         Notify.Error("Sorry, you do not have permission to spawn this weapon.");
                         return;
@@ -2766,11 +2766,11 @@ namespace vMenuClient
                 var kvp = GetResourceKvpString(name) ?? GetResourceKvpString("vmenu_temp_weapons_loadout_before_respawn");
 
                 // if not allowed to use loadouts, fall back to normal restoring of weapons.
-                if (MainMenu.WeaponLoadoutsMenu == null || !MainMenu.WeaponLoadoutsMenu.WeaponLoadoutsSetLoadoutOnRespawn || !IsAllowed(Permission.WLEquipOnRespawn))
+                if (MainMenu.WeaponLoadoutsMenu == null || !MainMenu.WeaponLoadoutsMenu.WeaponLoadoutsSetLoadoutOnRespawn || !IsAllowed("WLEquipOnRespawn"))
                 {
                     kvp = GetResourceKvpString("vmenu_temp_weapons_loadout_before_respawn");
 
-                    if (!MainMenu.MiscSettingsMenu.RestorePlayerWeapons || !IsAllowed(Permission.MSRestoreWeapons))
+                    if (!MainMenu.MiscSettingsMenu.RestorePlayerWeapons || !IsAllowed("MSRestoreWeapons"))
                     {
                         // return because normal weapon restoring is not enabled or not allowed.
                         loadout = new List<ValidWeapon>();

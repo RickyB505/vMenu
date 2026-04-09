@@ -66,19 +66,19 @@ namespace vMenuClient.menus
             var removeclouds = new MenuItem("Remove All Clouds", "Remove all clouds from the sky!");
             var randomizeclouds = new MenuItem("Randomize Clouds", "Add random clouds to the sky!");
 
-            if (IsAllowed(Permission.WODynamic))
+            if (IsAllowed("WODynamic"))
             {
                 menu.AddMenuItem(dynamicWeatherEnabled);
             }
-            if (IsAllowed(Permission.WOBlackout))
+            if (IsAllowed("WOBlackout"))
             {
                 menu.AddMenuItem(blackout);
             }
-            if (IsAllowed(Permission.WOVehBlackout))
+            if (IsAllowed("WOVehBlackout"))
             {
                 menu.AddMenuItem(vehicleBlackout);
             }
-            if (IsAllowed(Permission.WOSetWeather))
+            if (IsAllowed("WOSetWeather"))
             {
                 menu.AddMenuItem(snowEnabled);
                 menu.AddMenuItem(extrasunny);
@@ -97,12 +97,12 @@ namespace vMenuClient.menus
                 menu.AddMenuItem(xmas);
                 menu.AddMenuItem(halloween);
             }
-            if (IsAllowed(Permission.WORandomizeClouds))
+            if (IsAllowed("WORandomizeClouds"))
             {
                 menu.AddMenuItem(randomizeclouds);
             }
 
-            if (IsAllowed(Permission.WORemoveClouds))
+            if (IsAllowed("WORemoveClouds"))
             {
                 menu.AddMenuItem(removeclouds);
             }

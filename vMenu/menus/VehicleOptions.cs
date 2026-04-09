@@ -256,7 +256,7 @@ namespace vMenuClient.menus
 
             #region Add items to the menu.
             // Add everything to the menu. (based on permissions)
-            if (IsAllowed(Permission.VOGod)) // GOD MODE
+            if (IsAllowed("VOGod")) // GOD MODE
             {
                 menu.AddMenuItem(vehicleGod);
                 menu.AddMenuItem(vehGodMenuBtn);
@@ -305,121 +305,121 @@ namespace vMenuClient.menus
                 };
 
             }
-            if (IsAllowed(Permission.VORepair)) // REPAIR VEHICLE
+            if (IsAllowed("VORepair")) // REPAIR VEHICLE
             {
                 menu.AddMenuItem(fixVehicle);
             }
-            if (IsAllowed(Permission.VOKeepClean))
+            if (IsAllowed("VOKeepClean"))
             {
                 menu.AddMenuItem(vehicleNeverDirty);
             }
-            if (IsAllowed(Permission.VOWash))
+            if (IsAllowed("VOWash"))
             {
                 menu.AddMenuItem(cleanVehicle); // CLEAN VEHICLE
                 menu.AddMenuItem(setDirtLevel); // SET DIRT LEVEL
             }
-            if (IsAllowed(Permission.VOMod)) // MOD MENU
+            if (IsAllowed("VOMod")) // MOD MENU
             {
                 menu.AddMenuItem(modMenuBtn);
             }
-            if (IsAllowed(Permission.VOColors)) // COLORS MENU
+            if (IsAllowed("VOColors")) // COLORS MENU
             {
                 menu.AddMenuItem(colorsMenuBtn);
             }
-            if (IsAllowed(Permission.VOUnderglow)) // UNDERGLOW EFFECTS
+            if (IsAllowed("VOUnderglow")) // UNDERGLOW EFFECTS
             {
                 menu.AddMenuItem(underglowMenuBtn);
                 MenuController.BindMenuItem(menu, VehicleUnderglowMenu, underglowMenuBtn);
             }
-            if (IsAllowed(Permission.VOLiveries)) // LIVERIES MENU
+            if (IsAllowed("VOLiveries")) // LIVERIES MENU
             {
                 menu.AddMenuItem(liveriesMenuBtn);
             }
-            if (IsAllowed(Permission.VOComponents)) // COMPONENTS MENU
+            if (IsAllowed("VOComponents")) // COMPONENTS MENU
             {
                 menu.AddMenuItem(componentsMenuBtn);
             }
-            if (IsAllowed(Permission.VOEngine)) // TOGGLE ENGINE ON/OFF
+            if (IsAllowed("VOEngine")) // TOGGLE ENGINE ON/OFF
             {
                 menu.AddMenuItem(toggleEngine);
             }
-            if (IsAllowed(Permission.VOChangePlate))
+            if (IsAllowed("VOChangePlate"))
             {
                 menu.AddMenuItem(setLicensePlateText); // SET LICENSE PLATE TEXT
                 menu.AddMenuItem(setLicensePlateType); // SET LICENSE PLATE TYPE
             }
-            if (IsAllowed(Permission.VODoors)) // DOORS MENU
+            if (IsAllowed("VODoors")) // DOORS MENU
             {
                 menu.AddMenuItem(doorsMenuBtn);
             }
-            if (IsAllowed(Permission.VOWindows)) // WINDOWS MENU
+            if (IsAllowed("VOWindows")) // WINDOWS MENU
             {
                 menu.AddMenuItem(windowsMenuBtn);
             }
-            if (IsAllowed(Permission.VOBikeSeatbelt))
+            if (IsAllowed("VOBikeSeatbelt"))
             {
                 menu.AddMenuItem(vehicleBikeSeatbelt);
             }
-            if (IsAllowed(Permission.VOSpeedLimiter)) // SPEED LIMITER
+            if (IsAllowed("VOSpeedLimiter")) // SPEED LIMITER
             {
                 menu.AddMenuItem(speedLimiter);
             }
-            if (IsAllowed(Permission.VOTorqueMultiplier))
+            if (IsAllowed("VOTorqueMultiplier"))
             {
                 menu.AddMenuItem(torqueEnabled); // TORQUE ENABLED
                 menu.AddMenuItem(torqueMultiplier); // TORQUE LIST
             }
-            if (IsAllowed(Permission.VOPowerMultiplier))
+            if (IsAllowed("VOPowerMultiplier"))
             {
                 menu.AddMenuItem(powerEnabled); // POWER ENABLED
                 menu.AddMenuItem(powerMultiplier); // POWER LIST
             }
-            if (IsAllowed(Permission.VODisableTurbulence))
+            if (IsAllowed("VODisableTurbulence"))
             {
                 menu.AddMenuItem(vehicleNoTurbulence);
                 menu.AddMenuItem(vehicleNoTurbulenceHeli);
             }
-            if (IsAllowed(Permission.VOAnchorBoat))
+            if (IsAllowed("VOAnchorBoat"))
             {
                 menu.AddMenuItem(vehicleSetAnchor);
             }
-            if (IsAllowed(Permission.VOFlip)) // FLIP VEHICLE
+            if (IsAllowed("VOFlip")) // FLIP VEHICLE
             {
                 menu.AddMenuItem(flipVehicle);
             }
-            if (IsAllowed(Permission.VOAlarm)) // TOGGLE VEHICLE ALARM
+            if (IsAllowed("VOAlarm")) // TOGGLE VEHICLE ALARM
             {
                 menu.AddMenuItem(vehicleAlarm);
             }
-            if (IsAllowed(Permission.VOCycleSeats)) // CYCLE THROUGH VEHICLE SEATS
+            if (IsAllowed("VOCycleSeats")) // CYCLE THROUGH VEHICLE SEATS
             {
                 menu.AddMenuItem(cycleSeats);
             }
-            if (IsAllowed(Permission.VOLights)) // VEHICLE LIGHTS LIST
+            if (IsAllowed("VOLights")) // VEHICLE LIGHTS LIST
             {
                 menu.AddMenuItem(vehicleLights);
             }
-            if (IsAllowed(Permission.VOFixOrDestroyTires))
+            if (IsAllowed("VOFixOrDestroyTires"))
             {
                 menu.AddMenuItem(vehicleTiresList);
             }
-            if (IsAllowed(Permission.VODestroyEngine))
+            if (IsAllowed("VODestroyEngine"))
             {
                 menu.AddMenuItem(destroyEngine);
             }
-            if (IsAllowed(Permission.VOFreeze)) // FREEZE VEHICLE
+            if (IsAllowed("VOFreeze")) // FREEZE VEHICLE
             {
                 menu.AddMenuItem(vehicleFreeze);
             }
-            if (IsAllowed(Permission.VOInvisible)) // MAKE VEHICLE INVISIBLE
+            if (IsAllowed("VOInvisible")) // MAKE VEHICLE INVISIBLE
             {
                 menu.AddMenuItem(vehicleInvisible);
             }
-            if (IsAllowed(Permission.VOEngineAlwaysOn)) // LEAVE ENGINE RUNNING
+            if (IsAllowed("VOEngineAlwaysOn")) // LEAVE ENGINE RUNNING
             {
                 menu.AddMenuItem(vehicleEngineAO);
             }
-            if (IsAllowed(Permission.VOInfiniteFuel)) // INFINITE FUEL
+            if (IsAllowed("VOInfiniteFuel")) // INFINITE FUEL
             {
                 menu.AddMenuItem(infiniteFuel);
             }
@@ -430,20 +430,20 @@ namespace vMenuClient.menus
             menu.AddMenuItem(vehicleRadioOverride);
             menu.AddMenuItem(radioStations);
 
-            if (IsAllowed(Permission.VONoSiren) && !GetSettingsBool(Setting.vmenu_use_els_compatibility_mode)) // DISABLE SIREN
+            if (IsAllowed("VONoSiren") && !GetSettingsBool(Setting.vmenu_use_els_compatibility_mode)) // DISABLE SIREN
             {
                 menu.AddMenuItem(vehicleNoSiren);
             }
-            if (IsAllowed(Permission.VONoHelmet)) // DISABLE BIKE HELMET
+            if (IsAllowed("VONoHelmet")) // DISABLE BIKE HELMET
             {
                 menu.AddMenuItem(vehicleNoBikeHelmet);
             }
-            if (IsAllowed(Permission.VOFlashHighbeamsOnHonk)) // FLASH HIGHBEAMS ON HONK
+            if (IsAllowed("VOFlashHighbeamsOnHonk")) // FLASH HIGHBEAMS ON HONK
             {
                 menu.AddMenuItem(highbeamsOnHonk);
             }
 
-            if (IsAllowed(Permission.VODelete)) // DELETE VEHICLE
+            if (IsAllowed("VODelete")) // DELETE VEHICLE
             {
                 menu.AddMenuItem(deleteBtn);
             }
@@ -1760,7 +1760,7 @@ namespace vMenuClient.menus
             VehicleComponentsMenu.OnMenuOpen += (menu) =>
             {
                 Vehicle vehicle;
-                bool checkDamageBeforeChangingExtras = GetSettingsBool(Setting.vmenu_prevent_extras_when_damaged) && !IsAllowed(Permission.VOBypassExtraDamage);
+                bool checkDamageBeforeChangingExtras = GetSettingsBool(Setting.vmenu_prevent_extras_when_damaged) && !IsAllowed("VOBypassExtraDamage");
 
                 if (!checkDamageBeforeChangingExtras || !Entity.Exists(vehicle = GetVehicle()))
                 {
@@ -1816,7 +1816,7 @@ namespace vMenuClient.menus
                         return;
                     }
 
-                    bool checkDamageBeforeChangingExtras = GetSettingsBool(Setting.vmenu_prevent_extras_when_damaged) && !IsAllowed(Permission.VOBypassExtraDamage);
+                    bool checkDamageBeforeChangingExtras = GetSettingsBool(Setting.vmenu_prevent_extras_when_damaged) && !IsAllowed("VOBypassExtraDamage");
 
                     if (checkDamageBeforeChangingExtras)
                     {

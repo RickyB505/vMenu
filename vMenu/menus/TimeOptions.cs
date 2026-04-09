@@ -72,11 +72,11 @@ namespace vMenuClient.menus
             var manualMinute = new MenuListItem("Set Custom Minute", minutes, 0);
 
             // Add all menu items to the menu.
-            if (IsAllowed(Permission.TOFreezeTime))
+            if (IsAllowed("TOFreezeTime"))
             {
                 menu.AddMenuItem(freezeTimeToggle);
             }
-            if (IsAllowed(Permission.TOSetTime))
+            if (IsAllowed("TOSetTime"))
             {
                 menu.AddMenuItem(earlymorning);
                 menu.AddMenuItem(morning);
@@ -105,7 +105,7 @@ namespace vMenuClient.menus
                     // eg: index = 3 (12:00) ---> 3 * 3 (=9) + 3 [= 12] ---> 12:00
                     // eg: index = 8 (03:00) ---> 8 * 3 (=24) + 3 (=27, >23 so 27-24) [=3] ---> 03:00
                     var newHour = 0;
-                    if (IsAllowed(Permission.TOFreezeTime))
+                    if (IsAllowed("TOFreezeTime"))
                     {
                         newHour = (index * 3) + 3 < 23 ? (index * 3) + 3 : (index * 3) + 3 - 24;
                     }

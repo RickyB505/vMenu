@@ -106,7 +106,7 @@ namespace vMenuClient.menus
             menu.AddMenuItem(saveLoadout);
             menu.AddMenuItem(savedLoadoutsMenuBtn);
             MenuController.BindMenuItem(menu, SavedLoadoutsMenu, savedLoadoutsMenuBtn);
-            if (IsAllowed(Permission.WLEquipOnRespawn))
+            if (IsAllowed("WLEquipOnRespawn"))
             {
                 menu.AddMenuItem(enableDefaultLoadouts);
 
@@ -145,7 +145,7 @@ namespace vMenuClient.menus
             var replaceLoadout = new MenuItem("~r~Replace Loadout", "~r~This replaces this saved slot with the weapons that you currently have in your inventory. This action can not be undone!");
             var deleteLoadout = new MenuItem("~r~Delete Loadout", "~r~This will delete this saved loadout. This action can not be undone!");
 
-            if (IsAllowed(Permission.WLEquip))
+            if (IsAllowed("WLEquip"))
             {
                 ManageLoadoutMenu.AddMenuItem(spawnLoadout);
             }

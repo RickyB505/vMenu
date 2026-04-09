@@ -52,44 +52,44 @@ namespace vMenuClient.menus
             var ban = new MenuItem("~r~Ban Player Permanently", "Ban this player permanently from the server. Are you sure you want to do this? You can specify the ban reason after clicking this button.");
             var tempban = new MenuItem("~r~Ban Player Temporarily", "Give this player a tempban of up to 30 days (max). You can specify duration and ban reason after clicking this button.");
 
-            if (IsAllowed(Permission.OPSendMessage))
+            if (IsAllowed("OPSendMessage"))
             {
                 playerMenu.AddMenuItem(sendMessage);
             }
-            if (IsAllowed(Permission.OPTeleport))
+            if (IsAllowed("OPTeleport"))
             {
                 playerMenu.AddMenuItem(teleport);
                 playerMenu.AddMenuItem(teleportVeh);
             }
-            if (IsAllowed(Permission.OPSummon))
+            if (IsAllowed("OPSummon"))
             {
                 playerMenu.AddMenuItem(summon);
             }
-            if (IsAllowed(Permission.OPSpectate))
+            if (IsAllowed("OPSpectate"))
             {
                 playerMenu.AddMenuItem(spectate);
             }
-            if (IsAllowed(Permission.OPWaypoint))
+            if (IsAllowed("OPWaypoint"))
             {
                 playerMenu.AddMenuItem(toggleGPS);
             }
-            if (IsAllowed(Permission.OPIdentifiers))
+            if (IsAllowed("OPIdentifiers"))
             {
                 playerMenu.AddMenuItem(printIdentifiers);
             }
-            if (IsAllowed(Permission.OPKill))
+            if (IsAllowed("OPKill"))
             {
                 playerMenu.AddMenuItem(kill);
             }
-            if (IsAllowed(Permission.OPKick))
+            if (IsAllowed("OPKick"))
             {
                 playerMenu.AddMenuItem(kick);
             }
-            if (IsAllowed(Permission.OPTempBan))
+            if (IsAllowed("OPTempBan"))
             {
                 playerMenu.AddMenuItem(tempban);
             }
-            if (IsAllowed(Permission.OPPermBan))
+            if (IsAllowed("OPPermBan"))
             {
                 playerMenu.AddMenuItem(ban);
                 ban.LeftIcon = MenuItem.Icon.WARNING;

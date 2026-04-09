@@ -97,7 +97,7 @@ namespace vMenuClient.menus
             menu.AddMenuItem(walkingStyle);
             menu.AddMenuItem(clothingGlowType);
 
-            if (IsAllowed(Permission.PACustomize))
+            if (IsAllowed("PACustomize"))
             {
                 MenuController.BindMenuItem(menu, pedCustomizationMenu, pedCustomization);
                 MenuController.BindMenuItem(menu, pedCollectionsMenu, pedCollections);
@@ -120,7 +120,7 @@ namespace vMenuClient.menus
             var replaceSavedPed = new MenuItem("~r~Replace Saved Ped", "Replace this saved ped with your current ped. Note this can not be undone!") { LeftIcon = MenuItem.Icon.WARNING };
             var deleteSavedPed = new MenuItem("~r~Delete Saved Ped", "Delete this saved ped. Note this can not be undone!") { LeftIcon = MenuItem.Icon.WARNING };
 
-            if (!IsAllowed(Permission.PASpawnSaved))
+            if (!IsAllowed("PASpawnSaved"))
             {
                 spawnSavedPed.Enabled = false;
                 spawnSavedPed.RightIcon = MenuItem.Icon.LOCK;
@@ -323,7 +323,7 @@ namespace vMenuClient.menus
                 selectedSavedPedMenu.MenuSubtitle = item.Text;
             };
 
-            if (AddonPeds != null && AddonPeds.Count > 0 && IsAllowed(Permission.PAAddonPeds))
+            if (AddonPeds != null && AddonPeds.Count > 0 && IsAllowed("PAAddonPeds"))
             {
                 spawnPedsMenu.AddMenuItem(addonPedsBtn);
                 MenuController.BindMenuItem(spawnPedsMenu, addonPedsMenu, addonPedsBtn);
@@ -358,7 +358,7 @@ namespace vMenuClient.menus
                 };
             }
 
-            if (IsAllowed(Permission.PASpawnNew))
+            if (IsAllowed("PASpawnNew"))
             {
                 spawnPedsMenu.AddMenuItem(spawnByNameBtn);
                 spawnPedsMenu.AddMenuItem(mainPedsBtn);

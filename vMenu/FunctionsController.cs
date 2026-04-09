@@ -88,11 +88,11 @@ namespace vMenuClient
             }
 
             // Configuration and permissions based
-            if (IsAllowed(Permission.WOMenu) && GetSettingsBool(Setting.vmenu_enable_weather_sync))
+            if (IsAllowed("WOMenu") && GetSettingsBool(Setting.vmenu_enable_weather_sync))
             {
                 Tick += WeatherOptions;
             }
-            if (IsAllowed(Permission.TOMenu) && GetSettingsBool(Setting.vmenu_enable_time_sync))
+            if (IsAllowed("TOMenu") && GetSettingsBool(Setting.vmenu_enable_time_sync))
             {
                 Tick += TimeOptions;
             }
@@ -109,61 +109,61 @@ namespace vMenuClient
             }
 
             // Permissions based
-            if (IsAllowed(Permission.POMenu) || IsAllowed(Permission.VOMenu))
+            if (IsAllowed("POMenu") || IsAllowed("VOMenu"))
             {
                 Tick += DoPlayerAndVehicleChecks;
             }
-            if (IsAllowed(Permission.VOMenu))
+            if (IsAllowed("VOMenu"))
             {
                 Tick += VehicleOptions;
                 Tick += VehicleShowHealthOnScreenTick;
-                if (IsAllowed(Permission.VOFlashHighbeamsOnHonk))
+                if (IsAllowed("VOFlashHighbeamsOnHonk"))
                 {
                     Tick += VehicleHighbeamFlashTick;
                 }
             }
-            if (IsAllowed(Permission.VCMenu))
+            if (IsAllowed("VCMenu"))
             {
                 Tick += VoiceChat;
             }
-            if (IsAllowed(Permission.WPMenu))
+            if (IsAllowed("WPMenu"))
             {
                 Tick += WeaponOptions;
             }
-            if (IsAllowed(Permission.OPMenu))
+            if (IsAllowed("OPMenu"))
             {
                 Tick += OnlinePlayersTasks;
             }
-            if (IsAllowed(Permission.MSDeathNotifs))
+            if (IsAllowed("MSDeathNotifs"))
             {
                 Tick += DeathNotifications;
             }
-            if (IsAllowed(Permission.MSShowLocation))
+            if (IsAllowed("MSShowLocation"))
             {
                 Tick += UpdateLocation;
             }
-            if (IsAllowed(Permission.PAMenu))
+            if (IsAllowed("PAMenu"))
             {
                 Tick += ManageCamera;
                 Tick += DisableMovement;
             }
-            if (IsAllowed(Permission.MSPlayerBlips))
+            if (IsAllowed("MSPlayerBlips"))
             {
                 Tick += PlayerBlipsControl;
             }
-            if (IsAllowed(Permission.MSOverheadNames))
+            if (IsAllowed("MSOverheadNames"))
             {
                 Tick += PlayerOverheadNamesControl;
             }
-            if (IsAllowed(Permission.POMenu))
+            if (IsAllowed("POMenu"))
             {
                 Tick += PlayerOptions;
             }
-            if (IsAllowed(Permission.WPSnowball))
+            if (IsAllowed("WPSnowball"))
             {
                 Tick += SnowballPickupHelpMessageTask;
             }
-            if (IsAllowed(Permission.PVLockDoors))
+            if (IsAllowed("PVLockDoors"))
             {
                 Tick += PersonalVehicleOptions;
             }
@@ -171,7 +171,7 @@ namespace vMenuClient
             {
                 Tick += AnimalPedCameraChangeBlocker;
             }
-            if (IsAllowed(Permission.OPSpectate))
+            if (IsAllowed("OPSpectate"))
             {
                 Tick += SpectateHandling;
             }
@@ -245,8 +245,8 @@ namespace vMenuClient
         private async Task PlayerOptions()
         {
             // perms
-            var godmodeAllowed = IsAllowed(Permission.POGod);
-            var noRagdollAllowed = IsAllowed(Permission.PONoRagdoll);
+            var godmodeAllowed = IsAllowed("POGod");
+            var noRagdollAllowed = IsAllowed("PONoRagdoll");
 
             if (MainMenu.MpPedCustomizationMenu != null && MainMenu.MpPedCustomizationMenu.appearanceMenu != null && MainMenu.MpPedCustomizationMenu.faceShapeMenu != null && MainMenu.MpPedCustomizationMenu.createCharacterMenu != null && MainMenu.MpPedCustomizationMenu.inheritanceMenu != null && MainMenu.MpPedCustomizationMenu.propsMenu != null && MainMenu.MpPedCustomizationMenu.clothesMenu != null && MainMenu.MpPedCustomizationMenu.tattoosMenu != null)
             {
@@ -269,13 +269,13 @@ namespace vMenuClient
             }
 
             // Manage PlayerInvisible
-            if (GetSettingsBool(Setting.vmenu_handle_invisibility) && MainMenu.PlayerOptionsMenu.PlayerInvisible && IsAllowed(Permission.POInvisible))
+            if (GetSettingsBool(Setting.vmenu_handle_invisibility) && MainMenu.PlayerOptionsMenu.PlayerInvisible && IsAllowed("POInvisible"))
             {
                 SetEntityVisible(Game.PlayerPed.Handle, false, false);
             }
 
             // Manage Super jump.
-            if (MainMenu.PlayerOptionsMenu.PlayerSuperJump && IsAllowed(Permission.POSuperjump))
+            if (MainMenu.PlayerOptionsMenu.PlayerSuperJump && IsAllowed("POSuperjump"))
             {
                 SetSuperJumpThisFrame(Game.Player.Handle);
             }
@@ -286,7 +286,7 @@ namespace vMenuClient
 
 
             // Manage never wanted.
-            if (MainMenu.PlayerOptionsMenu.PlayerNeverWanted && GetPlayerWantedLevel(Game.Player.Handle) > 0 && IsAllowed(Permission.PONeverWanted))
+            if (MainMenu.PlayerOptionsMenu.PlayerNeverWanted && GetPlayerWantedLevel(Game.Player.Handle) > 0 && IsAllowed("PONeverWanted"))
             {
                 ClearPlayerWantedLevel(Game.Player.Handle);
                 if (GetMaxWantedLevel() > 0)
@@ -312,22 +312,22 @@ namespace vMenuClient
         /// <returns></returns>
         private async Task DoPlayerAndVehicleChecks()
         {
-            var god = IsAllowed(Permission.POGod) && MainMenu.PlayerOptionsMenu != null && MainMenu.PlayerOptionsMenu.PlayerGodMode;
+            var god = IsAllowed("POGod") && MainMenu.PlayerOptionsMenu != null && MainMenu.PlayerOptionsMenu.PlayerGodMode;
             await Delay(100);
 
-            var vehGod = IsAllowed(Permission.VOGod) && MainMenu.VehicleOptionsMenu != null && MainMenu.VehicleOptionsMenu.VehicleGodMode;
+            var vehGod = IsAllowed("VOGod") && MainMenu.VehicleOptionsMenu != null && MainMenu.VehicleOptionsMenu.VehicleGodMode;
             await Delay(100);
 
-            var ignored = IsAllowed(Permission.POIgnored) && MainMenu.PlayerOptionsMenu != null && MainMenu.PlayerOptionsMenu.PlayerIsIgnored;
+            var ignored = IsAllowed("POIgnored") && MainMenu.PlayerOptionsMenu != null && MainMenu.PlayerOptionsMenu.PlayerIsIgnored;
             await Delay(100);
 
-            var stayInVeh = IsAllowed(Permission.POStayInVehicle) && MainMenu.PlayerOptionsMenu != null && MainMenu.PlayerOptionsMenu.PlayerStayInVehicle;
+            var stayInVeh = IsAllowed("POStayInVehicle") && MainMenu.PlayerOptionsMenu != null && MainMenu.PlayerOptionsMenu.PlayerStayInVehicle;
             await Delay(100);
 
-            var bikeSeatbelt = IsAllowed(Permission.VOBikeSeatbelt) && MainMenu.VehicleOptionsMenu != null && MainMenu.VehicleOptionsMenu.VehicleBikeSeatbelt;
+            var bikeSeatbelt = IsAllowed("VOBikeSeatbelt") && MainMenu.VehicleOptionsMenu != null && MainMenu.VehicleOptionsMenu.VehicleBikeSeatbelt;
             await Delay(100);
 
-            var noRagdoll = IsAllowed(Permission.PONoRagdoll) && MainMenu.PlayerOptionsMenu != null && MainMenu.PlayerOptionsMenu.PlayerNoRagdoll;
+            var noRagdoll = IsAllowed("PONoRagdoll") && MainMenu.PlayerOptionsMenu != null && MainMenu.PlayerOptionsMenu.PlayerNoRagdoll;
             await Delay(100);
 
             var cantBeKnockedOff = god || vehGod || bikeSeatbelt || noRagdoll;
@@ -355,7 +355,7 @@ namespace vMenuClient
                 if (veh != null && veh.Exists())
                 {
                     // God mode
-                    var god = MainMenu.VehicleOptionsMenu.VehicleGodMode && IsAllowed(Permission.VOGod);
+                    var god = MainMenu.VehicleOptionsMenu.VehicleGodMode && IsAllowed("VOGod");
                     var invincibleGod = MainMenu.VehicleOptionsMenu.VehicleGodInvincible && god;
                     var visualGod = MainMenu.VehicleOptionsMenu.VehicleGodVisual && god;
                     var engineGod = MainMenu.VehicleOptionsMenu.VehicleGodEngine && god;
@@ -399,18 +399,18 @@ namespace vMenuClient
                     }
 
                     // Freeze Vehicle Position (if enabled).
-                    if (MainMenu.VehicleOptionsMenu.VehicleFrozen && IsAllowed(Permission.VOFreeze))
+                    if (MainMenu.VehicleOptionsMenu.VehicleFrozen && IsAllowed("VOFreeze"))
                     {
                         FreezeEntityPosition(veh.Handle, true);
                     }
 
-                    if (MainMenu.VehicleOptionsMenu.VehicleNeverDirty && veh.DirtLevel > 0f && IsAllowed(Permission.VOKeepClean))
+                    if (MainMenu.VehicleOptionsMenu.VehicleNeverDirty && veh.DirtLevel > 0f && IsAllowed("VOKeepClean"))
                     {
                         veh.Wash();
                     }
 
                     // If the torque multiplier is enabled and the player is allowed to use it.
-                    if (MainMenu.VehicleOptionsMenu.VehicleTorqueMultiplier && IsAllowed(Permission.VOTorqueMultiplier))
+                    if (MainMenu.VehicleOptionsMenu.VehicleTorqueMultiplier && IsAllowed("VOTorqueMultiplier"))
                     {
                         // Set the torque multiplier to the selected value by the player.
                         // no need for an "else" to reset this value, because when it's not called every frame, nothing happens.
@@ -425,7 +425,7 @@ namespace vMenuClient
                         // Get the license plate type index.
 
                         // Set the license plate index list item to the correct index.
-                        if (IsAllowed(Permission.VOChangePlate) && MainMenu.VehicleOptionsMenu.GetMenu().GetMenuItems().Find(mi => mi is MenuListItem li && li.ListItems.Any(liText => liText == GetLabelText("CMOD_PLA_0"))) is MenuListItem listItem)
+                        if (IsAllowed("VOChangePlate") && MainMenu.VehicleOptionsMenu.GetMenu().GetMenuItems().Find(mi => mi is MenuListItem li && li.ListItems.Any(liText => liText == GetLabelText("CMOD_PLA_0"))) is MenuListItem listItem)
                         {
                             // Set the license plate style.
                             switch (veh.Mods.LicensePlateStyle)
@@ -476,7 +476,7 @@ namespace vMenuClient
 
                         // Vehicle engine power multiplier. Enable it once the player switched vehicles.
                         // Only do this if the option is enabled AND the player has permissions for it.
-                        if (MainMenu.VehicleOptionsMenu.VehiclePowerMultiplier && IsAllowed(Permission.VOPowerMultiplier))
+                        if (MainMenu.VehicleOptionsMenu.VehiclePowerMultiplier && IsAllowed("VOPowerMultiplier"))
                         {
                             SetVehicleEnginePowerMultiplier(veh.Handle, MainMenu.VehicleOptionsMenu.VehiclePowerMultiplierAmount);
                         }
@@ -491,13 +491,13 @@ namespace vMenuClient
                         if (!GetSettingsBool(Setting.vmenu_use_els_compatibility_mode))
                         {
                             // No Siren Toggle
-                            veh.IsSirenSilent = MainMenu.VehicleOptionsMenu.VehicleNoSiren && IsAllowed(Permission.VONoSiren);
+                            veh.IsSirenSilent = MainMenu.VehicleOptionsMenu.VehicleNoSiren && IsAllowed("VONoSiren");
                         }
 
                         // Set the plane turbulence multiplier in case the vehicle was changed:
                         if (veh.Model.IsPlane)
                         {
-                            if (MainMenu.VehicleOptionsMenu.DisablePlaneTurbulence && IsAllowed(Permission.VODisableTurbulence))
+                            if (MainMenu.VehicleOptionsMenu.DisablePlaneTurbulence && IsAllowed("VODisableTurbulence"))
                             {
                                 SetPlaneTurbulenceMultiplier(veh.Handle, 0f);
                             }
@@ -510,7 +510,7 @@ namespace vMenuClient
                         // Set the helicopter turbulence multiplier in case the vehicle was changed:
                         if (veh.Model.IsHelicopter)
                         {
-                            if (MainMenu.VehicleOptionsMenu.DisableHelicopterTurbulence && IsAllowed(Permission.VODisableTurbulence))
+                            if (MainMenu.VehicleOptionsMenu.DisableHelicopterTurbulence && IsAllowed("VODisableTurbulence"))
                             {
                                 SetHeliTurbulenceScalar(veh.Handle, 0f);
                             }
@@ -522,7 +522,7 @@ namespace vMenuClient
 
                         if (veh.Model.IsBoat)
                         {
-                            if (MainMenu.VehicleOptionsMenu.AnchorBoat && IsAllowed(Permission.VOAnchorBoat) && CanAnchorBoatHere(veh.Handle))
+                            if (MainMenu.VehicleOptionsMenu.AnchorBoat && IsAllowed("VOAnchorBoat") && CanAnchorBoatHere(veh.Handle))
                             {
                                 SetBoatAnchor(veh.Handle, true);
                                 SetBoatFrozenWhenAnchored(veh.Handle, true);
@@ -540,22 +540,22 @@ namespace vMenuClient
                     // Manage "no helmet"
                     var ped = Game.PlayerPed;
                     // If the no helmet feature is turned on, disalbe "ped can wear helmet"
-                    if (MainMenu.VehicleOptionsMenu.VehicleNoBikeHelemet && IsAllowed(Permission.VONoHelmet))
+                    if (MainMenu.VehicleOptionsMenu.VehicleNoBikeHelemet && IsAllowed("VONoHelmet"))
                     {
                         ped.CanWearHelmet = false;
                     }
                     // otherwise, allow helmets.
-                    else if (!MainMenu.VehicleOptionsMenu.VehicleNoBikeHelemet || !IsAllowed(Permission.VONoHelmet))
+                    else if (!MainMenu.VehicleOptionsMenu.VehicleNoBikeHelemet || !IsAllowed("VONoHelmet"))
                     {
                         ped.CanWearHelmet = true;
                     }
                     // If the player is still wearing a helmet, even if the option is set to: no helmet, then remove the helmet.
-                    if (ped.IsWearingHelmet && MainMenu.VehicleOptionsMenu.VehicleNoBikeHelemet && IsAllowed(Permission.VONoHelmet))
+                    if (ped.IsWearingHelmet && MainMenu.VehicleOptionsMenu.VehicleNoBikeHelemet && IsAllowed("VONoHelmet"))
                     {
                         ped.RemoveHelmet(true);
                     }
 
-                    if (MainMenu.VehicleOptionsMenu.VehicleInfiniteFuel && DecorIsRegisteredAsType("_Fuel_Level", 1) && IsAllowed(Permission.VOInfiniteFuel))
+                    if (MainMenu.VehicleOptionsMenu.VehicleInfiniteFuel && DecorIsRegisteredAsType("_Fuel_Level", 1) && IsAllowed("VOInfiniteFuel"))
                     {
                         var maxFuelLevel = GetVehicleHandlingFloat(veh.Handle, "CHandlingData", "fPetrolTankVolume");
                         var currentFuelLevel = GetVehicleFuelLevel(veh.Handle);
@@ -612,7 +612,7 @@ namespace vMenuClient
             await Delay(1);
 
             // Manage vehicle engine always on.
-            if (MainMenu.VehicleOptionsMenu.VehicleEngineAlwaysOn && GetVehicle(true) != null && GetVehicle(true).Exists() && !Game.PlayerPed.IsInVehicle() && IsAllowed(Permission.VOEngineAlwaysOn))
+            if (MainMenu.VehicleOptionsMenu.VehicleEngineAlwaysOn && GetVehicle(true) != null && GetVehicle(true).Exists() && !Game.PlayerPed.IsInVehicle() && IsAllowed("VOEngineAlwaysOn"))
             {
                 await Delay(100);
                 if (GetVehicle(true) != null)
@@ -699,15 +699,15 @@ namespace vMenuClient
             var weatherMenu = MainMenu.WeatherOptionsMenu.GetMenu();
             if (weatherMenu != null && weatherMenu.Visible)
             {
-                if (IsAllowed(Permission.WODynamic))
+                if (IsAllowed("WODynamic"))
                 {
                     MainMenu.WeatherOptionsMenu.dynamicWeatherEnabled.Checked = EventManager.DynamicWeatherEnabled;
                 }
-                if (IsAllowed(Permission.WOBlackout))
+                if (IsAllowed("WOBlackout"))
                 {
                     MainMenu.WeatherOptionsMenu.blackout.Checked = EventManager.IsBlackoutEnabled;
                 }
-                if (IsAllowed(Permission.WOSetWeather))
+                if (IsAllowed("WOSetWeather"))
                 {
                     MainMenu.WeatherOptionsMenu.snowEnabled.Checked = EventManager.IsSnowEnabled;
                     weatherMenu.GetMenuItems().ForEach(it =>
@@ -738,7 +738,7 @@ namespace vMenuClient
         private async void DrawMiscSettingsText()
         {
             // draw coordinates
-            if (MainMenu.MiscSettingsMenu.ShowCoordinates && IsAllowed(Permission.MSShowCoordinates))
+            if (MainMenu.MiscSettingsMenu.ShowCoordinates && IsAllowed("MSShowCoordinates"))
             {
                 var pos = Game.PlayerPed.Position;
                 double x = Math.Round(pos.X, 2), y = Math.Round(pos.Y, 2), z = Math.Round(pos.Z, 2), heading = Math.Round(Game.PlayerPed.Heading, 2);
@@ -749,7 +749,7 @@ namespace vMenuClient
             }
 
             // draw location
-            if (MainMenu.MiscSettingsMenu.ShowLocation && IsAllowed(Permission.MSShowLocation))
+            if (MainMenu.MiscSettingsMenu.ShowLocation && IsAllowed("MSShowLocation"))
             {
                 SetScriptGfxAlign(0, 84);
                 SetScriptGfxAlignParams(0f, 0f, 0f, 0f);
@@ -943,7 +943,7 @@ namespace vMenuClient
 
             if (MainMenu.MiscSettingsMenu.KbTpToWaypoint)
             {
-                if (IsAllowed(Permission.MSTeleportToWp))
+                if (IsAllowed("MSTeleportToWp"))
                 {
                     if (Game.IsControlJustReleased(0, (Control)MainMenu.MiscSettingsMenu.KbTpToWaypointKey)
                         && Fading.IsFadedIn
@@ -964,7 +964,7 @@ namespace vMenuClient
             }
             if (MainMenu.MiscSettingsMenu.KbDriftMode)
             {
-                if (IsAllowed(Permission.MSDriftMode))
+                if (IsAllowed("MSDriftMode"))
                 {
                     if (Game.PlayerPed.IsInVehicle())
                     {
@@ -1213,7 +1213,7 @@ namespace vMenuClient
             if (MainMenu.PermissionsSetupComplete && MainMenu.MiscSettingsMenu != null)
             {
                 // Join/Quit notifications
-                if (MainMenu.MiscSettingsMenu.JoinQuitNotifications && IsAllowed(Permission.MSJoinQuitNotifs))
+                if (MainMenu.MiscSettingsMenu.JoinQuitNotifications && IsAllowed("MSJoinQuitNotifs"))
                 {
                     if (dropReason == null)
                     {
@@ -1332,7 +1332,7 @@ namespace vMenuClient
         /// <returns></returns>
         private async Task VoiceChat()
         {
-            if (MainMenu.VoiceChatSettingsMenu.EnableVoicechat && IsAllowed(Permission.VCEnable))
+            if (MainMenu.VoiceChatSettingsMenu.EnableVoicechat && IsAllowed("VCEnable"))
             {
                 NetworkSetVoiceActive(true);
                 NetworkSetTalkerProximity(MainMenu.VoiceChatSettingsMenu.currentProximity);
@@ -1345,7 +1345,7 @@ namespace vMenuClient
                 {
                     NetworkSetVoiceChannel(channel);
                 }
-                if (MainMenu.VoiceChatSettingsMenu.ShowCurrentSpeaker && IsAllowed(Permission.VCShowSpeaker))
+                if (MainMenu.VoiceChatSettingsMenu.ShowCurrentSpeaker && IsAllowed("VCShowSpeaker"))
                 {
                     var pl = Players;
                     var i = 1;
@@ -1416,7 +1416,7 @@ namespace vMenuClient
         /// <returns></returns>
         private async Task TimeOptions()
         {
-            if (MainMenu.TimeOptionsMenu.freezeTimeToggle != null && MainMenu.TimeOptionsMenu.GetMenu().Visible && IsAllowed(Permission.TOFreezeTime))
+            if (MainMenu.TimeOptionsMenu.freezeTimeToggle != null && MainMenu.TimeOptionsMenu.GetMenu().Visible && IsAllowed("TOFreezeTime"))
             {
                 // Update the current time displayed in the Time Options menu (only when the menu is actually visible).
                 var hours = GetClockHours();
@@ -1438,14 +1438,14 @@ namespace vMenuClient
         private async Task WeaponOptions()
         {
             // If no reload is enabled.
-            if (MainMenu.WeaponOptionsMenu.NoReload && Game.PlayerPed.Weapons.Current.Hash != WeaponHash.Minigun && IsAllowed(Permission.WPNoReload))
+            if (MainMenu.WeaponOptionsMenu.NoReload && Game.PlayerPed.Weapons.Current.Hash != WeaponHash.Minigun && IsAllowed("WPNoReload"))
             {
                 // Disable reloading.
                 SetAmmoInClip(Game.PlayerPed.Handle, (uint)Game.PlayerPed.Weapons.Current.Hash, 5);
             }
 
             // Enable/disable infinite ammo.
-            if (IsAllowed(Permission.WPUnlimitedAmmo) && Game.PlayerPed.Weapons.Current != null && Game.PlayerPed.Weapons.Current.Hash != WeaponHash.Unarmed)
+            if (IsAllowed("WPUnlimitedAmmo") && Game.PlayerPed.Weapons.Current != null && Game.PlayerPed.Weapons.Current.Hash != WeaponHash.Unarmed)
             {
                 Game.PlayerPed.Weapons.Current.InfiniteAmmo = MainMenu.WeaponOptionsMenu.UnlimitedAmmo;
             }
@@ -1484,7 +1484,7 @@ namespace vMenuClient
         /// <returns></returns>
         private async Task SpectateHandling()
         {
-            if (MainMenu.PermissionsSetupComplete && MainMenu.OnlinePlayersMenu != null && IsAllowed(Permission.OPMenu) && IsAllowed(Permission.OPSpectate))
+            if (MainMenu.PermissionsSetupComplete && MainMenu.OnlinePlayersMenu != null && IsAllowed("OPMenu") && IsAllowed("OPSpectate"))
             {
                 // When the player dies while spectating, cancel the spectating to prevent an infinite black loading screen.
                 if (GetEntityHealth(Game.PlayerPed.Handle) < 1 && NetworkIsInSpectatorMode())
@@ -2025,13 +2025,13 @@ namespace vMenuClient
                 }
                 if (!restoreDefault)
                 {
-                    if (MainMenu.MiscSettingsMenu.RestorePlayerAppearance && IsAllowed(Permission.MSRestoreAppearance))
+                    if (MainMenu.MiscSettingsMenu.RestorePlayerAppearance && IsAllowed("MSRestoreAppearance"))
                     {
                         await SavePed("vMenu_tmp_saved_ped");
                     }
                 }
 
-                if ((MainMenu.MiscSettingsMenu.RestorePlayerWeapons && IsAllowed(Permission.MSRestoreWeapons)) || (MainMenu.WeaponLoadoutsMenu != null && MainMenu.WeaponLoadoutsMenu.WeaponLoadoutsSetLoadoutOnRespawn && IsAllowed(Permission.WLEquipOnRespawn)))
+                if ((MainMenu.MiscSettingsMenu.RestorePlayerWeapons && IsAllowed("MSRestoreWeapons")) || (MainMenu.WeaponLoadoutsMenu != null && MainMenu.WeaponLoadoutsMenu.WeaponLoadoutsSetLoadoutOnRespawn && IsAllowed("WLEquipOnRespawn")))
                 {
                     //await SaveWeaponLoadout();
                     if (SaveWeaponLoadout("vmenu_temp_weapons_loadout_before_respawn"))
@@ -2055,13 +2055,13 @@ namespace vMenuClient
                 }
                 else
                 {
-                    if (IsTempPedSaved() && MainMenu.MiscSettingsMenu.RestorePlayerAppearance && IsAllowed(Permission.MSRestoreAppearance))
+                    if (IsTempPedSaved() && MainMenu.MiscSettingsMenu.RestorePlayerAppearance && IsAllowed("MSRestoreAppearance"))
                     {
                         LoadSavedPed("vMenu_tmp_saved_ped", false);
                     }
                 }
 
-                if ((MainMenu.MiscSettingsMenu != null && MainMenu.MiscSettingsMenu.RestorePlayerWeapons && IsAllowed(Permission.MSRestoreWeapons)) || (MainMenu.WeaponLoadoutsMenu != null && MainMenu.WeaponLoadoutsMenu.WeaponLoadoutsSetLoadoutOnRespawn && IsAllowed(Permission.WLEquipOnRespawn)))
+                if ((MainMenu.MiscSettingsMenu != null && MainMenu.MiscSettingsMenu.RestorePlayerWeapons && IsAllowed("MSRestoreWeapons")) || (MainMenu.WeaponLoadoutsMenu != null && MainMenu.WeaponLoadoutsMenu.WeaponLoadoutsSetLoadoutOnRespawn && IsAllowed("WLEquipOnRespawn")))
                 {
                     await SpawnWeaponLoadoutAsync("vmenu_temp_weapons_loadout_before_respawn", true, false, false);
                     Log("weapons restored, deleting kvp");
@@ -2574,7 +2574,7 @@ namespace vMenuClient
             if (!(MenuController.IsAnyMenuOpen() || MainMenu.DontOpenMenus || !Fading.IsFadedIn || Game.IsPaused || IsPlayerSwitchInProgress() || Game.PlayerPed.IsDead))
             {
                 // snowballs
-                if (EventManager.IsSnowEnabled && IsAllowed(Permission.WPSnowball))
+                if (EventManager.IsSnowEnabled && IsAllowed("WPSnowball"))
                 {
                     if (Game.IsControlJustReleased(0, Control.Detonate))
                     {

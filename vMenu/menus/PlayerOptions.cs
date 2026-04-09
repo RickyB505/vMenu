@@ -50,9 +50,9 @@ namespace vMenuClient.menus
             var invisibleCheckbox = new MenuCheckboxItem("Invisible", "Makes you invisible to yourself and others.", PlayerInvisible);
             var unlimitedStaminaCheckbox = new MenuCheckboxItem("Unlimited Stamina", "Allows you to run forever without slowing down or taking damage.", PlayerStamina);
             var fastRunCheckbox = new MenuCheckboxItem("Fast Run", "Get ~g~Snail~s~ powers and run very fast!", PlayerFastRun);
-            SetRunSprintMultiplierForPlayer(Game.Player.Handle, PlayerFastRun && IsAllowed(Permission.POFastRun) ? 1.49f : 1f);
+            SetRunSprintMultiplierForPlayer(Game.Player.Handle, PlayerFastRun && IsAllowed("POFastRun") ? 1.49f : 1f);
             var fastSwimCheckbox = new MenuCheckboxItem("Fast Swim", "Get ~g~Snail 2.0~s~ powers and swim super fast!", PlayerFastSwim);
-            SetSwimMultiplierForPlayer(Game.Player.Handle, PlayerFastSwim && IsAllowed(Permission.POFastSwim) ? 1.49f : 1f);
+            SetSwimMultiplierForPlayer(Game.Player.Handle, PlayerFastSwim && IsAllowed("POFastSwim") ? 1.49f : 1f);
             var superJumpCheckbox = new MenuCheckboxItem("Super Jump", "Get ~g~Snail 3.0~s~ powers and jump like a champ!", PlayerSuperJump);
             var noRagdollCheckbox = new MenuCheckboxItem("No Ragdoll", "Disables player ragdoll, makes you not fall off your bike anymore.", PlayerNoRagdoll);
             var neverWantedCheckbox = new MenuCheckboxItem("Never Wanted", "Disables all wanted levels.", PlayerNeverWanted);
@@ -95,82 +95,82 @@ namespace vMenuClient.menus
 
             #region add items to menu based on permissions
             // Add all checkboxes to the menu. (keeping permissions in mind)
-            if (IsAllowed(Permission.POGod))
+            if (IsAllowed("POGod"))
             {
                 menu.AddMenuItem(playerGodModeCheckbox);
             }
-            if (IsAllowed(Permission.POInvisible))
+            if (IsAllowed("POInvisible"))
             {
                 menu.AddMenuItem(invisibleCheckbox);
             }
-            if (IsAllowed(Permission.POUnlimitedStamina))
+            if (IsAllowed("POUnlimitedStamina"))
             {
                 menu.AddMenuItem(unlimitedStaminaCheckbox);
             }
-            if (IsAllowed(Permission.POFastRun))
+            if (IsAllowed("POFastRun"))
             {
                 menu.AddMenuItem(fastRunCheckbox);
             }
-            if (IsAllowed(Permission.POFastSwim))
+            if (IsAllowed("POFastSwim"))
             {
                 menu.AddMenuItem(fastSwimCheckbox);
             }
-            if (IsAllowed(Permission.POSuperjump))
+            if (IsAllowed("POSuperjump"))
             {
                 menu.AddMenuItem(superJumpCheckbox);
             }
-            if (IsAllowed(Permission.PONoRagdoll))
+            if (IsAllowed("PONoRagdoll"))
             {
                 menu.AddMenuItem(noRagdollCheckbox);
             }
-            if (IsAllowed(Permission.PONeverWanted))
+            if (IsAllowed("PONeverWanted"))
             {
                 menu.AddMenuItem(neverWantedCheckbox);
             }
-            if (IsAllowed(Permission.POSetWanted))
+            if (IsAllowed("POSetWanted"))
             {
                 menu.AddMenuItem(setWantedLevel);
             }
-            if (IsAllowed(Permission.POClearBlood))
+            if (IsAllowed("POClearBlood"))
             {
                 menu.AddMenuItem(clearBloodBtn);
             }
-            if (IsAllowed(Permission.POSetBlood))
+            if (IsAllowed("POSetBlood"))
             {
                 menu.AddMenuItem(setBloodLevel);
             }
-            if (IsAllowed(Permission.POIgnored))
+            if (IsAllowed("POIgnored"))
             {
                 menu.AddMenuItem(everyoneIgnoresPlayerCheckbox);
             }
-            if (IsAllowed(Permission.POStayInVehicle))
+            if (IsAllowed("POStayInVehicle"))
             {
                 menu.AddMenuItem(playerStayInVehicleCheckbox);
             }
-            if (IsAllowed(Permission.POMaxHealth))
+            if (IsAllowed("POMaxHealth"))
             {
                 menu.AddMenuItem(healPlayerBtn);
             }
-            if (IsAllowed(Permission.POMaxArmor))
+            if (IsAllowed("POMaxArmor"))
             {
                 menu.AddMenuItem(setArmorItem);
             }
-            if (IsAllowed(Permission.POCleanPlayer))
+            if (IsAllowed("POCleanPlayer"))
             {
                 menu.AddMenuItem(cleanPlayerBtn);
             }
-            if (IsAllowed(Permission.PODryPlayer))
+            if (IsAllowed("PODryPlayer"))
             {
                 menu.AddMenuItem(dryPlayerBtn);
             }
-            if (IsAllowed(Permission.POWetPlayer))
+            if (IsAllowed("POWetPlayer"))
             {
                 menu.AddMenuItem(wetPlayerBtn);
             }
 
             menu.AddMenuItem(suicidePlayerBtn);
 
-            if (IsAllowed(Permission.POVehicleAutoPilotMenu))
+            if (IsAllowed("POVehicleAutoPilotMenu"))
             {
                 menu.AddMenuItem(vehicleAutoPilotBtn);
                 MenuController.BindMenuItem(menu, vehicleAutoPilot, vehicleAutoPilotBtn);
@@ -342,11 +342,11 @@ namespace vMenuClient.menus
                 };
             }
 
-            if (IsAllowed(Permission.POFreeze))
+            if (IsAllowed("POFreeze"))
             {
                 menu.AddMenuItem(playerFrozenCheckbox);
             }
-            if (IsAllowed(Permission.POScenarios))
+            if (IsAllowed("POScenarios"))
             {
                 menu.AddMenuItem(playerScenarios);
                 menu.AddMenuItem(stopScenario);

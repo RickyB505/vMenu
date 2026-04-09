@@ -80,7 +80,7 @@ namespace vMenuClient
                 {
                     await Delay(0);
                 }
-                if (MainMenu.WeaponLoadoutsMenu != null && MainMenu.WeaponLoadoutsMenu.WeaponLoadoutsSetLoadoutOnRespawn && IsAllowed(Permission.WLEquipOnRespawn))
+                if (MainMenu.WeaponLoadoutsMenu != null && MainMenu.WeaponLoadoutsMenu.WeaponLoadoutsSetLoadoutOnRespawn && IsAllowed("WLEquipOnRespawn"))
                 {
                     var saveName = GetResourceKvpString("vmenu_string_default_loadout");
                     if (!string.IsNullOrEmpty(saveName))

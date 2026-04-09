@@ -54,28 +54,28 @@ namespace vMenuClient.menus
             var spawnByName = new MenuItem("Spawn Weapon By Name", "Enter a weapon mode name to spawn.");
 
             // Add items based on permissions
-            if (IsAllowed(Permission.WPGetAll))
+            if (IsAllowed("WPGetAll"))
             {
                 menu.AddMenuItem(getAllWeapons);
             }
-            if (IsAllowed(Permission.WPRemoveAll))
+            if (IsAllowed("WPRemoveAll"))
             {
                 menu.AddMenuItem(removeAllWeapons);
             }
-            if (IsAllowed(Permission.WPUnlimitedAmmo))
+            if (IsAllowed("WPUnlimitedAmmo"))
             {
                 menu.AddMenuItem(unlimitedAmmo);
             }
-            if (IsAllowed(Permission.WPNoReload))
+            if (IsAllowed("WPNoReload"))
             {
                 menu.AddMenuItem(noReload);
             }
-            if (IsAllowed(Permission.WPSetAllAmmo))
+            if (IsAllowed("WPSetAllAmmo"))
             {
                 menu.AddMenuItem(setAmmo);
                 menu.AddMenuItem(refillMaxAmmo);
             }
-            if (IsAllowed(Permission.WPSpawnByName))
+            if (IsAllowed("WPSpawnByName"))
             {
                 menu.AddMenuItem(spawnByName);
             }
@@ -96,7 +96,7 @@ namespace vMenuClient.menus
             #region manage creating and accessing addon weapons menu
             foreach (var addonWeapon in ValidAddonWeapons.AddonWeaponsList)
             {
-                if (IsAllowed(Permission.WPSpawn) && !string.IsNullOrEmpty(addonWeapon.Name) && AddonWeapons.Count > 0)
+                if (IsAllowed("WPSpawn") && !string.IsNullOrEmpty(addonWeapon.Name) && AddonWeapons.Count > 0)
                 {
                     var addonWeaponMenu = new Menu("Weapon Options", addonWeapon.Name)
                     #region Create menu for this weapon and add buttons
@@ -273,7 +273,7 @@ namespace vMenuClient.menus
 
             #region parachute options menu
 
-            if (IsAllowed(Permission.WPParachute))
+            if (IsAllowed("WPParachute"))
             {
                 // main parachute options menu setup
                 var parachuteMenu = new Menu("Parachute Options", "Parachute Options");
@@ -505,7 +505,7 @@ namespace vMenuClient.menus
                 var cat = (uint)GetWeapontypeGroup(weapon.Hash);
                 if (!string.IsNullOrEmpty(weapon.Name) && IsAllowed(weapon.Perm))
                 {
-                    //Log($"[DEBUG LOG] [WEAPON-BUG] {weapon.Name} - {weapon.Perm} = {IsAllowed(weapon.Perm)} & All = {IsAllowed(Permission.WPGetAll)}");
+                    //Log($"[DEBUG LOG] [WEAPON-BUG] {weapon.Name} - {weapon.Perm} = {IsAllowed(weapon.Perm)} & All = {IsAllowed("WPGetAll")}");
                     #region Create menu for this weapon and add buttons
                     var weaponMenu = new Menu("Weapon Options", weapon.Name)
                     {
@@ -528,7 +528,7 @@ namespace vMenuClient.menus
                         LeftIcon = MenuItem.Icon.GUN
                     };
                     weaponMenu.AddMenuItem(getOrRemoveWeapon);
-                    if (!IsAllowed(Permission.WPSpawn))
+                    if (!IsAllowed("WPSpawn"))
                     {
                         getOrRemoveWeapon.Enabled = false;
                         getOrRemoveWeapon.Description = "You do not have permission to use this option.";

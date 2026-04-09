@@ -273,7 +273,7 @@ namespace vMenuClient.menus
             };
 
             // Teleportation options
-            if (IsAllowed(Permission.MSTeleportToWp) || IsAllowed(Permission.MSTeleportLocations) || IsAllowed(Permission.MSTeleportToCoord))
+            if (IsAllowed("MSTeleportToWp") || IsAllowed("MSTeleportLocations") || IsAllowed("MSTeleportToCoord"))
             {
                 var teleportOptionsMenuBtn = new MenuItem("Teleport Options", "Various teleport options.") { Label = "→→→" };
                 menu.AddMenuItem(teleportOptionsMenuBtn);
@@ -356,16 +356,16 @@ namespace vMenuClient.menus
                     }
                 };
 
-                if (IsAllowed(Permission.MSTeleportToWp))
+                if (IsAllowed("MSTeleportToWp"))
                 {
                     teleportOptionsMenu.AddMenuItem(tptowp);
                     keybindMenu.AddMenuItem(kbTpToWaypoint);
                 }
-                if (IsAllowed(Permission.MSTeleportToCoord))
+                if (IsAllowed("MSTeleportToCoord"))
                 {
                     teleportOptionsMenu.AddMenuItem(tpToCoord);
                 }
-                if (IsAllowed(Permission.MSTeleportLocations))
+                if (IsAllowed("MSTeleportLocations"))
                 {
                     teleportOptionsMenu.AddMenuItem(teleportMenuBtn);
 
@@ -400,7 +400,7 @@ namespace vMenuClient.menus
                         }
                     };
 
-                    if (IsAllowed(Permission.MSTeleportSaveLocation))
+                    if (IsAllowed("MSTeleportSaveLocation"))
                     {
                         teleportOptionsMenu.AddMenuItem(saveLocationBtn);
                     }
@@ -416,17 +416,17 @@ namespace vMenuClient.menus
             MenuController.BindMenuItem(menu, developerToolsMenu, devToolsBtn);
 
             // clear area and coordinates
-            if (IsAllowed(Permission.MSClearArea))
+            if (IsAllowed("MSClearArea"))
             {
                 developerToolsMenu.AddMenuItem(clearArea);
             }
-            if (IsAllowed(Permission.MSShowCoordinates))
+            if (IsAllowed("MSShowCoordinates"))
             {
                 developerToolsMenu.AddMenuItem(coords);
             }
 
             // model outlines
-            if ((!vMenuShared.ConfigManager.GetSettingsBool(vMenuShared.ConfigManager.Setting.vmenu_disable_entity_outlines_tool)) && (IsAllowed(Permission.MSDevTools)))
+            if ((!vMenuShared.ConfigManager.GetSettingsBool(vMenuShared.ConfigManager.Setting.vmenu_disable_entity_outlines_tool)) && (IsAllowed("MSDevTools")))
             {
                 developerToolsMenu.AddMenuItem(vehModelDimensions);
                 developerToolsMenu.AddMenuItem(propModelDimensions);
@@ -530,7 +530,7 @@ namespace vMenuClient.menus
                 }
             };
 
-            if (IsAllowed(Permission.MSEntitySpawner))
+            if (IsAllowed("MSEntitySpawner"))
             {
                 var entSpawnerMenuBtn = new MenuItem("Entity Spawner", "Spawn and move entities") { Label = "→→→" };
                 developerToolsMenu.AddMenuItem(entSpawnerMenuBtn);
@@ -589,7 +589,7 @@ namespace vMenuClient.menus
 
 
             // Keybind options
-            if (IsAllowed(Permission.MSDriftMode))
+            if (IsAllowed("MSDriftMode"))
             {
                 keybindMenu.AddMenuItem(kbDriftMode);
             }
@@ -607,52 +607,52 @@ namespace vMenuClient.menus
             menu.AddMenuItem(speedMph);
             menu.AddMenuItem(keybindMenuBtn);
             keybindMenuBtn.Label = "→→→";
-            if (IsAllowed(Permission.MSConnectionMenu))
+            if (IsAllowed("MSConnectionMenu"))
             {
                 menu.AddMenuItem(connectionSubmenuBtn);
                 connectionSubmenuBtn.Label = "→→→";
             }
-            if (IsAllowed(Permission.MSShowLocation))
+            if (IsAllowed("MSShowLocation"))
             {
                 menu.AddMenuItem(showLocation);
             }
             menu.AddMenuItem(drawTime); // always allowed
-            if (IsAllowed(Permission.MSJoinQuitNotifs))
+            if (IsAllowed("MSJoinQuitNotifs"))
             {
                 menu.AddMenuItem(joinQuitNotifs);
             }
-            if (IsAllowed(Permission.MSDeathNotifs))
+            if (IsAllowed("MSDeathNotifs"))
             {
                 menu.AddMenuItem(deathNotifs);
             }
-            if (IsAllowed(Permission.MSNightVision))
+            if (IsAllowed("MSNightVision"))
             {
                 menu.AddMenuItem(nightVision);
             }
-            if (IsAllowed(Permission.MSThermalVision))
+            if (IsAllowed("MSThermalVision"))
             {
                 menu.AddMenuItem(thermalVision);
             }
-            if (IsAllowed(Permission.MSLocationBlips))
+            if (IsAllowed("MSLocationBlips"))
             {
                 menu.AddMenuItem(locationBlips);
                 ToggleBlips(ShowLocationBlips);
             }
-            if (IsAllowed(Permission.MSPlayerBlips))
+            if (IsAllowed("MSPlayerBlips"))
             {
                 menu.AddMenuItem(playerBlips);
             }
-            if (IsAllowed(Permission.MSOverheadNames))
+            if (IsAllowed("MSOverheadNames"))
             {
                 menu.AddMenuItem(playerNames);
             }
             // always allowed, it just won't do anything if the server owner disabled the feature, but players can still toggle it.
             menu.AddMenuItem(respawnDefaultCharacter);
-            if (IsAllowed(Permission.MSRestoreAppearance))
+            if (IsAllowed("MSRestoreAppearance"))
             {
                 menu.AddMenuItem(restorePlayerAppearance);
             }
-            if (IsAllowed(Permission.MSRestoreWeapons))
+            if (IsAllowed("MSRestoreWeapons"))
             {
                 menu.AddMenuItem(restorePlayerWeapons);
             }

@@ -35,7 +35,7 @@ namespace vMenuClient.menus
             var replacePrev = new MenuCheckboxItem("Replace Previous Vehicle", "This will automatically delete your previously spawned vehicle when you spawn a new vehicle.", ReplaceVehicle);
 
             // Add the items to the menu.
-            if (IsAllowed(Permission.VSSpawnByName))
+            if (IsAllowed("VSSpawnByName"))
             {
                 menu.AddMenuItem(spawnByName);
             }
@@ -50,7 +50,7 @@ namespace vMenuClient.menus
 
             menu.AddMenuItem(addonCarsBtn);
 
-            if (IsAllowed(Permission.VSAddon))
+            if (IsAllowed("VSAddon"))
             {
                 if (AddonVehicles != null)
                 {
