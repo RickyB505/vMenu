@@ -9,7 +9,7 @@ using MenuAPI;
 using Newtonsoft.Json;
 
 using vMenuClient.menus;
-
+using static vMenuClient.FunctionsController;
 using static CitizenFX.Core.Native.API;
 using static vMenuClient.CommonFunctions;
 using static vMenuShared.ConfigManager;
@@ -33,7 +33,7 @@ namespace vMenuClient
 
         public static PlayerOptions PlayerOptionsMenu { get; private set; }
         public static OnlinePlayers OnlinePlayersMenu { get; private set; }
-        public static BannedPlayers BannedPlayersMenu { get; private set; }
+        public static ModerationOptions ModerationOptionsMenu { get; private set;}
         public static SavedVehicles SavedVehiclesMenu { get; private set; }
         public static PersonalVehicle PersonalVehicleMenu { get; private set; }
         public static VehicleOptions VehicleOptionsMenu { get; private set; }
@@ -334,18 +334,11 @@ namespace vMenuClient
             PlayersList?.ReceivedPlayerList(players);
         }
 
-        struct RPCData
-        {
-            public bool IsCompleted { get; set; }
-            public Vector3 Coords { get; set; }
-        }
-
-        private static Dictionary<long, RPCData> rpcQueue = new Dictionary<long, RPCData>();
-        private static long rpcIdCounter = 0;
 
         [EventHandler("vMenu:GetPlayerCoords:reply")]
         public static void PlayerCoordinatesReceived(long rpcId, Vector3 coords)
         {
+           /*
             if (rpcQueue.ContainsKey(rpcId))
             {
                 var rpcItem = rpcQueue[rpcId];
@@ -356,13 +349,13 @@ namespace vMenuClient
             else
             {
                 Debug.WriteLine($"[vMenu] Warning: Received player coordinates for unknown RPC ID: {rpcId}");
-            }
+            }*/
         }
 
         public static async Task<Vector3> RequestPlayerCoordinates(int serverId)
         {
-            long rpcId = rpcIdCounter++;
-            rpcQueue.Add(rpcId, new RPCData { IsCompleted = false, Coords = Vector3.Zero });
+            /*long rpcId = RequestRPCID();
+            rpcQueue.Add(rpcId, new RPCData { IsCompleted = false, Body = Vector3.Zero });
 
             TriggerServerEvent("vMenu:GetPlayerCoords", rpcId, serverId);
 
@@ -374,7 +367,8 @@ namespace vMenuClient
             Vector3 coords = rpcQueue[rpcId].Coords;
             rpcQueue.Remove(rpcId);
 
-            return coords;
+            return coords;*/
+            return new();
         }
         #endregion
 
@@ -649,21 +643,13 @@ namespace vMenuClient
             }
             if (IsAllowed(Permission.OPUnban) || IsAllowed(Permission.OPViewBannedPlayers))
             {
-                BannedPlayersMenu = new BannedPlayers();
-                var menu = BannedPlayersMenu.GetMenu();
-                var button = new MenuItem("Banned Players", "View and manage all banned players in this menu.")
+                ModerationOptionsMenu = new ModerationOptions();
+                var menu = ModerationOptionsMenu.GetMenu();
+                var button = new MenuItem("Moderator Related Options", "Anything Relating to Moderator can be found here.")
                 {
                     Label = "→→→"
                 };
                 AddMenu(Menu, menu, button);
-                Menu.OnItemSelect += (sender, item, index) =>
-                {
-                    if (item == button)
-                    {
-                        TriggerServerEvent("vMenu:RequestBanList", Game.Player.Handle);
-                        menu.RefreshIndex();
-                    }
-                };
             }
 
             var playerSubmenuBtn = new MenuItem("Player Related Options", "Open this submenu for player related subcategories.") { Label = "→→→" };

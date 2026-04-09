@@ -60,8 +60,24 @@ namespace vMenuClient
         private List<Prop> props = new();
         private List<Vehicle> vehicles = new();
         private List<Ped> peds = new();
+        public struct RPCData
+        {
+            public bool IsCompleted { get; set; }
+            public string Body { get; set; }
+        }    
+        public static Dictionary<long, RPCData> rpcQueue = new Dictionary<long, RPCData>();
+        private static long rpcIdCounter = 0;
+        public static long RequestRPCID()
+        {
+            return rpcIdCounter++;
+        }
+        public static void QueueRPC(string body)
+        {
+            
+        }
 
-        public FunctionsController() { }
+
+        public FunctionsController(){}
 
         /// <summary>
         /// Setup the required tick functions

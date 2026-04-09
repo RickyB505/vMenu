@@ -376,6 +376,11 @@ namespace vMenuShared
             VCShowSpeaker,
             VCStaffChannel,
             #endregion
+
+            #region Moderation
+            MDViewReports,
+            MDViewReportStats,
+            #endregion
         };
 
         public static Dictionary<Permission, bool> Permissions { get; private set; } = new Dictionary<Permission, bool>();
@@ -560,6 +565,8 @@ namespace vMenuShared
                         case Permission.OPUnban:
                         case Permission.OPIdentifiers:
                         case Permission.OPViewBannedPlayers:
+                        case Permission.MDViewReports:
+                        case Permission.MDViewReportStats:
                             break;
                         // do allow the rest
                         default:
@@ -656,6 +663,9 @@ namespace vMenuShared
                     break;
                 case "VC":
                     prefix += "VoiceChat";
+                    break;
+                case "MD":
+                    prefix += "Moderation";
                     break;
                 default:
                     return prefix + name;

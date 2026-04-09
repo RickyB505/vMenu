@@ -55,7 +55,7 @@ namespace vMenuClient.menus
         {
             get => _disablePrivateMessages;
             set
-            {
+            {   
                 _disablePrivateMessages = value;
                 Game.Player.State.Set("vmenu_pms_disabled", value, true);
             }
@@ -196,7 +196,7 @@ namespace vMenuClient.menus
 
             MenuController.AddSubmenu(menu, connectionSubmenu);
             MenuController.BindMenuItem(menu, connectionSubmenu, connectionSubmenuBtn);
-
+            
             keybindMenu.OnCheckboxChange += (sender, item, index, _checked) =>
             {
                 if (item == kbTpToWaypoint)

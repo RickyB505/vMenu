@@ -265,7 +265,7 @@ namespace vMenuClient
         /// <param name="list"></param>
         private void UpdateBanList(string list)
         {
-            MainMenu.BannedPlayersMenu?.UpdateBanList(list);
+            //ModerationOptions.BannedPlayersMenu?.UpdateBanList(list);
         }
 
         /// <summary>
