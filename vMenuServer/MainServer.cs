@@ -185,6 +185,7 @@ namespace vMenuServer
             "XMAS",
             "HALLOWEEN"
         };
+        
         #endregion
 
         #region Constructor
@@ -209,6 +210,8 @@ namespace vMenuServer
             }
             else
             {
+                // Setup addon permissions
+
                 // Add event handlers.
                 EventHandlers.Add("vMenu:GetPlayerIdentifiers", new Action<int, NetworkCallbackDelegate>((TargetPlayer, CallbackFunction) =>
                 {
@@ -234,6 +237,8 @@ namespace vMenuServer
                 {
                     Debug.WriteLine($"\n\n^1[vMenu] [ERROR] ^7Your addons.json file contains a problem! Error details: {ex.Message}\n\n");
                 }
+                // setup addon permissions
+                SetupAddonPerms();
 
                 // check extras file for errors
                 string extras = LoadResourceFile(GetCurrentResourceName(), "config/extras.json") ?? "{}";
@@ -1150,6 +1155,7 @@ namespace vMenuServer
                 joinedPlayers.Add(player.Handle);
 
                 PermissionsManager.SetPermissionsForPlayer(player);
+                AddonPermissionsManager.SetPermissionsForPlayer(player);
             }
         }
 
@@ -1159,6 +1165,7 @@ namespace vMenuServer
             joinedPlayers.Add(sourcePlayer.Handle);
 
             PermissionsManager.SetPermissionsForPlayer(sourcePlayer);
+            AddonPermissionsManager.SetPermissionsForPlayer(sourcePlayer);
 
             string sourcePlayerName = sourcePlayer.Name;
 
@@ -1188,6 +1195,68 @@ namespace vMenuServer
         #endregion
 
         #region Utilities
+        private void SetupAddonPerms()
+        {
+            Dictionary<string, List<string>> addons = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(LoadResourceFile(GetCurrentResourceName(), "config/addons.json") ?? "{}");
+            if (addons.ContainsKey("vehicles"))
+            {
+                foreach (var addon in addons["vehicles"])
+                {
+                    if (!AddonPermissionsManager.Permission.Contains("AV" + addon))
+                    {
+                        AddonPermissionsManager.Permission.Add("AV" + addon);
+                    }
+                }
+            }
+            if (addons.ContainsKey("peds"))
+            {
+                foreach (var addon in addons["peds"])
+                {
+                    if (!AddonPermissionsManager.Permission.Contains("AP" + addon))
+                    {
+                        AddonPermissionsManager.Permission.Add("AP" + addon);
+                    }
+                }
+            }
+            if (addons.ContainsKey("weapons"))
+            {
+                foreach (var addon in addons["weapons"])
+                {
+                    if (!AddonPermissionsManager.Permission.Contains("AW" + addon.ToLower().Replace("weapon_", "")))
+                    {
+                        AddonPermissionsManager.Permission.Add("AW" + addon.ToLower().Replace("weapon_", ""));
+                    }
+                }
+            }
+            if (addons.ContainsKey("whitelistedvehicle"))
+            {
+                foreach (var addon in addons["whitelistedvehicle"])
+                {
+                    if (!AddonPermissionsManager.Permission.Contains("VW" + addon.ToLower()))
+                    {
+                        AddonPermissionsManager.Permission.Add("VW" + addon.ToLower());
+                    }
+                }
+            }
+            if (addons.ContainsKey("whitelistedpeds"))
+            {
+                foreach (var addon in addons["whitelistedpeds"])
+                {
+                    if (!AddonPermissionsManager.Permission.Contains("PW" + addon.ToLower()))
+                    {
+                        AddonPermissionsManager.Permission.Add("PW" + addon.ToLower());
+                    }
+                }
+            }
+            
+            List<string> addonPermissions = new();
+            foreach (string permission in AddonPermissionsManager.Permission)
+            {
+                addonPermissions.Add("add_ace builtin.everyone \"" + AddonPermissionsManager.GetAceName(permission) + "\" allow");
+            }
+        
+            System.IO.File.WriteAllLines(GetResourcePath(GetCurrentResourceName()) + "/AddonPermissionsTemplate.cfg", addonPermissions.ToArray());
+        }
         private Player GetPlayerFromServerId(string serverId)
         {
             if (!int.TryParse(serverId, out int serverIdInt))

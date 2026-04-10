@@ -41,6 +41,7 @@ namespace vMenuClient
             EventHandlers.Add("vMenu:SetAddons", new Action(SetConfigOptions)); // DEPRECATED: Backwards-compatible event handler; use 'vMenu:SetConfigOptions' instead
             EventHandlers.Add("vMenu:SetConfigOptions", new Action(SetConfigOptions));
             EventHandlers.Add("vMenu:SetPermissions", new Action<string>(MainMenu.SetPermissions));
+            EventHandlers.Add("vMenu:SetAddomPermissions", new Action<string>(MainMenu.SetAddonPermissions));
             EventHandlers.Add("vMenu:KillMe", new Action<string>(KillMe));
             EventHandlers.Add("vMenu:Notify", new Action<string>(NotifyPlayer));
             EventHandlers.Add("vMenu:SetClouds", new Action<float, string>(SetClouds));
@@ -111,8 +112,10 @@ namespace vMenuClient
         {
             // reset addons
             VehicleSpawner.AddonVehicles = new Dictionary<string, uint>();
+            VehicleSpawner.WhitelistVehicles = new Dictionary<string, uint>();
             WeaponOptions.AddonWeapons = new Dictionary<string, uint>();
             PlayerAppearance.AddonPeds = new Dictionary<string, uint>();
+            PlayerAppearance.WhitelistedPeds = new Dictionary<string, uint>();
             MpPedCustomization.ExtraBlendableFaces = [];
 
             var jsonData = LoadResourceFile(GetCurrentResourceName(), "config/addons.json") ?? "{}";
@@ -128,7 +131,24 @@ namespace vMenuClient
                     {
                         if (!VehicleSpawner.AddonVehicles.ContainsKey(addon))
                         {
-                            VehicleSpawner.AddonVehicles.Add(addon, (uint)GetHashKey(addon));
+                            VehicleSpawner.AddonVehicles.Add(addon, Game.GenerateHashASCII(addon));
+                        }
+                        else
+                        {
+                            Debug.WriteLine($"[vMenu] [Error] Your addons.json file contains 2 or more entries with the same vehicle name! ({addon}) Please remove duplicate lines!");
+                        }
+                    }
+                }
+
+                // load whitelist vehicles
+                if (addons.ContainsKey("whitelistedvehicle"))
+                {
+                    foreach (var addon in addons["whitelistedvehicle"])
+                    {
+                        Debug.WriteLine(addon);
+                        if (!VehicleSpawner.WhitelistVehicles.ContainsKey(addon))
+                        {
+                            VehicleSpawner.WhitelistVehicles.Add(addon, Game.GenerateHashASCII(addon));
                         }
                         else
                         {
@@ -144,7 +164,7 @@ namespace vMenuClient
                     {
                         if (!WeaponOptions.AddonWeapons.ContainsKey(addon))
                         {
-                            WeaponOptions.AddonWeapons.Add(addon, (uint)GetHashKey(addon));
+                            WeaponOptions.AddonWeapons.Add(addon, Game.GenerateHashASCII(addon));
                         }
                         else
                         {
@@ -160,7 +180,23 @@ namespace vMenuClient
                     {
                         if (!PlayerAppearance.AddonPeds.ContainsKey(addon))
                         {
-                            PlayerAppearance.AddonPeds.Add(addon, (uint)GetHashKey(addon));
+                            PlayerAppearance.AddonPeds.Add(addon, Game.GenerateHashASCII(addon));
+                        }
+                        else
+                        {
+                            Debug.WriteLine($"[vMenu] [Error] Your addons.json file contains 2 or more entries with the same ped name! ({addon}) Please remove duplicate lines!");
+                        }
+                    }
+                }
+
+                // load whitelisted peds.
+                if (addons.ContainsKey("whitelistedpeds"))
+                {
+                    foreach (var addon in addons["whitelistedpeds"])
+                    {
+                        if (!PlayerAppearance.WhitelistedPeds.ContainsKey(addon))
+                        {
+                            PlayerAppearance.WhitelistedPeds.Add(addon, Game.GenerateHashASCII(addon));
                         }
                         else
                         {
@@ -207,7 +243,7 @@ namespace vMenuClient
 
                 foreach (string model in extras.Keys)
                 {
-                    uint modelHash = (uint)GetHashKey(model);
+                    uint modelHash = Game.GenerateHashASCII(model);
 
                     if (extras[model] != null && extras[model].Count > 0)
                     {

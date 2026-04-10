@@ -29,6 +29,7 @@ namespace vMenuClient.menus
         private readonly Menu otherPedsMenu = new("Other Peds", "Spawn A Ped");
 
         public static Dictionary<string, uint> AddonPeds;
+        public static Dictionary<string, uint> WhitelistedPeds;
 
         public static int ClothingAnimationType { get; set; } = UserDefaults.PAClothingAnimationType;
 
@@ -347,14 +348,17 @@ namespace vMenuClient.menus
                         pedBtn.Enabled = false;
                         pedBtn.LeftIcon = MenuItem.Icon.LOCK;
                         pedBtn.Description = "This ped is not (correctly) streamed. If you are the server owner, please ensure that the ped name and model are valid!";
+                    } 
+                    else 
+                    {
+                        checkPedWhitelist(ped.Key, pedBtn);
                     }
-
                     addonPedsMenu.AddMenuItem(pedBtn);
                 }
 
                 addonPedsMenu.OnItemSelect += async (sender, item, index) =>
                 {
-                    await SetPlayerSkin((uint)GetHashKey(item.Text), new PedInfo() { version = -1 }, true);
+                    await SetPlayerSkin(Game.GenerateHashASCII(item.Text), new PedInfo() { version = -1 }, true);
                 };
             }
 
@@ -386,30 +390,35 @@ namespace vMenuClient.menus
                 foreach (var animal in animalModels)
                 {
                     var animalBtn = new MenuItem(animal.Key, "Click to spawn this animal.") { Label = $"({animal.Value})" };
+                    checkPedWhitelist(animal.Key, animalBtn);
                     animalsPedsMenu.AddMenuItem(animalBtn);
                 }
 
                 foreach (var ped in mainModels)
                 {
                     var pedBtn = new MenuItem(ped.Key, "Click to spawn this ped.") { Label = $"({ped.Value})" };
+                    checkPedWhitelist(ped.Key, pedBtn);
                     mainPedsMenu.AddMenuItem(pedBtn);
                 }
 
                 foreach (var ped in maleModels)
                 {
                     var pedBtn = new MenuItem(ped.Key, "Click to spawn this ped.") { Label = $"({ped.Value})" };
+                    checkPedWhitelist(ped.Key, pedBtn);
                     malePedsMenu.AddMenuItem(pedBtn);
                 }
 
                 foreach (var ped in femaleModels)
                 {
                     var pedBtn = new MenuItem(ped.Key, "Click to spawn this ped.") { Label = $"({ped.Value})" };
+                    checkPedWhitelist(ped.Key, pedBtn);
                     femalePedsMenu.AddMenuItem(pedBtn);
                 }
 
                 foreach (var ped in otherPeds)
                 {
                     var pedBtn = new MenuItem(ped.Key, "Click to spawn this ped.") { Label = $"({ped.Value})" };
+                    checkPedWhitelist(ped.Key, pedBtn);
                     otherPedsMenu.AddMenuItem(pedBtn);
                 }
 
@@ -450,7 +459,7 @@ namespace vMenuClient.menus
                 async void SpawnPed(Menu m, MenuItem item, int index)
                 {
 
-                    var model = (uint)GetHashKey(item.Text);
+                    var model = Game.GenerateHashASCII(item.Text);
                     if (m == animalsPedsMenu && !Game.PlayerPed.IsInWater)
                     {
                         switch (item.Text)
@@ -761,6 +770,18 @@ namespace vMenuClient.menus
             };
         }
 
+        public static void checkPedWhitelist(string ped, MenuItem pedBtn)
+        {
+            if (WhitelistedPeds.ContainsKey(ped.ToLower()))
+            {
+                if (!vMenuShared.AddonPermissionsManager.IsAllowed("VW" + ped.ToLower()))
+                {
+                    pedBtn.Enabled = false;
+                    pedBtn.LeftIcon = MenuItem.Icon.LOCK;
+                    pedBtn.Description = "Access to this has been restricted by the server owner.";
+                }
+            }
+        }
 
         #endregion
 
