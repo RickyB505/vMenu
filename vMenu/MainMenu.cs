@@ -385,7 +385,7 @@ namespace vMenuClient
         /// Set the permissions for this client.
         /// </summary>
         /// <param name="dict"></param>
-        public static async void SetAddonPermissions(string permissionsList)
+        public static void SetAddonPermissions(string permissionsList)
         {
             vMenuShared.AddonPermissionsManager.SetPermissions(permissionsList);
 
