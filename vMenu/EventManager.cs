@@ -99,6 +99,7 @@ namespace vMenuClient
         private void SetConfigOptions()
         {
             SetAddons();
+            SetWhiteLists();
             SetExtras();
             SetTattoos();
 
@@ -112,10 +113,8 @@ namespace vMenuClient
         {
             // reset addons
             VehicleSpawner.AddonVehicles = new Dictionary<string, uint>();
-            VehicleSpawner.WhitelistVehicles = new Dictionary<string, uint>();
             WeaponOptions.AddonWeapons = new Dictionary<string, uint>();
             PlayerAppearance.AddonPeds = new Dictionary<string, uint>();
-            PlayerAppearance.WhitelistedPeds = new Dictionary<string, uint>();
             MpPedCustomization.ExtraBlendableFaces = [];
 
             var jsonData = LoadResourceFile(GetCurrentResourceName(), "config/addons.json") ?? "{}";
@@ -132,23 +131,6 @@ namespace vMenuClient
                         if (!VehicleSpawner.AddonVehicles.ContainsKey(addon))
                         {
                             VehicleSpawner.AddonVehicles.Add(addon, Game.GenerateHashASCII(addon));
-                        }
-                        else
-                        {
-                            Debug.WriteLine($"[vMenu] [Error] Your addons.json file contains 2 or more entries with the same vehicle name! ({addon}) Please remove duplicate lines!");
-                        }
-                    }
-                }
-
-                // load whitelist vehicles
-                if (addons.ContainsKey("whitelistedvehicle"))
-                {
-                    foreach (var addon in addons["whitelistedvehicle"])
-                    {
-                        Debug.WriteLine(addon);
-                        if (!VehicleSpawner.WhitelistVehicles.ContainsKey(addon))
-                        {
-                            VehicleSpawner.WhitelistVehicles.Add(addon, Game.GenerateHashASCII(addon));
                         }
                         else
                         {
@@ -189,22 +171,6 @@ namespace vMenuClient
                     }
                 }
 
-                // load whitelisted peds.
-                if (addons.ContainsKey("whitelistedpeds"))
-                {
-                    foreach (var addon in addons["whitelistedpeds"])
-                    {
-                        if (!PlayerAppearance.WhitelistedPeds.ContainsKey(addon))
-                        {
-                            PlayerAppearance.WhitelistedPeds.Add(addon, Game.GenerateHashASCII(addon));
-                        }
-                        else
-                        {
-                            Debug.WriteLine($"[vMenu] [Error] Your addons.json file contains 2 or more entries with the same ped name! ({addon}) Please remove duplicate lines!");
-                        }
-                    }
-                }
-
                 if (addons.ContainsKey("extra_blendable_faces"))
                 {
                     foreach (var addon in addons["extra_blendable_faces"])
@@ -226,6 +192,58 @@ namespace vMenuClient
             }
         }
 
+        /// <summary>
+        /// Sets the addon models from the addons.json file.
+        /// </summary>
+        private void SetWhiteLists()
+        {
+            // reset addons
+            VehicleSpawner.WhitelistVehicles = new Dictionary<string, uint>();
+            PlayerAppearance.WhitelistedPeds = new Dictionary<string, uint>();
+
+            var jsonData = LoadResourceFile(GetCurrentResourceName(), "config/model-whitelists.json") ?? "{}";
+            try
+            {
+                // load new addons.
+                var whitelists = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(jsonData);
+
+                // load whitelist vehicles
+                if (whitelists.ContainsKey("whitelistedvehicle"))
+                {
+                    foreach (var whitelist in whitelists["whitelistedvehicle"])
+                    {
+                        if (!VehicleSpawner.WhitelistVehicles.ContainsKey(whitelist))
+                        {
+                            VehicleSpawner.WhitelistVehicles.Add(whitelist, Game.GenerateHashASCII(whitelist));
+                        }
+                        else
+                        {
+                            Debug.WriteLine($"[vMenu] [Error] Your model-whitelists.json file contains 2 or more entries with the same vehicle name! ({whitelist}) Please remove duplicate lines!");
+                        }
+                    }
+                }
+
+                // load whitelisted peds.
+                if (whitelists.ContainsKey("whitelistedpeds"))
+                {
+                    foreach (var whitelist in whitelists["whitelistedpeds"])
+                    {
+                        if (!PlayerAppearance.WhitelistedPeds.ContainsKey(whitelist))
+                        {
+                            PlayerAppearance.WhitelistedPeds.Add(whitelist, Game.GenerateHashASCII(whitelist));
+                        }
+                        else
+                        {
+                            Debug.WriteLine($"[vMenu] [Error] Your model-whitelists.json file contains 2 or more entries with the same ped name! ({whitelist}) Please remove duplicate lines!");
+                        }
+                    }
+                }
+            }
+            catch (JsonReaderException ex)
+            {
+                Debug.WriteLine($"\n\n^1[vMenu] [ERROR] ^7Your model-whitelists.json file contains a problem! Error details: {ex.Message}\n\n");
+            }
+        }
         /// <summary>
         /// Sets the extras labels from the extras.json file.
         /// </summary>

@@ -3,17 +3,9 @@
     "addonvehiclename1",
     "addonvehiclename2"
   ],
-  "whitelistedvehicle":[
-    "whitelistedvehiclename1",
-    "whitelistedvehiclename2"
-  ],
   "peds": [
     "addonpedname1",
     "addonpedname2"
-  ],
-  "whitelistedpeds":[
-    "whitelistedpedname1",
-    "whitelistedpedname2"
   ],
   "extra_blendable_faces": [],
   "weapons": [

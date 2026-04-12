@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -210,8 +211,6 @@ namespace vMenuServer
             }
             else
             {
-                // Setup addon permissions
-
                 // Add event handlers.
                 EventHandlers.Add("vMenu:GetPlayerIdentifiers", new Action<int, NetworkCallbackDelegate>((TargetPlayer, CallbackFunction) =>
                 {
@@ -227,18 +226,33 @@ namespace vMenuServer
                 }));
 
                 // check addons file for errors
+                Dictionary<string, List<string>> addonsData = new();
                 var addons = LoadResourceFile(GetCurrentResourceName(), "config/addons.json") ?? "{}";
                 try
                 {
-                    JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(addons);
+                    addonsData = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(addons);
                     // If the above crashes, then the json is invalid and it'll throw warnings in the console.
                 }
                 catch (JsonReaderException ex)
                 {
                     Debug.WriteLine($"\n\n^1[vMenu] [ERROR] ^7Your addons.json file contains a problem! Error details: {ex.Message}\n\n");
                 }
+
+                // check model-whitelist file for errors
+                Dictionary<string, List<string>> whitelistData = new();
+                var whitelist = LoadResourceFile(GetCurrentResourceName(), "config/model-whitelist.json") ?? "{}";
+                try
+                {
+                    whitelistData =JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(whitelist);
+                    // If the above crashes, then the json is invalid and it'll throw warnings in the console.
+                }
+                catch (JsonReaderException ex)
+                {
+                    Debug.WriteLine($"\n\n^1[vMenu] [ERROR] ^7Your model-whitelist.json file contains a problem! Error details: {ex.Message}\n\n");
+                }
+
                 // setup addon permissions
-                SetupAddonPerms();
+                SetupAddonPerms(whitelistData, addonsData);
 
                 // check extras file for errors
                 string extras = LoadResourceFile(GetCurrentResourceName(), "config/extras.json") ?? "{}";
@@ -1195,9 +1209,8 @@ namespace vMenuServer
         #endregion
 
         #region Utilities
-        private void SetupAddonPerms()
+        private void SetupAddonPerms(Dictionary<string, List<string>> whitelists, Dictionary<string, List<string>> addons)
         {
-            Dictionary<string, List<string>> addons = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(LoadResourceFile(GetCurrentResourceName(), "config/addons.json") ?? "{}");
             if (addons.ContainsKey("vehicles"))
             {
                 foreach (var addon in addons["vehicles"])
@@ -1228,34 +1241,39 @@ namespace vMenuServer
                     }
                 }
             }
-            if (addons.ContainsKey("whitelistedvehicle"))
+            if (whitelists.ContainsKey("whitelistedvehicle"))
             {
-                foreach (var addon in addons["whitelistedvehicle"])
+                foreach (var whitelist in whitelists["whitelistedvehicle"])
                 {
-                    if (!AddonPermissionsManager.Permission.Contains("VW" + addon.ToLower()))
+                    if (!AddonPermissionsManager.Permission.Contains("VW" + whitelist.ToLower()))
                     {
-                        AddonPermissionsManager.Permission.Add("VW" + addon.ToLower());
+                        AddonPermissionsManager.Permission.Add("VW" + whitelist.ToLower());
                     }
                 }
             }
-            if (addons.ContainsKey("whitelistedpeds"))
+            if (whitelists.ContainsKey("whitelistedpeds"))
             {
-                foreach (var addon in addons["whitelistedpeds"])
+                foreach (var whitelist in whitelists["whitelistedpeds"])
                 {
-                    if (!AddonPermissionsManager.Permission.Contains("PW" + addon.ToLower()))
+                    if (!AddonPermissionsManager.Permission.Contains("PW" + whitelist.ToLower()))
                     {
-                        AddonPermissionsManager.Permission.Add("PW" + addon.ToLower());
+                        AddonPermissionsManager.Permission.Add("PW" + whitelist.ToLower());
                     }
                 }
             }
             
-            List<string> addonPermissions = new();
+            List<string> addonPermissions = [
+                "#################################################################",
+                "#                   THIS IS A TEMPLATE FILE.                    #",
+                "#          DO NOT EDIT, MAKE A COPY AND EDIT THE COPY.          #",
+                "#################################################################",
+            ];
             foreach (string permission in AddonPermissionsManager.Permission)
             {
                 addonPermissions.Add("add_ace builtin.everyone \"" + AddonPermissionsManager.GetAceName(permission) + "\" allow");
             }
-        
-            System.IO.File.WriteAllLines(GetResourcePath(GetCurrentResourceName()) + "/AddonPermissionsTemplate.cfg", addonPermissions.ToArray());
+            
+            System.IO.File.WriteAllLines(Path.Combine(GetResourcePath(GetCurrentResourceName()), "AddonPermissionsTemplate.cfg"), addonPermissions.ToArray());
         }
         private Player GetPlayerFromServerId(string serverId)
         {
