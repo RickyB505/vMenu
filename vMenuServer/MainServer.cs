@@ -238,17 +238,17 @@ namespace vMenuServer
                     Debug.WriteLine($"\n\n^1[vMenu] [ERROR] ^7Your addons.json file contains a problem! Error details: {ex.Message}\n\n");
                 }
 
-                // check model-whitelist file for errors
+                // check model-whitelists file for errors
                 Dictionary<string, List<string>> whitelistData = new();
-                var whitelist = LoadResourceFile(GetCurrentResourceName(), "config/model-whitelist.json") ?? "{}";
+                var whitelist = LoadResourceFile(GetCurrentResourceName(), "config/model-whitelists.json") ?? "{}";
                 try
                 {
-                    whitelistData =JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(whitelist);
+                    whitelistData = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(whitelist);
                     // If the above crashes, then the json is invalid and it'll throw warnings in the console.
                 }
                 catch (JsonReaderException ex)
                 {
-                    Debug.WriteLine($"\n\n^1[vMenu] [ERROR] ^7Your model-whitelist.json file contains a problem! Error details: {ex.Message}\n\n");
+                    Debug.WriteLine($"\n\n^1[vMenu] [ERROR] ^7Your model-whitelists.json file contains a problem! Error details: {ex.Message}\n\n");
                 }
 
                 // setup addon permissions
