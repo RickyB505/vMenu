@@ -1252,18 +1252,9 @@ namespace vMenuClient
                 return 0;
             }
             
-            if (VehicleSpawner.AddonVehicles.Values.Contains(vehicleHash))
-            {
-                if (!vMenuShared.AddonPermissionsManager.IsAllowed("AV" + VehicleSpawner.AddonVehicles.FirstOrDefault(x => x.Value == vehicleHash).Key))
-                {
-                    Notify.Alert("You are not allowed to spawn this vehicle, because it is restricted by the server owner.");
-                    return 0;
-                }
-            }
-            
             if (VehicleSpawner.WhitelistVehicles.Values.Contains(vehicleHash))
             {
-                if (!vMenuShared.AddonPermissionsManager.IsAllowed("VW" + VehicleSpawner.WhitelistVehicles.FirstOrDefault(x => x.Value == vehicleHash).Key.ToLower()))
+                if (!vMenuShared.SupplementaryPermissionManager.IsAllowed("VW" + VehicleSpawner.WhitelistVehicles.FirstOrDefault(x => x.Value == vehicleHash).Key.ToLower()))
                 {
                     Notify.Alert("You are not allowed to spawn this vehicle, because it is restricted by the server owner.");
                     return 0;
@@ -2275,15 +2266,7 @@ namespace vMenuClient
             {
                 if (PlayerAppearance.WhitelistedPeds.Values.Contains(modelHash))
                 {
-                    if (!vMenuShared.AddonPermissionsManager.IsAllowed("PW" + PlayerAppearance.WhitelistedPeds.FirstOrDefault(x => x.Value == modelHash).Key.ToLower()))
-                    {
-                        Notify.Alert("You are not allowed to spawn this ped, because it is restricted by the server owner.");
-                        return;
-                    }
-                }
-                if (PlayerAppearance.AddonPeds.Values.Contains(modelHash))
-                {
-                    if (!vMenuShared.AddonPermissionsManager.IsAllowed("AP" + PlayerAppearance.AddonPeds.FirstOrDefault(x => x.Value == modelHash).Key.ToLower()))
+                    if (!vMenuShared.SupplementaryPermissionManager.IsAllowed("PW" + PlayerAppearance.WhitelistedPeds.FirstOrDefault(x => x.Value == modelHash).Key.ToLower()))
                     {
                         Notify.Alert("You are not allowed to spawn this ped, because it is restricted by the server owner.");
                         return;

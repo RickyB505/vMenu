@@ -115,7 +115,7 @@ namespace vMenuClient.menus
 
                     string spawnName = addonWeapon.SpawnName;
 
-                    if (!vMenuShared.AddonPermissionsManager.IsAllowed("AW" + spawnName.ToLower().Replace("weapon_", "")))
+                    if (!vMenuShared.SupplementaryPermissionManager.IsAllowed("WW" + spawnName.ToLower().Replace("weapon_", "")))
                     {
                         addonWeaponItem.Enabled = false;
                         addonWeaponItem.LeftIcon = MenuItem.Icon.LOCK;

@@ -95,7 +95,7 @@ namespace vMenuClient.menus
                                     ItemData = veh.Key // store the model name in the button data.
                                 };
                                 
-                                if (!AddonPermissionsManager.IsAllowed("AV" + veh.Key))
+                                if (!SupplementaryPermissionManager.IsAllowed("VW" + veh.Key))
                                 {
                                     carBtn.Enabled = false;
                                     carBtn.LeftIcon = MenuItem.Icon.LOCK;
@@ -360,7 +360,7 @@ namespace vMenuClient.menus
                                 
                                 if (WhitelistVehicles.ContainsKey(veh.ToLower()))
                                 {
-                                    if (!AddonPermissionsManager.IsAllowed("VW" + veh.ToLower()))
+                                    if (!SupplementaryPermissionManager.IsAllowed("VW" + veh.ToLower()))
                                     {
                                         vehBtn.Enabled = false;
                                         vehBtn.LeftIcon = MenuItem.Icon.LOCK;
@@ -398,10 +398,10 @@ namespace vMenuClient.menus
                                 ItemData = new float[4] { topSpeed, acceleration, maxBraking, maxTraction }
                             };
                             vehicleClassMenu.AddMenuItem(vehBtn);
-                            //Debug.WriteLine($"{WhitelistVehicles.ContainsKey(veh)} {veh}");
+                            
                             if (WhitelistVehicles.ContainsKey(veh.ToLower()))
                             {
-                                if (!AddonPermissionsManager.IsAllowed("VW" + veh.ToLower()))
+                                if (!SupplementaryPermissionManager.IsAllowed("VW" + veh.ToLower()))
                                 {
                                     vehBtn.Enabled = false;
                                     vehBtn.LeftIcon = MenuItem.Icon.LOCK;

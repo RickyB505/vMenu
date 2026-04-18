@@ -1169,7 +1169,7 @@ namespace vMenuServer
                 joinedPlayers.Add(player.Handle);
 
                 PermissionsManager.SetPermissionsForPlayer(player);
-                AddonPermissionsManager.SetPermissionsForPlayer(player);
+                SupplementaryPermissionManager.SetPermissionsForPlayer(player);
             }
         }
 
@@ -1179,7 +1179,7 @@ namespace vMenuServer
             joinedPlayers.Add(sourcePlayer.Handle);
 
             PermissionsManager.SetPermissionsForPlayer(sourcePlayer);
-            AddonPermissionsManager.SetPermissionsForPlayer(sourcePlayer);
+            SupplementaryPermissionManager.SetPermissionsForPlayer(sourcePlayer);
 
             string sourcePlayerName = sourcePlayer.Name;
 
@@ -1211,33 +1211,13 @@ namespace vMenuServer
         #region Utilities
         private void SetupAddonPerms(Dictionary<string, List<string>> whitelists, Dictionary<string, List<string>> addons)
         {
-            if (addons.ContainsKey("vehicles"))
+            if (whitelists.ContainsKey("whitelistedweapons"))
             {
-                foreach (var addon in addons["vehicles"])
+                foreach (var addon in whitelists["whitelistedweapons"])
                 {
-                    if (!AddonPermissionsManager.Permission.Contains("AV" + addon))
+                    if (!SupplementaryPermissionManager.Permission.Contains("WW" + addon.ToLower().Replace("weapon_", "")))
                     {
-                        AddonPermissionsManager.Permission.Add("AV" + addon);
-                    }
-                }
-            }
-            if (addons.ContainsKey("peds"))
-            {
-                foreach (var addon in addons["peds"])
-                {
-                    if (!AddonPermissionsManager.Permission.Contains("AP" + addon))
-                    {
-                        AddonPermissionsManager.Permission.Add("AP" + addon);
-                    }
-                }
-            }
-            if (addons.ContainsKey("weapons"))
-            {
-                foreach (var addon in addons["weapons"])
-                {
-                    if (!AddonPermissionsManager.Permission.Contains("AW" + addon.ToLower().Replace("weapon_", "")))
-                    {
-                        AddonPermissionsManager.Permission.Add("AW" + addon.ToLower().Replace("weapon_", ""));
+                        SupplementaryPermissionManager.Permission.Add("WW" + addon.ToLower().Replace("weapon_", ""));
                     }
                 }
             }
@@ -1245,9 +1225,9 @@ namespace vMenuServer
             {
                 foreach (var whitelist in whitelists["whitelistedvehicle"])
                 {
-                    if (!AddonPermissionsManager.Permission.Contains("VW" + whitelist.ToLower()))
+                    if (!SupplementaryPermissionManager.Permission.Contains("VW" + whitelist.ToLower()))
                     {
-                        AddonPermissionsManager.Permission.Add("VW" + whitelist.ToLower());
+                        SupplementaryPermissionManager.Permission.Add("VW" + whitelist.ToLower());
                     }
                 }
             }
@@ -1255,25 +1235,25 @@ namespace vMenuServer
             {
                 foreach (var whitelist in whitelists["whitelistedpeds"])
                 {
-                    if (!AddonPermissionsManager.Permission.Contains("PW" + whitelist.ToLower()))
+                    if (!SupplementaryPermissionManager.Permission.Contains("PW" + whitelist.ToLower()))
                     {
-                        AddonPermissionsManager.Permission.Add("PW" + whitelist.ToLower());
+                        SupplementaryPermissionManager.Permission.Add("PW" + whitelist.ToLower());
                     }
                 }
             }
             
-            List<string> addonPermissions = [
+            List<string> supplementaryPermissions = [
                 "#################################################################",
                 "#                   THIS IS A TEMPLATE FILE.                    #",
                 "#          DO NOT EDIT, MAKE A COPY AND EDIT THE COPY.          #",
                 "#################################################################",
             ];
-            foreach (string permission in AddonPermissionsManager.Permission)
+            foreach (string permission in SupplementaryPermissionManager.Permission)
             {
-                addonPermissions.Add("add_ace builtin.everyone \"" + AddonPermissionsManager.GetAceName(permission) + "\" allow");
+                supplementaryPermissions.Add("add_ace builtin.everyone \"" + SupplementaryPermissionManager.GetAceName(permission) + "\" allow");
             }
-            
-            System.IO.File.WriteAllLines(Path.Combine(GetResourcePath(GetCurrentResourceName()), "AddonPermissionsTemplate.cfg"), addonPermissions.ToArray());
+            Directory.CreateDirectory(Path.Combine(GetResourcePath(GetCurrentResourceName()), "config", "templates"));
+            File.WriteAllLines(Path.Combine(GetResourcePath(GetCurrentResourceName()), "config", "templates", "SupplementaryPermissionTemplate.cfg"), supplementaryPermissions.ToArray());
         }
         private Player GetPlayerFromServerId(string serverId)
         {

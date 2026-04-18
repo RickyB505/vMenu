@@ -343,6 +343,8 @@ namespace vMenuClient.menus
 
                     var pedBtn = new MenuItem(ped.Key, "Click to spawn this model.") { Label = $"({name})" };
 
+                    checkPedWhitelist(ped.Key, pedBtn);
+                    
                     if (!IsModelInCdimage(ped.Value) || !IsModelAPed(ped.Value))
                     {
                         pedBtn.Enabled = false;
@@ -774,7 +776,7 @@ namespace vMenuClient.menus
         {
             if (WhitelistedPeds.ContainsKey(ped.ToLower()))
             {
-                if (!vMenuShared.AddonPermissionsManager.IsAllowed("VW" + ped.ToLower()))
+                if (!vMenuShared.SupplementaryPermissionManager.IsAllowed("PW" + ped.ToLower()))
                 {
                     pedBtn.Enabled = false;
                     pedBtn.LeftIcon = MenuItem.Icon.LOCK;
