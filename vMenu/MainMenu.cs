@@ -385,12 +385,12 @@ namespace vMenuClient
         /// Set the permissions for this client.
         /// </summary>
         /// <param name="dict"></param>
-        public static void SetAddonPermissions(string permissionsList)
+        public static void SetSupplementaryPermissions(string permissionsList)
         {
-            vMenuShared.AddonPermissionsManager.SetPermissions(permissionsList);
+            vMenuShared.SupplementaryPermissionManager.SetPermissions(permissionsList);
 
             AddonPermissionSetup = true;
-            AddonPermissionsManager.ArePermissionsSetup = true;
+            SupplementaryPermissionManager.ArePermissionsSetup = true;
         }
         #endregion
         #region Set Permissions function

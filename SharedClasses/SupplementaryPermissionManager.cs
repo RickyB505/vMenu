@@ -10,16 +10,13 @@ using CitizenFX.Core.Native;
 
 namespace vMenuShared
 {
-    public static class AddonPermissionsManager
+    public static class SupplementaryPermissionManager
     {
         public static List<string> Permission = new()
         {
-            "Everything",
-            "AVAll",
-            "AWAll",
-            "APAll",
             "VWAll",
             "PWAll",
+            "WWAll",
         };
 
         public static Dictionary<string, bool> Permissions { get; private set; } = new Dictionary<string, bool>();
@@ -81,6 +78,18 @@ namespace vMenuShared
                     allowedPerms[permission] = true;
                     return true;
                 }
+            }
+            switch (permission.Substring(0, 2))
+            {
+                case "VW":
+                    allowedPerms[permission] = PermissionsManager.IsAllowed(PermissionsManager.Permission.VSAll);
+                    return PermissionsManager.IsAllowed(PermissionsManager.Permission.VSAll);
+                case "PW":
+                    allowedPerms[permission] = PermissionsManager.IsAllowed(PermissionsManager.Permission.PAAll);
+                    return PermissionsManager.IsAllowed(PermissionsManager.Permission.PAAll);
+                case "WW":
+                    allowedPerms[permission] = PermissionsManager.IsAllowed(PermissionsManager.Permission.WPAll);
+                    return PermissionsManager.IsAllowed(PermissionsManager.Permission.WPAll);
             }
             return false;
         }
@@ -178,7 +187,7 @@ namespace vMenuShared
                 }
             }
             // Send the permissions to the client.
-            player.TriggerEvent("vMenu:SetAddomPermissions", Newtonsoft.Json.JsonConvert.SerializeObject(perms));
+            player.TriggerEvent("vMenu:SetSupplementaryPermissions", Newtonsoft.Json.JsonConvert.SerializeObject(perms));
         }
 #endif
 #if CLIENT
@@ -211,23 +220,17 @@ namespace vMenuShared
 
             switch (name.Substring(0, 2))
             {
-                case "AW":
-                    prefix += "AddonWeapon";
-                    break;
-                case "AV":
-                    prefix += "AddonVehicle";
-                    break;
-                case "AP":
-                    prefix += "AddonPed";
-                    break;
                 case "VW":
-                    prefix += "VehicleWhiteList";
+                    prefix += "VehicleSpawner.WhitelistedModels";
                     break;
                 case "PW":
-                    prefix += "PedWhiteList";
+                    prefix += "PlayerAppearance.WhitelistedModels";
+                    break;
+                case "WW":
+                    prefix += "WeaponOptions.WhitelistedModels";
                     break;
                 default:
-                    return prefix + "Addon." + name;
+                    return prefix + name;
             }
 
             return prefix + "." + name.Substring(2);

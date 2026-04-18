@@ -41,7 +41,7 @@ namespace vMenuClient
             EventHandlers.Add("vMenu:SetAddons", new Action(SetConfigOptions)); // DEPRECATED: Backwards-compatible event handler; use 'vMenu:SetConfigOptions' instead
             EventHandlers.Add("vMenu:SetConfigOptions", new Action(SetConfigOptions));
             EventHandlers.Add("vMenu:SetPermissions", new Action<string>(MainMenu.SetPermissions));
-            EventHandlers.Add("vMenu:SetAddomPermissions", new Action<string>(MainMenu.SetAddonPermissions));
+            EventHandlers.Add("vMenu:SetSupplementaryPermissions", new Action<string>(MainMenu.SetSupplementaryPermissions));
             EventHandlers.Add("vMenu:KillMe", new Action<string>(KillMe));
             EventHandlers.Add("vMenu:Notify", new Action<string>(NotifyPlayer));
             EventHandlers.Add("vMenu:SetClouds", new Action<float, string>(SetClouds));
