@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using CitizenFX.Core;
+using static CitizenFX.Core.Native.API;
 
 using MenuAPI;
 
@@ -12,7 +13,6 @@ using Newtonsoft.Json;
 using vMenuClient.data;
 using vMenuClient.menus;
 
-using static CitizenFX.Core.Native.API;
 using static CitizenFX.Core.UI.Screen;
 using static vMenuShared.PermissionsManager;
 
@@ -23,7 +23,6 @@ namespace vMenuClient
         #region Variables
         private static string _currentScenario = "";
         private static Vehicle _previousVehicle;
-
         internal static bool DriveToWpTaskActive = false;
         internal static bool DriveWanderTaskActive = false;
         #endregion
@@ -121,7 +120,7 @@ namespace vMenuClient
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static string GetVehDisplayNameFromModel(string name) => GetLabelText(GetDisplayNameFromVehicleModel((uint)GetHashKey(name)));
+        public static string GetVehDisplayNameFromModel(string name) => GetLabelText(GetDisplayNameFromVehicleModel(Game.GenerateHashASCII(name)));
         #endregion
 
         #region DoesModelExist
@@ -130,7 +129,7 @@ namespace vMenuClient
         /// </summary>
         /// <param name="modelName">The model name</param>
         /// <returns></returns>
-        public static bool DoesModelExist(string modelName) => DoesModelExist((uint)GetHashKey(modelName));
+        public static bool DoesModelExist(string modelName) => DoesModelExist(Game.GenerateHashASCII(modelName));
 
         /// <summary>
         /// Does this model exist?
@@ -213,7 +212,7 @@ namespace vMenuClient
         /// </summary>
         /// <param name="vehicle">Entity/vehicle.</param>
         /// <returns>Returns the (uint) model hash from a (vehicle) entity.</returns>
-        public static uint GetVehicleModel(int vehicle) => (uint)GetHashKey(GetEntityModel(vehicle).ToString());
+        public static uint GetVehicleModel(int vehicle) => Game.GenerateHashASCII(GetEntityModel(vehicle).ToString());
         #endregion
 
         #region Is ped pointing
@@ -873,35 +872,35 @@ namespace vMenuClient
 
                 if (Game.PlayerPed.Weapons.HasWeapon(WeaponHash.PistolMk2))
                 {
-                    weaponHash = (uint)GetHashKey("WEAPON_PISTOL_MK2");
+                    weaponHash = Game.GenerateHashASCII("WEAPON_PISTOL_MK2");
                 }
                 else if (Game.PlayerPed.Weapons.HasWeapon(WeaponHash.CombatPistol))
                 {
-                    weaponHash = (uint)GetHashKey("WEAPON_COMBATPISTOL");
+                    weaponHash = Game.GenerateHashASCII("WEAPON_COMBATPISTOL");
                 }
                 else if (Game.PlayerPed.Weapons.HasWeapon(WeaponHash.Pistol))
                 {
-                    weaponHash = (uint)GetHashKey("WEAPON_PISTOL");
+                    weaponHash = Game.GenerateHashASCII("WEAPON_PISTOL");
                 }
-                else if (Game.PlayerPed.Weapons.HasWeapon((WeaponHash)(uint)GetHashKey("WEAPON_SNSPISTOL_MK2")))
+                else if (Game.PlayerPed.Weapons.HasWeapon((WeaponHash)Game.GenerateHashASCII("WEAPON_SNSPISTOL_MK2")))
                 {
-                    weaponHash = (uint)GetHashKey("WEAPON_SNSPISTOL_MK2");
+                    weaponHash = Game.GenerateHashASCII("WEAPON_SNSPISTOL_MK2");
                 }
                 else if (Game.PlayerPed.Weapons.HasWeapon(WeaponHash.SNSPistol))
                 {
-                    weaponHash = (uint)GetHashKey("WEAPON_SNSPISTOL");
+                    weaponHash = Game.GenerateHashASCII("WEAPON_SNSPISTOL");
                 }
                 else if (Game.PlayerPed.Weapons.HasWeapon(WeaponHash.Pistol50))
                 {
-                    weaponHash = (uint)GetHashKey("WEAPON_PISTOL50");
+                    weaponHash = Game.GenerateHashASCII("WEAPON_PISTOL50");
                 }
                 else if (Game.PlayerPed.Weapons.HasWeapon(WeaponHash.HeavyPistol))
                 {
-                    weaponHash = (uint)GetHashKey("WEAPON_HEAVYPISTOL");
+                    weaponHash = Game.GenerateHashASCII("WEAPON_HEAVYPISTOL");
                 }
                 else if (Game.PlayerPed.Weapons.HasWeapon(WeaponHash.VintagePistol))
                 {
-                    weaponHash = (uint)GetHashKey("WEAPON_VINTAGEPISTOL");
+                    weaponHash = Game.GenerateHashASCII("WEAPON_VINTAGEPISTOL");
                 }
                 else
                 {
@@ -912,7 +911,7 @@ namespace vMenuClient
                 // If we take the pill, remove any weapons in our hands.
                 if (takePill)
                 {
-                    SetCurrentPedWeapon(Game.PlayerPed.Handle, (uint)GetHashKey("weapon_unarmed"), true);
+                    SetCurrentPedWeapon(Game.PlayerPed.Handle, Game.GenerateHashASCII("weapon_unarmed"), true);
                 }
                 // Otherwise, give the ped a gun.
                 else if (weaponHash != null)
@@ -922,8 +921,8 @@ namespace vMenuClient
                 }
                 else
                 {
-                    GiveWeaponToPed(Game.PlayerPed.Handle, (uint)GetHashKey("weapon_pistol_mk2"), 1, false, true);
-                    SetCurrentPedWeapon(Game.PlayerPed.Handle, (uint)GetHashKey("weapon_pistol_mk2"), true);
+                    GiveWeaponToPed(Game.PlayerPed.Handle, Game.GenerateHashASCII("weapon_pistol_mk2"), 1, false, true);
+                    SetCurrentPedWeapon(Game.PlayerPed.Handle, Game.GenerateHashASCII("weapon_pistol_mk2"), true);
                     SetPedDropsWeaponsWhenDead(Game.PlayerPed.Handle, true);
                 }
 
@@ -935,7 +934,7 @@ namespace vMenuClient
                 while (true)
                 {
                     var time = GetEntityAnimCurrentTime(Game.PlayerPed.Handle, "MP_SUICIDE", takePill ? "pill" : "pistol");
-                    if (HasAnimEventFired(Game.PlayerPed.Handle, (uint)GetHashKey("Fire")) && !shot) // shoot the gun if the animation event is triggered.
+                    if (HasAnimEventFired(Game.PlayerPed.Handle, Game.GenerateHashASCII("Fire")) && !shot) // shoot the gun if the animation event is triggered.
                     {
                         ClearEntityLastDamageEntity(Game.PlayerPed.Handle);
                         SetPedShootsAtCoord(Game.PlayerPed.Handle, 0f, 0f, 0f, false);
@@ -1209,7 +1208,7 @@ namespace vMenuClient
                 if (!string.IsNullOrEmpty(result))
                 {
                     // Convert it into a model hash.
-                    var model = (uint)GetHashKey(result);
+                    var model = Game.GenerateHashASCII(result);
                     return await SpawnVehicle(vehicleHash: model, spawnInside: spawnInside, replacePrevious: replacePrevious, skipLoad: false, vehicleInfo: new VehicleInfo(),
                         saveName: null);
                 }
@@ -1220,7 +1219,7 @@ namespace vMenuClient
                     return 0;
                 }
             }
-            return await SpawnVehicle(vehicleHash: (uint)GetHashKey(vehicleName), spawnInside: spawnInside, replacePrevious: replacePrevious, skipLoad: false,
+            return await SpawnVehicle(vehicleHash: Game.GenerateHashASCII(vehicleName), spawnInside: spawnInside, replacePrevious: replacePrevious, skipLoad: false,
                     vehicleInfo: new VehicleInfo(), saveName: null);
         }
         #endregion
@@ -1252,7 +1251,17 @@ namespace vMenuClient
                 Notify.Alert("You are not allowed to spawn this vehicle, because it belongs to a category which is restricted by the server owner.");
                 return 0;
             }
-
+            
+            if (VehicleSpawner.WhitelistVehicles.Values.Contains(vehicleHash))
+            {
+                if (!vMenuShared.SupplementaryPermissionManager.IsAllowed("VW" + VehicleSpawner.WhitelistVehicles.FirstOrDefault(x => x.Value == vehicleHash).Key.ToLower()))
+                {
+                    Notify.Alert("You are not allowed to spawn this vehicle, because it is restricted by the server owner.");
+                    return 0;
+                }
+            }
+                
+                     
             if (!skipLoad)
             {
                 var successFull = await LoadModel(vehicleHash);
@@ -2245,7 +2254,7 @@ namespace vMenuClient
         /// Sets the player's model to the provided modelName.
         /// </summary>
         /// <param name="modelName">The model name.</param>
-        public static async Task SetPlayerSkin(string modelName, PedInfo pedCustomizationOptions, bool keepWeapons = true) => await SetPlayerSkin((uint)GetHashKey(modelName), pedCustomizationOptions, keepWeapons);
+        public static async Task SetPlayerSkin(string modelName, PedInfo pedCustomizationOptions, bool keepWeapons = true) => await SetPlayerSkin(Game.GenerateHashASCII(modelName), pedCustomizationOptions, keepWeapons);
 
         /// <summary>
         /// Sets the player's model to the provided modelHash.
@@ -2255,6 +2264,14 @@ namespace vMenuClient
         {
             if (IsModelInCdimage(modelHash))
             {
+                if (PlayerAppearance.WhitelistedPeds.Values.Contains(modelHash))
+                {
+                    if (!vMenuShared.SupplementaryPermissionManager.IsAllowed("PW" + PlayerAppearance.WhitelistedPeds.FirstOrDefault(x => x.Value == modelHash).Key.ToLower()))
+                    {
+                        Notify.Alert("You are not allowed to spawn this ped, because it is restricted by the server owner.");
+                        return;
+                    }
+                }
                 if (keepWeapons)
                 {
                     SaveWeaponLoadout("vmenu_temp_weapons_loadout_before_respawn");
@@ -2265,7 +2282,6 @@ namespace vMenuClient
                 {
                     await Delay(0);
                 }
-
                 if ((uint)GetEntityModel(Game.PlayerPed.Handle) != modelHash) // only change skins if the player is not yet using the new skin.
                 {
                     // check if the ped is in a vehicle.
@@ -2348,7 +2364,7 @@ namespace vMenuClient
                 {
                     await SpawnWeaponLoadoutAsync("vmenu_temp_weapons_loadout_before_respawn", false, true, false);
                 }
-                if (modelHash == (uint)GetHashKey("mp_f_freemode_01") || modelHash == (uint)GetHashKey("mp_m_freemode_01"))
+                if (modelHash == Game.GenerateHashASCII("mp_f_freemode_01") || modelHash == Game.GenerateHashASCII("mp_m_freemode_01"))
                 {
                     //var headBlendData = Game.PlayerPed.GetHeadBlendData();
                     if (pedCustomizationOptions.version == -1)
@@ -2376,7 +2392,7 @@ namespace vMenuClient
             var input = await GetUserInput(windowTitle: "Enter Ped Model Name", maxInputLength: 30);
             if (!string.IsNullOrEmpty(input))
             {
-                await SetPlayerSkin((uint)GetHashKey(input), new PedInfo() { version = -1 });
+                await SetPlayerSkin(Game.GenerateHashASCII(input), new PedInfo() { version = -1 });
             }
             else
             {
@@ -2438,7 +2454,7 @@ namespace vMenuClient
                 data.props = props;
                 data.propTextures = propTextures;
 
-                data.isMpPed = model == (uint)GetHashKey("mp_f_freemode_01") || model == (uint)GetHashKey("mp_m_freemode_01");
+                data.isMpPed = model == Game.GenerateHashASCII("mp_f_freemode_01") || model == Game.GenerateHashASCII("mp_m_freemode_01");
                 if (data.isMpPed)
                 {
                     Notify.Alert("Note, you should probably use the MP Character creator if you want more advanced features. Saving Multiplayer characters with this function does NOT save a lot of the online peds customization.");
@@ -2707,7 +2723,7 @@ namespace vMenuClient
                     }
                 }
 
-                var model = (uint)GetHashKey(inputName.ToUpper());
+                var model = Game.GenerateHashASCII(inputName.ToUpper());
 
                 if (IsWeaponValid(model))
                 {
@@ -2872,7 +2888,7 @@ namespace vMenuClient
                 }
 
                 // Set the current weapon to 'unarmed'.
-                SetCurrentPedWeapon(Game.PlayerPed.Handle, (uint)GetHashKey("weapon_unarmed"), true);
+                SetCurrentPedWeapon(Game.PlayerPed.Handle, Game.GenerateHashASCII("weapon_unarmed"), true);
 
                 if (!(saveName == "vmenu_temp_weapons_loadout_before_respawn" || dontNotify))
                 {
@@ -2990,9 +3006,9 @@ namespace vMenuClient
         /// <param name="walkingStyle"></param>
         public static async void SetWalkingStyle(string walkingStyle)
         {
-            if (IsPedModel(Game.PlayerPed.Handle, (uint)GetHashKey("mp_f_freemode_01")) || IsPedModel(Game.PlayerPed.Handle, (uint)GetHashKey("mp_m_freemode_01")))
+            if (IsPedModel(Game.PlayerPed.Handle, Game.GenerateHashASCII("mp_f_freemode_01")) || IsPedModel(Game.PlayerPed.Handle, Game.GenerateHashASCII("mp_m_freemode_01")))
             {
-                var isPedMale = IsPedModel(Game.PlayerPed.Handle, (uint)GetHashKey("mp_m_freemode_01"));
+                var isPedMale = IsPedModel(Game.PlayerPed.Handle, Game.GenerateHashASCII("mp_m_freemode_01"));
                 ClearPedAlternateMovementAnim(Game.PlayerPed.Handle, 0, 1f);
                 ClearPedAlternateMovementAnim(Game.PlayerPed.Handle, 1, 1f);
                 ClearPedAlternateMovementAnim(Game.PlayerPed.Handle, 2, 1f);
@@ -3444,7 +3460,7 @@ namespace vMenuClient
             var player = Game.Player;
             if (player != null && !player.IsDead && !player.Character.IsInVehicle())
             {
-                var KeyFobHashKey = (uint)GetHashKey("p_car_keys_01");
+                var KeyFobHashKey = Game.GenerateHashASCII("p_car_keys_01");
                 RequestModel(KeyFobHashKey);
                 while (!HasModelLoaded(KeyFobHashKey))
                 {
@@ -3456,7 +3472,7 @@ namespace vMenuClient
                 SetModelAsNoLongerNeeded(KeyFobHashKey); // cleanup model from memory
 
                 ClearPedTasks(player.Character.Handle);
-                SetCurrentPedWeapon(Game.PlayerPed.Handle, (uint)GetHashKey("WEAPON_UNARMED"), true);
+                SetCurrentPedWeapon(Game.PlayerPed.Handle, Game.GenerateHashASCII("WEAPON_UNARMED"), true);
                 //if (player.Character.Weapons.Current.Hash != WeaponHash.Unarmed)
                 //{
                 //    player.Character.Weapons.Give(WeaponHash.Unarmed, 1, true, true);
