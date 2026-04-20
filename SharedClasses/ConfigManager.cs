@@ -37,6 +37,7 @@ namespace vMenuShared
             // Vehicle Settings
             vmenu_using_chameleon_colours,
             vmenu_vehicle_spawn_delay,
+            vmenu_delete_vehicle_distance,
 
             // Prevent Extras Abuse
             vmenu_prevent_extras_when_damaged,
@@ -111,13 +112,13 @@ namespace vMenuShared
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
-        public static float GetSettingsFloat(Setting setting)
+        public static float GetSettingsFloat(Setting setting, float defaultValue = -1f)
         {
-            if (float.TryParse(GetConvar(setting.ToString(), "-1.0"), out var result))
+            if (float.TryParse(GetConvar(setting.ToString(), defaultValue.ToString()), out var result))
             {
                 return result;
             }
-            return -1f;
+            return defaultValue;
         }
 
         /// <summary>
