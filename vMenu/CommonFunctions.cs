@@ -1389,6 +1389,12 @@ namespace vMenuClient
                 {
                     vehicle.PlaceOnGround();
                 }
+                
+                if (!vehicle.Model.IsTrain) // to be extra fucking safe
+                {
+                    // workaround of retarded feature above:
+                    SetVehicleForwardSpeed(vehicle.Handle, speed);
+                }
             }
 
             // If mod info about the vehicle was specified, check if it's not null.
@@ -1400,11 +1406,6 @@ namespace vMenuClient
             // Set the previous vehicle to the new vehicle.
             _previousVehicle = vehicle;
             //vehicle.Speed = speed; // retarded feature that randomly breaks for no fucking reason
-            if (!vehicle.Model.IsTrain) // to be extra fucking safe
-            {
-                // workaround of retarded feature above:
-                SetVehicleForwardSpeed(vehicle.Handle, speed);
-            }
             vehicle.CurrentRPM = rpm;
 
             int vehicleDefaultRadio = UserDefaults.VehicleDefaultRadio;
