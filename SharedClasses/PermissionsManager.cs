@@ -113,6 +113,7 @@ namespace vMenuShared
             #region vehicle spawner
             VSMenu,
             VSAll,
+            VSBypassRateLimit,
             VSDisableReplacePrevious,
             VSSpawnByName,
             VSAddon,

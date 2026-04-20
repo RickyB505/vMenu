@@ -15,6 +15,7 @@ using vMenuClient.menus;
 
 using static CitizenFX.Core.UI.Screen;
 using static vMenuShared.PermissionsManager;
+using vMenuShared;
 
 namespace vMenuClient
 {
@@ -1225,6 +1226,8 @@ namespace vMenuClient
         #endregion
 
         #region Main Spawn Vehicle Function
+        public static int lastSpawnTime = 0;
+        public static int spawnTime = ConfigManager.GetSettingsInt(ConfigManager.Setting.vmenu_vehicle_spawn_delay, 5) * 1000; // make convar
         /// <summary>
         /// Spawns a vehicle.
         /// </summary>
@@ -1260,8 +1263,19 @@ namespace vMenuClient
                     return 0;
                 }
             }
-                
-                     
+
+            int gameTime = GetGameTimer();
+            if (!IsAllowed(Permission.VSBypassRateLimit))
+            {
+                if (lastSpawnTime + spawnTime > gameTime)
+                {
+                    Notify.Error($"You are spawning vehicles too quickly. Please wait {Math.Ceiling((double)(lastSpawnTime + spawnTime - gameTime)/1000)} second(s) before trying again.");
+                    return 0;
+                }
+            }
+
+            lastSpawnTime = gameTime;
+
             if (!skipLoad)
             {
                 var successFull = await LoadModel(vehicleHash);
