@@ -809,15 +809,43 @@ namespace vMenuServer
         /// </summary>
         /// <param name="newHours"></param>
         /// <param name="newMinutes"></param>
+        /// <param name="newFreezeTime"></param>
         [EventHandler("vMenu:UpdateServerTime")]
-        internal void UpdateTime([FromSource] Player source, int newHours, int newMinutes)
+        internal async void UpdateTime([FromSource] Player source, int newHours, int newMinutes, bool newFreezeTime)
         {
-            if (!PermissionsManager.IsAllowed(PermissionsManager.Permission.TOSetTime, source) && !PermissionsManager.IsAllowed(PermissionsManager.Permission.TOAll, source))
+            if (!PermissionsManager.IsAllowed(PermissionsManager.Permission.TOSetTime, source) && !PermissionsManager.IsAllowed(PermissionsManager.Permission.TOAll, source) && !PermissionsManager.IsAllowed(PermissionsManager.Permission.Everything, source))
             {
                 BanManager.BanCheater(source);
                 return;
             }
 
+            if (GetSettingsBool(Setting.vmenu_smooth_time_transitions))
+            {
+                CurrentHours = CurrentHours;
+                CurrentMinutes = CurrentMinutes;
+                FreezeTime = true;
+                while (newHours != CurrentHours)
+                {
+                    if ((CurrentMinutes + 1) > 59)
+                    {
+                        CurrentMinutes = 0;
+                        if ((CurrentHours + 1) > 23)
+                        {
+                            CurrentHours = 0;
+                        }
+                        else
+                        {
+                            CurrentHours++;
+                        }
+                    }
+                    else
+                    {
+                        CurrentMinutes = CurrentMinutes + 5;
+                    }
+                    await Delay(0);
+                }
+                FreezeTime = newFreezeTime;   
+            }
             CurrentHours = newHours;
             CurrentMinutes = newMinutes;
         }
@@ -830,7 +858,7 @@ namespace vMenuServer
         [EventHandler("vMenu:FreezeServerTime")]
         internal void FreezeServerTime([FromSource] Player source, bool freezeTime)
         {
-            if (!PermissionsManager.IsAllowed(PermissionsManager.Permission.TOFreezeTime, source) && !PermissionsManager.IsAllowed(PermissionsManager.Permission.TOAll, source))
+            if (!PermissionsManager.IsAllowed(PermissionsManager.Permission.TOFreezeTime, source) && !PermissionsManager.IsAllowed(PermissionsManager.Permission.TOAll, source) && !PermissionsManager.IsAllowed(PermissionsManager.Permission.Everything, source))
             {
                 BanManager.BanCheater(source);
                 return;

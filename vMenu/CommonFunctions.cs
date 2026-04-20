@@ -2156,7 +2156,7 @@ namespace vMenuClient
             {
                 realMinutes = 0;
             }
-            TriggerServerEvent("vMenu:UpdateServerTime", realHours, realMinutes);
+            TriggerServerEvent("vMenu:UpdateServerTime", realHours, realMinutes, EventManager.IsServerTimeFrozen);
         }
 
         /// <summary>

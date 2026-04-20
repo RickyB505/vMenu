@@ -63,6 +63,7 @@ namespace vMenuShared
             vmenu_vehicle_blackout_enabled,
             vmenu_weather_change_duration,
             vmenu_enable_snow,
+            vmenu_smooth_time_transitions,
 
             // Time settings
             vmenu_enable_time_sync,
