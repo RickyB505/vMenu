@@ -482,8 +482,7 @@ namespace vMenuShared
             {
                 return false;
             }
-
-            return IsPlayerAceAllowed(playerHandle, GetAceName(permission));
+            return GetPermissionAndParentPermissions(permission).Any(p => IsPlayerAceAllowed(playerHandle, GetAceName(p)));
         }
 #endif
 
