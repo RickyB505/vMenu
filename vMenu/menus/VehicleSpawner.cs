@@ -94,14 +94,12 @@ namespace vMenuClient.menus
                                     Label = $"({veh.Key})",
                                     ItemData = veh.Key // store the model name in the button data.
                                 };
-                                if (WhitelistVehicles.ContainsKey(veh.Key.ToLower()))
+                                
+                                if (!SupplementaryPermissionManager.IsAllowed("VW" + veh.Key))
                                 {
-                                    if (!SupplementaryPermissionManager.IsAllowed("VW" + veh.Key))
-                                    {
-                                        carBtn.Enabled = false;
-                                        carBtn.LeftIcon = MenuItem.Icon.LOCK;
-                                        carBtn.Description = "Access to this has been restricted by the server owner.";
-                                    }
+                                    carBtn.Enabled = false;
+                                    carBtn.LeftIcon = MenuItem.Icon.LOCK;
+                                    carBtn.Description = "Access to this has been restricted by the server owner.";
                                 }
 
                                 // This should be impossible to be false, but we check it anyway.
