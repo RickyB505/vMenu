@@ -1482,7 +1482,7 @@ namespace vMenuClient
                 
                 if (useCustomRgbSecondary && vehicleInfo.colors["customSecondaryR"] > 0 && vehicleInfo.colors["customSecondaryG"] > 0 && vehicleInfo.colors["customSecondaryB"] > 0)
                 {
-                    vehicle.Mods.CustomSecondaryColor = System.Drawing.Color.FromArgb(255, vehicleInfo.colors["customSecondaryR"], vehicleInfo.colors["customSecondaryR"], vehicleInfo.colors["customSecondaryB"]);
+                    vehicle.Mods.CustomSecondaryColor = System.Drawing.Color.FromArgb(255, vehicleInfo.colors["customSecondaryR"], vehicleInfo.colors["customSecondaryG"], vehicleInfo.colors["customSecondaryB"]);
                 }
                 if (vehicleInfo.colors.ContainsKey("SecondaryPaintFinish"))
                 {
